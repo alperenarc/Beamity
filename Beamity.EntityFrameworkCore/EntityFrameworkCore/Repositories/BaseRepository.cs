@@ -1,4 +1,5 @@
 ﻿using Beamity.Core.Models;
+using Beamity.EntityFrameworkCore.EntityFrameworkCore.Contexts;
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,12 @@ namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories
 {
     public class BaseRepository<TModel> : IBaseRepository<TModel> where TModel : EntityBase
     {
+        private readonly BeamityDbContext _context;
+
+        public BaseRepository(BeamityDbContext context)
+        {
+            _context = context;
+        }
         public TModel Create(TModel model)
         {
             throw new NotImplementedException();
