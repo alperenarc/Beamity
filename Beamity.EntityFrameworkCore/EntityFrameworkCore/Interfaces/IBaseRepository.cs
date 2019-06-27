@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Interfaces
 {
-    interface IBaseRepository<TModel>
+  public  interface IBaseRepository<TModel>
     {
-        List<TModel> GetAll();
-        TModel GetById(Guid id);
+        Task<List<TModel>> GetAll();
+        Task<TModel> GetById(Guid id);
         TModel Create(TModel model);
-        void Update(Guid id, TModel model);
+        Task Update(TModel model);
         void Delete(TModel model);
         void Delete(Guid id);
     }

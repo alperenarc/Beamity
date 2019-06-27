@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Contexts
 {
@@ -22,5 +23,10 @@ namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Contexts
         public DbSet<Relation> Relations { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<User> Users { get; set; }
+
+        internal Task FirstOrDefaultAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
