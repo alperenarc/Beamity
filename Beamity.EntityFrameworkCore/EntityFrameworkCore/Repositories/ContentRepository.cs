@@ -2,6 +2,7 @@
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Contexts;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories
@@ -11,6 +12,13 @@ namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories
         public ContentRepository(BeamityDbContext context)
             : base(context)
         {
+        }
+        public List<Content> GetHomeContent()
+        {
+
+            var GetContent = Table.Where(p => p.IsHomePage == true && p.IsActive == true).ToList();
+            return GetContent;
+
         }
     }
 }
