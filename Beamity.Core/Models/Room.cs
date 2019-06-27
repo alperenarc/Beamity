@@ -9,7 +9,7 @@ namespace Beamity.Core.Models
         public string Name { get; set; }
 
         /*Froign Keys*/
-        public int FlootId { get; set; }
-        public Floot Floor{ get; set; }
+        public int FloorId { get; set; }
+        public Floor Floor{ get; set; }
     }
 }
