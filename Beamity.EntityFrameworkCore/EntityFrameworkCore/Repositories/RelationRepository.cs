@@ -2,6 +2,7 @@
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Contexts;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories
@@ -12,5 +13,12 @@ namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories
             : base(context)
         {
         }
+        // Get Relation With Becon ID
+
+        //public Relation GetRelationWithBeaconId(Guid beaconId) {
+
+        //    var reletaion = Table.FirstOrDefault(p => p.BeaconId == beaconId).to;
+
+        //}
     }
 }

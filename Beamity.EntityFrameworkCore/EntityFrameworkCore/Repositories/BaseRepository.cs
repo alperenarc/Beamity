@@ -12,8 +12,8 @@ namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories
 {
     public class BaseRepository<TModel> : IBaseRepository<TModel> where TModel : EntityBase
     {
-        private readonly BeamityDbContext _context;
-        public DbSet<TModel> Table { get; set; }
+        protected readonly BeamityDbContext _context;
+        protected DbSet<TModel> Table { get; set; }
         public BaseRepository(BeamityDbContext context)
         {
             _context = context;

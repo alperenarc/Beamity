@@ -11,7 +11,7 @@ namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Contexts
     {
         public BeamityDbContext(DbContextOptions<BeamityDbContext> options)
             : base(options)
-        {
+        {   
         }
         public DbSet<Artifact> Artifacts { get; set; }
         public DbSet<Beacon> Beacons { get; set; }
@@ -24,9 +24,6 @@ namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Contexts
         public DbSet<Room> Rooms { get; set; }
         public DbSet<User> Users { get; set; }
 
-        internal Task FirstOrDefaultAsync()
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

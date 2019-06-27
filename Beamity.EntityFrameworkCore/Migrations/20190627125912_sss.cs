@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Beamity.EntityFrameworkCore.Migrations
 {
-    public partial class Initial : Migration
+    public partial class sss : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -89,7 +89,6 @@ namespace Beamity.EntityFrameworkCore.Migrations
                     Name = table.Column<string>(nullable: false),
                     Latitude = table.Column<string>(nullable: false),
                     Longitude = table.Column<string>(nullable: false),
-                    ProjetId = table.Column<int>(nullable: false),
                     ProjectId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
@@ -111,15 +110,14 @@ namespace Beamity.EntityFrameworkCore.Migrations
                     IsActive = table.Column<bool>(nullable: false),
                     CreatedTime = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(nullable: false),
-                    LocationId = table.Column<int>(nullable: false),
-                    LocationId1 = table.Column<Guid>(nullable: true)
+                    LocationId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Buildings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Buildings_Locations_LocationId1",
-                        column: x => x.LocationId1,
+                        name: "FK_Buildings_Locations_LocationId",
+                        column: x => x.LocationId,
                         principalTable: "Locations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -133,15 +131,14 @@ namespace Beamity.EntityFrameworkCore.Migrations
                     IsActive = table.Column<bool>(nullable: false),
                     CreatedTime = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(nullable: false),
-                    BuildingId = table.Column<int>(nullable: false),
-                    BuildingId1 = table.Column<Guid>(nullable: true)
+                    BuildingId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Floors", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Floors_Buildings_BuildingId1",
-                        column: x => x.BuildingId1,
+                        name: "FK_Floors_Buildings_BuildingId",
+                        column: x => x.BuildingId,
                         principalTable: "Buildings",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -155,15 +152,14 @@ namespace Beamity.EntityFrameworkCore.Migrations
                     IsActive = table.Column<bool>(nullable: false),
                     CreatedTime = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(maxLength: 47, nullable: false),
-                    FloorId = table.Column<int>(nullable: false),
-                    FloorId1 = table.Column<Guid>(nullable: true)
+                    FloorId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Rooms", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Rooms_Floors_FloorId1",
-                        column: x => x.FloorId1,
+                        name: "FK_Rooms_Floors_FloorId",
+                        column: x => x.FloorId,
                         principalTable: "Floors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -178,15 +174,14 @@ namespace Beamity.EntityFrameworkCore.Migrations
                     CreatedTime = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(maxLength: 47, nullable: false),
                     MainImageURL = table.Column<string>(nullable: false),
-                    RoomId = table.Column<int>(nullable: true),
-                    RoomId1 = table.Column<Guid>(nullable: true)
+                    RoomId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Artifacts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Artifacts_Rooms_RoomId1",
-                        column: x => x.RoomId1,
+                        name: "FK_Artifacts_Rooms_RoomId",
+                        column: x => x.RoomId,
                         principalTable: "Rooms",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -199,50 +194,47 @@ namespace Beamity.EntityFrameworkCore.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     IsActive = table.Column<bool>(nullable: false),
                     CreatedTime = table.Column<DateTime>(nullable: false),
-                    ArtifactId = table.Column<int>(nullable: false),
-                    ArtifactId1 = table.Column<Guid>(nullable: true),
-                    ContentId = table.Column<int>(nullable: false),
-                    ContentId1 = table.Column<Guid>(nullable: true),
-                    BeaconId = table.Column<int>(nullable: true),
-                    BeaconId1 = table.Column<Guid>(nullable: true)
+                    ArtifactId = table.Column<Guid>(nullable: true),
+                    ContentId = table.Column<Guid>(nullable: true),
+                    BeaconId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Relations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Relations_Artifacts_ArtifactId1",
-                        column: x => x.ArtifactId1,
+                        name: "FK_Relations_Artifacts_ArtifactId",
+                        column: x => x.ArtifactId,
                         principalTable: "Artifacts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Relations_Beacons_BeaconId1",
-                        column: x => x.BeaconId1,
+                        name: "FK_Relations_Beacons_BeaconId",
+                        column: x => x.BeaconId,
                         principalTable: "Beacons",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Relations_Contents_ContentId1",
-                        column: x => x.ContentId1,
+                        name: "FK_Relations_Contents_ContentId",
+                        column: x => x.ContentId,
                         principalTable: "Contents",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Artifacts_RoomId1",
+                name: "IX_Artifacts_RoomId",
                 table: "Artifacts",
-                column: "RoomId1");
+                column: "RoomId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Buildings_LocationId1",
+                name: "IX_Buildings_LocationId",
                 table: "Buildings",
-                column: "LocationId1");
+                column: "LocationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Floors_BuildingId1",
+                name: "IX_Floors_BuildingId",
                 table: "Floors",
-                column: "BuildingId1");
+                column: "BuildingId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Locations_ProjectId",
@@ -250,24 +242,24 @@ namespace Beamity.EntityFrameworkCore.Migrations
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Relations_ArtifactId1",
+                name: "IX_Relations_ArtifactId",
                 table: "Relations",
-                column: "ArtifactId1");
+                column: "ArtifactId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Relations_BeaconId1",
+                name: "IX_Relations_BeaconId",
                 table: "Relations",
-                column: "BeaconId1");
+                column: "BeaconId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Relations_ContentId1",
+                name: "IX_Relations_ContentId",
                 table: "Relations",
-                column: "ContentId1");
+                column: "ContentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rooms_FloorId1",
+                name: "IX_Rooms_FloorId",
                 table: "Rooms",
-                column: "FloorId1");
+                column: "FloorId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

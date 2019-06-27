@@ -14,8 +14,7 @@ namespace Beamity.Core.Models
         [Required(ErrorMessage = "Please enter your Longitude")]
         public string Longitude { get; set; }
 
-        [Required(ErrorMessage = "Please enter your project name")]
-        public int ProjetId { get; set; }
         public Project Project { get; set; }
+        public ICollection<Building> Buildings { get; set; }
     }
 }
