@@ -1,48 +1,61 @@
 ﻿using Beamity.Core.Models;
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Contexts;
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories
 {
     public class BaseRepository<TModel> : IBaseRepository<TModel> where TModel : EntityBase
     {
         private readonly BeamityDbContext _context;
-
+        public DbSet<TModel> Table { get; set; }
         public BaseRepository(BeamityDbContext context)
         {
             _context = context;
+            this.Table = context.Set<TModel>();
         }
         public TModel Create(TModel model)
         {
-            throw new NotImplementedException();
+            _context.Add(model);
+            _context.SaveChanges();
+            return model;
         }
 
         public void Delete(TModel model)
         {
-            throw new NotImplementedException();
+            _context.Remove(model);
+            _context.SaveChanges();
         }
 
-        public void Delete(Guid id)
+        public async void Delete(Guid id)
         {
-            throw new NotImplementedException();
+            var model = await Table.FirstOrDefaultAsync(p => p.Id == id);
+            if(model != null)
+            {
+                _context.Remove(model);
+                await _context.SaveChangesAsync();
+            }            
         }
 
-        public List<TModel> GetAll()
+        public async Task<List<TModel>> GetAll()
         {
-            throw new NotImplementedException();
+            return await Table.Where(p => p.IsActive == true).ToListAsync();
         }
 
-        public TModel GetById(Guid id)
+        public async Task<TModel> GetById(Guid id)
         {
-            throw new NotImplementedException();
+            return await Table.FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public void Update(Guid id, TModel model)
+        public async Task Update(TModel model)
         {
-            throw new NotImplementedException();
+            Table.Update(model);
+            await _context.SaveChangesAsync();
         }
     }
 }
