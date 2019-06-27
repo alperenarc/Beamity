@@ -4,8 +4,7 @@ using System.Text;
 
 namespace Beamity.Application.DTOs.ArtifactDTOs
 {
-    public class DeleteArtifactDTO
+    public class DeleteArtifactDTO : BaseDTO<Guid>
     {
-       
     }
 }
