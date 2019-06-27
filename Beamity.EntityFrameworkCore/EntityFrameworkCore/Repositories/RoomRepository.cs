@@ -1,15 +1,14 @@
 ﻿using Beamity.Core.Models;
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Contexts;
-using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories
 {
-    public class UserRepository : BaseRepository<User>
+    public class RoomRepository : BaseRepository<Room>
     {
-        public UserRepository(BeamityDbContext context)
+        public RoomRepository(BeamityDbContext context)
             : base(context)
         {
         }
