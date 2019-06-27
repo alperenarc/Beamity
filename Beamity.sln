@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.705
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2B545ACC-DBA1-4CCE-816E-CE6F88B33D3E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{5574348E-B7E4-4D16-A7D2-AB44F2FECEF5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beamity.Application", "Beamity.Application\Beamity.Application.csproj", "{B6CCF1BF-8CC9-4C1C-BDAD-9C29F123D184}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beamity.EntityFrameworkCore", "Beamity.EntityFrameworkCore\Beamity.EntityFrameworkCore.csproj", "{9B679838-AA69-4E7E-82B5-D5A3DE69138F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beamity.Core", "Beamity.Core\Beamity.Core.csproj", "{547FE867-9FAA-4BF3-BCD2-8CAEAE02DBCA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beamity.Web", "Beamity.Web\Beamity.Web.csproj", "{4BB60709-F049-4F17-A501-8DDA099FC008}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beamity.API", "Beamity.API\Beamity.API.csproj", "{03D9E4D2-96AD-4313-95A7-D575BE2296E8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B6CCF1BF-8CC9-4C1C-BDAD-9C29F123D184}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6CCF1BF-8CC9-4C1C-BDAD-9C29F123D184}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6CCF1BF-8CC9-4C1C-BDAD-9C29F123D184}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6CCF1BF-8CC9-4C1C-BDAD-9C29F123D184}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B679838-AA69-4E7E-82B5-D5A3DE69138F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B679838-AA69-4E7E-82B5-D5A3DE69138F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B679838-AA69-4E7E-82B5-D5A3DE69138F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B679838-AA69-4E7E-82B5-D5A3DE69138F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{547FE867-9FAA-4BF3-BCD2-8CAEAE02DBCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{547FE867-9FAA-4BF3-BCD2-8CAEAE02DBCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{547FE867-9FAA-4BF3-BCD2-8CAEAE02DBCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{547FE867-9FAA-4BF3-BCD2-8CAEAE02DBCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BB60709-F049-4F17-A501-8DDA099FC008}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BB60709-F049-4F17-A501-8DDA099FC008}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BB60709-F049-4F17-A501-8DDA099FC008}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BB60709-F049-4F17-A501-8DDA099FC008}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03D9E4D2-96AD-4313-95A7-D575BE2296E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03D9E4D2-96AD-4313-95A7-D575BE2296E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03D9E4D2-96AD-4313-95A7-D575BE2296E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03D9E4D2-96AD-4313-95A7-D575BE2296E8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B6CCF1BF-8CC9-4C1C-BDAD-9C29F123D184} = {2B545ACC-DBA1-4CCE-816E-CE6F88B33D3E}
+		{9B679838-AA69-4E7E-82B5-D5A3DE69138F} = {2B545ACC-DBA1-4CCE-816E-CE6F88B33D3E}
+		{547FE867-9FAA-4BF3-BCD2-8CAEAE02DBCA} = {2B545ACC-DBA1-4CCE-816E-CE6F88B33D3E}
+		{4BB60709-F049-4F17-A501-8DDA099FC008} = {2B545ACC-DBA1-4CCE-816E-CE6F88B33D3E}
+		{03D9E4D2-96AD-4313-95A7-D575BE2296E8} = {2B545ACC-DBA1-4CCE-816E-CE6F88B33D3E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D390E14B-7665-445A-821F-915472B1A624}
+	EndGlobalSection
+EndGlobal
