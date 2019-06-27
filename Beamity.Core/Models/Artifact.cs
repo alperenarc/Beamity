@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Beamity.Core.Models
 {
@@ -16,7 +17,7 @@ namespace Beamity.Core.Models
         public int RelationId { get; set; }
         public Relation Relation { get; set; }
 
-        public int RoomId { get; set; }
+        public Nullable<int> RoomId { get; set; }
         public Room Room { get; set; }
     }
 }

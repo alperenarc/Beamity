@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Beamity.Core.Models
 {
@@ -34,7 +35,7 @@ namespace Beamity.Core.Models
         public bool IsHomePage { get; set; }
 
         /*Froign Key*/
-        public int RelationId { get; set; }
+        public Nullable<int> RelationId { get; set; }
         public Relation Relation { get; set; }
     }
 }
