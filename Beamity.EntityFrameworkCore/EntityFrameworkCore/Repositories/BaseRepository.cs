@@ -49,7 +49,7 @@ namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories
 
         public async Task<TModel> GetById(Guid id)
         {
-            return await Table.FirstOrDefaultAsync(p => p.Id == id);
+            return await Table.FirstOrDefaultAsync(p => p.Id == id && p.IsActive == true);
         }
 
         public async Task Update(TModel model)

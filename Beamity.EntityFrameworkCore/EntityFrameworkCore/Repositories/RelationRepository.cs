@@ -15,10 +15,10 @@ namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories
         }
         // Get Relation With Becon ID
 
-        //public Relation GetRelationWithBeaconId(Guid beaconId) {
-
-        //    var reletaion = Table.FirstOrDefault(p => p.BeaconId == beaconId).to;
-
-        //}
+        public Relation GetRelationWithBeaconId(Guid beaconId)
+        {
+            var GetRelation = Table.Where(p => p.Beacon.Id == beaconId).FirstOrDefault();
+            return GetRelation;
+        }
     }
 }
