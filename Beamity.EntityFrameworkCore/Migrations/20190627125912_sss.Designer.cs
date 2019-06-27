@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Beamity.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(BeamityDbContext))]
-    [Migration("20190627082056_Initial")]
-    partial class Initial
+    [Migration("20190627125912_sss")]
+    partial class sss
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,13 +37,11 @@ namespace Beamity.EntityFrameworkCore.Migrations
                         .IsRequired()
                         .HasMaxLength(47);
 
-                    b.Property<int?>("RoomId");
-
-                    b.Property<Guid?>("RoomId1");
+                    b.Property<Guid?>("RoomId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoomId1");
+                    b.HasIndex("RoomId");
 
                     b.ToTable("Artifacts");
                 });
@@ -81,16 +79,14 @@ namespace Beamity.EntityFrameworkCore.Migrations
 
                     b.Property<bool>("IsActive");
 
-                    b.Property<int>("LocationId");
-
-                    b.Property<Guid?>("LocationId1");
+                    b.Property<Guid?>("LocationId");
 
                     b.Property<string>("Name")
                         .IsRequired();
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LocationId1");
+                    b.HasIndex("LocationId");
 
                     b.ToTable("Buildings");
                 });
@@ -138,9 +134,7 @@ namespace Beamity.EntityFrameworkCore.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("BuildingId");
-
-                    b.Property<Guid?>("BuildingId1");
+                    b.Property<Guid?>("BuildingId");
 
                     b.Property<DateTime>("CreatedTime");
 
@@ -151,7 +145,7 @@ namespace Beamity.EntityFrameworkCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BuildingId1");
+                    b.HasIndex("BuildingId");
 
                     b.ToTable("Floors");
                 });
@@ -175,8 +169,6 @@ namespace Beamity.EntityFrameworkCore.Migrations
                         .IsRequired();
 
                     b.Property<Guid?>("ProjectId");
-
-                    b.Property<int>("ProjetId");
 
                     b.HasKey("Id");
 
@@ -207,17 +199,11 @@ namespace Beamity.EntityFrameworkCore.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("ArtifactId");
+                    b.Property<Guid?>("ArtifactId");
 
-                    b.Property<Guid?>("ArtifactId1");
+                    b.Property<Guid?>("BeaconId");
 
-                    b.Property<int?>("BeaconId");
-
-                    b.Property<Guid?>("BeaconId1");
-
-                    b.Property<int>("ContentId");
-
-                    b.Property<Guid?>("ContentId1");
+                    b.Property<Guid?>("ContentId");
 
                     b.Property<DateTime>("CreatedTime");
 
@@ -225,11 +211,11 @@ namespace Beamity.EntityFrameworkCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ArtifactId1");
+                    b.HasIndex("ArtifactId");
 
-                    b.HasIndex("BeaconId1");
+                    b.HasIndex("BeaconId");
 
-                    b.HasIndex("ContentId1");
+                    b.HasIndex("ContentId");
 
                     b.ToTable("Relations");
                 });
@@ -241,9 +227,7 @@ namespace Beamity.EntityFrameworkCore.Migrations
 
                     b.Property<DateTime>("CreatedTime");
 
-                    b.Property<int>("FloorId");
-
-                    b.Property<Guid?>("FloorId1");
+                    b.Property<Guid?>("FloorId");
 
                     b.Property<bool>("IsActive");
 
@@ -253,7 +237,7 @@ namespace Beamity.EntityFrameworkCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FloorId1");
+                    b.HasIndex("FloorId");
 
                     b.ToTable("Rooms");
                 });
@@ -290,22 +274,22 @@ namespace Beamity.EntityFrameworkCore.Migrations
             modelBuilder.Entity("Beamity.Core.Models.Artifact", b =>
                 {
                     b.HasOne("Beamity.Core.Models.Room", "Room")
-                        .WithMany()
-                        .HasForeignKey("RoomId1");
+                        .WithMany("Artifacts")
+                        .HasForeignKey("RoomId");
                 });
 
             modelBuilder.Entity("Beamity.Core.Models.Building", b =>
                 {
                     b.HasOne("Beamity.Core.Models.Location", "Location")
-                        .WithMany()
-                        .HasForeignKey("LocationId1");
+                        .WithMany("Buildings")
+                        .HasForeignKey("LocationId");
                 });
 
             modelBuilder.Entity("Beamity.Core.Models.Floor", b =>
                 {
                     b.HasOne("Beamity.Core.Models.Building", "Building")
-                        .WithMany()
-                        .HasForeignKey("BuildingId1");
+                        .WithMany("Floors")
+                        .HasForeignKey("BuildingId");
                 });
 
             modelBuilder.Entity("Beamity.Core.Models.Location", b =>
@@ -319,22 +303,22 @@ namespace Beamity.EntityFrameworkCore.Migrations
                 {
                     b.HasOne("Beamity.Core.Models.Artifact", "Artifact")
                         .WithMany()
-                        .HasForeignKey("ArtifactId1");
+                        .HasForeignKey("ArtifactId");
 
                     b.HasOne("Beamity.Core.Models.Beacon", "Beacon")
                         .WithMany()
-                        .HasForeignKey("BeaconId1");
+                        .HasForeignKey("BeaconId");
 
                     b.HasOne("Beamity.Core.Models.Content", "Content")
                         .WithMany()
-                        .HasForeignKey("ContentId1");
+                        .HasForeignKey("ContentId");
                 });
 
             modelBuilder.Entity("Beamity.Core.Models.Room", b =>
                 {
                     b.HasOne("Beamity.Core.Models.Floor", "Floor")
-                        .WithMany()
-                        .HasForeignKey("FloorId1");
+                        .WithMany("Rooms")
+                        .HasForeignKey("FloorId");
                 });
 #pragma warning restore 612, 618
         }

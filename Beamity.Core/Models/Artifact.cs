@@ -14,7 +14,6 @@ namespace Beamity.Core.Models
         public string MainImageURL { get; set; }
 
         /*Foreign Keys*/
-        public Nullable<int> RoomId { get; set; }
-        public Room Room { get; set; }
+        public virtual Room Room { get; set; }
     }
 }

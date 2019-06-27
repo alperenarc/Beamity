@@ -8,4 +8,13 @@
     <ProjectReference Include="..\Beamity.Core\Beamity.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DTOs\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MailKit" Version="2.2.0" />
+  </ItemGroup>
+
 </Project>
