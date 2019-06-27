@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Beamity.EntityFrameworkCore.Models
+namespace Beamity.Core.Models
 {
     public class EntityBase : IEntityBase
     {
