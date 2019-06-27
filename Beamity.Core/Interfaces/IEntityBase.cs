@@ -9,7 +9,7 @@ namespace Beamity.Core.Interfaces
     public interface IEntityBase
     {
         
-        Guid ID { get; set; }
+        Guid Id { get; set; }
         bool IsActive { get; set; }
         DateTime CreatedTime { get; set; }
 

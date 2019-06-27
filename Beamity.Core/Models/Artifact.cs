@@ -13,10 +13,7 @@ namespace Beamity.Core.Models
         [Display(Name = "Main Image")]
         public string MainImageURL { get; set; }
 
-        /*Froign Keys*/
-        public int RelationId { get; set; }
-        public Relation Relation { get; set; }
-
+        /*Foreign Keys*/
         public Nullable<int> RoomId { get; set; }
         public Room Room { get; set; }
     }

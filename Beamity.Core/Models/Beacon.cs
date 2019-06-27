@@ -17,8 +17,8 @@ namespace Beamity.Core.Models
         [Required(ErrorMessage = "Please enter Minor!")]
         public int Minor { get; set; }
 
-        public Nullable<int> RelationId { get; set; }
-        public Relation Relation { get; set; }
+        
+        
 
 
     }

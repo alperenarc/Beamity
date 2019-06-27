@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Beamity.Core.Models
 {
-    public class Content
+    public class Content:EntityBase
     {
         [Required(ErrorMessage ="Name Required")]
         [MaxLength(47)]
@@ -34,8 +34,6 @@ namespace Beamity.Core.Models
         [Display(Name = "Is HomePage Content")]
         public bool IsHomePage { get; set; }
 
-        /*Froign Key*/
-        public Nullable<int> RelationId { get; set; }
-        public Relation Relation { get; set; }
+        
     }
 }

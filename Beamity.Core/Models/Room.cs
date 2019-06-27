@@ -2,7 +2,7 @@
 
 namespace Beamity.Core.Models
 {
-    public class Room
+    public class Room:EntityBase
     {
         [Required(ErrorMessage = "Name Required")]
         [MaxLength(47)]

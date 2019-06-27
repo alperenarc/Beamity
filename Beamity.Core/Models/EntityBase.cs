@@ -1,13 +1,15 @@
 ﻿using Beamity.Core.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Beamity.Core.Models
 {
     public class EntityBase : IEntityBase
     {
-        public Guid ID { get; set; }
+        [Key]
+        public Guid Id { get; set; }
         public bool IsActive { get; set; }
         public DateTime CreatedTime { get; set; }
 
@@ -18,7 +20,7 @@ namespace Beamity.Core.Models
         public EntityBase()
         {
             Guid ANewID = new Guid();
-            ID = ANewID;
+            Id = ANewID;
             IsActive = true;
             CreatedTime = DateTime.Now;
         }
