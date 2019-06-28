@@ -9,5 +9,6 @@ namespace Beamity.Application.DTOs.ArtifactDTOs
     {
         public string Name { get; set; }
         public string MainImageURL { get; set; }
+        public int RoomId { get; set; }
     }
 }
