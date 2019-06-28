@@ -5,13 +5,12 @@ using System.Text;
 
 namespace Beamity.Application.Service.Services
 {
-    public class UserService : IUserService
+    public class FloorService : IFloorService
     {
-        private readonly UserRepository _repository;
-        public UserService(UserRepository repository)
+        private readonly FloorRepository _repository;
+        public FloorService(FloorRepository repository)
         {
             _repository = repository;
         }
-
     }
 }
