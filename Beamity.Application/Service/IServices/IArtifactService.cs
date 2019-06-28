@@ -12,7 +12,7 @@ namespace Beamity.Application.Service.IServices
     {
         List<ReadArtifactDTO> GetAllArtifacts();
         void CreateArtifact(CreateArtifactDTO input);
-        Task UpdateArtifact(UpdateArtifactDTO input);
+        void UpdateArtifact(UpdateArtifactDTO input);
         void DeleteArtifact(DeleteArtifactDTO input);
         ReadArtifactDTO GetArtifact(EntityDTO input);
     }

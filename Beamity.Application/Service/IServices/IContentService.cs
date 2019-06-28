@@ -11,7 +11,7 @@ namespace Beamity.Application.Service.IServices
         List<ReadContentDTO> GetHomePageContents();
         List<ReadContentDTO> GetAllContents();
         void CrateContent(CreateContentDTO input);
-        Task UpdateContent(UpdateContentDTO input);
+        void UpdateContent(UpdateContentDTO input);
         void DeleteContent(DeleteContentDTO input);
 
     }

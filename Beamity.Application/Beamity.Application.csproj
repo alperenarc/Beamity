@@ -5,11 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.1.1" />
     <PackageReference Include="MailKit" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Beamity.Core\Beamity.Core.csproj" />
+    <ProjectReference Include="..\Beamity.EntityFrameworkCore\Beamity.EntityFrameworkCore.csproj" />
   </ItemGroup>
 
 </Project>
