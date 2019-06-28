@@ -8,6 +8,6 @@ namespace Beamity.Application.DTOs.RoomDTOs
     public class UpdateRoomDTO: BaseDTO<Guid>
     {
         public string Name { get; set; }
-        public Floor FloorId { get; set; }
+        public Guid FloorId { get; set; }
     }
 }

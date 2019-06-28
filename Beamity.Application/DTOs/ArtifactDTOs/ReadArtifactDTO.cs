@@ -7,5 +7,6 @@ namespace Beamity.Application.DTOs.ArtifactDTOs
     public class ReadArtifactDTO : BaseReadDTO
     {
         public string Name { get; set; }
+        public string MainImageURL { get; set; }
     }
 }
