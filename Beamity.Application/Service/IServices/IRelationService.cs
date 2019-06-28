@@ -1,4 +1,6 @@
 ﻿using Beamity.Application.DTOs;
+using Beamity.Application.DTOs.BeaconDTOs;
+using Beamity.Application.DTOs.ContentDTOs;
 using Beamity.Application.DTOs.RelationDTO;
 using System;
 using System.Collections.Generic;
@@ -11,8 +13,9 @@ namespace Beamity.Application.Service.IServices
     {
         List<ReadRelationDTO> GetAllRelations();
         ReadRelationDTO GetRealtion(EntityDTO input);
-        ReadRelationDTO GetRelationWithBeacon(EntityDTO input);
-        void Createelation(CreateRelationDTO input);
+        //Beacon Id den relation ı , oradan da  contenti bulur ve döndürür
+        ReadContentDTO GetRelationWithBeacon(GetContentWithBeaconDTO input);
+        void CreateRelation(CreateRelationDTO input);
         void DeleteRelationDTO(DeleteRelationDTO input);
         Task UpdateRelation(UpdateRelationDTO input);
     }
