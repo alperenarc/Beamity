@@ -17,6 +17,6 @@ namespace Beamity.Application.DTOs.ContentDTOs
         public string Text { get; set; }
         public bool IsHomePage { get; set; }
 
-        public Relation Relation { get; set; }
+        
     }
 }

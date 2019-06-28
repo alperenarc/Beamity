@@ -12,6 +12,6 @@ namespace Beamity.Application.DTOs.BeaconDTOs
         public int Major { get; set; }
         public int Minor { get; set; }
 
-        public Relation RelationId { get; set; }
+        public Guid RelationId { get; set; }
     }
 }
