@@ -12,7 +12,7 @@ namespace Beamity.Application.Service.IServices
         List<ReadRoomDTO> GetAllRooms();
         ReadRoomDTO GetRoom(EntityDTO input);
         void CreateRoom(CreateRoomDTO input);
-        Task UpdateRoom(UpdateRoomDTO input);
+        void UpdateRoom(UpdateRoomDTO input);
         void DeleteRoom(DeleteRoomDTO input);
     }
 }

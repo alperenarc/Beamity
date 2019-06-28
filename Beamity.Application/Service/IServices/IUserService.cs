@@ -10,6 +10,6 @@ namespace Beamity.Application.Service.IServices
     {
         void Register(CreateUserDTO input);
         Task Login(LoginUserDTO input);
-        Task UpdateProfile(UpdateUserDTO input);
+        void UpdateProfile(UpdateUserDTO input);
     }
 }

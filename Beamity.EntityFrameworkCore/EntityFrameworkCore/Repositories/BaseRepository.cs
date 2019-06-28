@@ -42,20 +42,20 @@ namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories
             }            
         }
 
-        public async Task<List<TModel>> GetAll()
+        public List<TModel> GetAll()
         {
-            return await Table.Where(p => p.IsActive == true).ToListAsync();
+            return Table.Where(p => p.IsActive == true).ToList();
         }
 
-        public async Task<TModel> GetById(Guid id)
+        public TModel GetById(Guid id)
         {
-            return await Table.FirstOrDefaultAsync(p => p.Id == id && p.IsActive == true);
+            return Table.FirstOrDefault(p => p.Id == id && p.IsActive == true);
         }
 
-        public async Task Update(TModel model)
+        public void Update(TModel model)
         {
             Table.Update(model);
-            await _context.SaveChangesAsync();
+            _context.SaveChangesAsync();
         }
     }
 }
