@@ -10,7 +10,5 @@ namespace Beamity.Application.DTOs.UserDTOs
         public string Surname { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public string Hash { get; set; }
-        public string Token { get; set; }
     }
 }

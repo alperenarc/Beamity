@@ -9,6 +9,6 @@ namespace Beamity.Application.DTOs.RelationDTO
         public string ArtifacName { get; set; }
         public string ContentName{ get; set; }
         public string BeaconName{ get; set; }
-
+        public string Proximity{ get; set; }
     }
 }
