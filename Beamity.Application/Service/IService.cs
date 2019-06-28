@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Beamity.Application.Service
 {
-    interface IUserService
+    public interface IService
     {
     }
 }
