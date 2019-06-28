@@ -1,4 +1,5 @@
-﻿using Beamity.Application.DTOs.BeaconDTOs;
+﻿using Beamity.Application.DTOs;
+using Beamity.Application.DTOs.BeaconDTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,6 +13,6 @@ namespace Beamity.Application.Service.IServices
         Task UpdateBeacon(UpdateBeaconDTO input);
         void DeleteBeacon(DeleteBeaconDTO input);
         List<ReadBeaconDTO> GetAllBeacons();
-        ReadBeaconDTO GetBeacon(EnityDTO input);
+        ReadBeaconDTO GetBeacon(EntityDTO input);
     }
 }
