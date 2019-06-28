@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Beamity.Application.DTOs.BeaconDTOs
 {
-    public class ReadBeaconDTO 
+    public class ReadBeaconDTO : BaseReadDTO
     {
         public string Name { get; set; }
         public string UUID { get; set; }

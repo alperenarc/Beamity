@@ -5,8 +5,11 @@ using System.Text;
 
 namespace Beamity.Application.DTOs.ContentDTOs
 {
-    public class UpdateContentDTO:BaseDTO<Guid>
+    public class UpdateContentDTO
     {
+        public DateTime CreatedTime { get; set; }
+        public bool IsActive { get; set; }
+
         public string Name { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
@@ -17,6 +20,6 @@ namespace Beamity.Application.DTOs.ContentDTOs
         public string Text { get; set; }
         public bool IsHomePage { get; set; }
 
-        public Relation RelationID { get; set; }
+        public Guid RelationID { get; set; }
     }
 }

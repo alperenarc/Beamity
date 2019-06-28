@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Beamity.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Beamity.Application.DTOs.ContentDTOs
 {
-    public class ReadContentDTO 
+    public class ReadContentDTO : BaseReadDTO
     {
         public string Name { get; set; }
         public string Title { get; set; }
@@ -15,6 +16,7 @@ namespace Beamity.Application.DTOs.ContentDTOs
         public string AudioURL { get; set; }
         public string Text { get; set; }
         public bool IsHomePage { get; set; }
-        
+
+        public Relation Relation { get; set; }
     }
 }

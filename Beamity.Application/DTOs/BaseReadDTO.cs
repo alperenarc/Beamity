@@ -6,7 +6,7 @@ namespace Beamity.Application.DTOs
 {
     public abstract class BaseReadDTO
     {
-        public DateTime CreationTime { get; set; }
+        public DateTime CreatedTime { get; set; }
         public bool IsActive { get; set; }
     }
 }
