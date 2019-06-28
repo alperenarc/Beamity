@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Beamity.Application.DTOs.ArtifactDTOs
 {
-    public class ReadArtifactDTO : BaseDTO<Guid>
+    public class ReadArtifactDTO : BaseReadDTO
     {
         public string Name { get; set; }
     }

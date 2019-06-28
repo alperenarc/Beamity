@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Beamity.Application.DTOs.ProjectDTOs
 {
-    public class ReadProjectDTO 
+    public class ReadProjectDTO : BaseReadDTO
     {
         public string Name { get; set; }
     }
