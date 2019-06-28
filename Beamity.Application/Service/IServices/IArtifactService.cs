@@ -1,4 +1,6 @@
-﻿using Beamity.Application.DTOs.ArtifactDTOs;
+﻿using Beamity.Application.DTOs;
+using Beamity.Application.DTOs.ArtifactDTOs;
+using Beamity.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,5 +14,6 @@ namespace Beamity.Application.Service.IServices
         void CreateArtifact(CreateArtifactDTO input);
         Task UpdateArtifact(UpdateArtifactDTO input);
         void DeleteArtifact(DeleteArtifactDTO input);
+        ReadArtifactDTO GetArtifact(EntityDTO input);
     }
 }
