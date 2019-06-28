@@ -1,7 +1,10 @@
-﻿using Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories;
+﻿using Beamity.Application.DTOs.UserDTOs;
+using Beamity.Application.Service.IServices;
+using Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Beamity.Application.Service.Services
 {
@@ -13,5 +16,19 @@ namespace Beamity.Application.Service.Services
             _repository = repository;
         }
 
+        public Task Login(LoginUserDTO input)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Register(CreateUserDTO input)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateProfile(UpdateUserDTO input)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories;
+﻿using Beamity.Application.Service.IServices;
+using Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;

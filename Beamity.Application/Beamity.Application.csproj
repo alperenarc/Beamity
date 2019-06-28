@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Beamity.Core\Beamity.Core.csproj" />
+    <ProjectReference Include="..\Beamity.EntityFrameworkCore\Beamity.EntityFrameworkCore.csproj" />
   </ItemGroup>
 
 </Project>
