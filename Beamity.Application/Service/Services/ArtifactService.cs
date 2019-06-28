@@ -13,6 +13,15 @@ namespace Beamity.Application.Service.Services
 {
     public class ArtifactService : IArtifactService
     {
+        /*
+         * This Class for define the Methods
+         * This class contain 
+         *  1.CreateArtifact
+         *  2.DeleteArtifact
+         *  3.GetAllArtifacts
+         *  4.GetArtifact
+         *  5.UpdateArtifact methods
+         */
         private readonly ArtifactRepository _repository;
         private readonly BaseRepository<Room> _roomRepository;
 
@@ -27,8 +36,6 @@ namespace Beamity.Application.Service.Services
 
         public void CreateArtifact(CreateArtifactDTO input)
         {
-            //Artifacte gelen input u Map et ve Room Field ını databaseden çekerek ekle çünkü 
-            //Başka türlü olmaz.
             var artifact = _mapper.Map<Artifact>(input);
             artifact.Room = _roomRepository.GetById(input.RoomId);
             _repository.Create(artifact);
@@ -36,8 +43,7 @@ namespace Beamity.Application.Service.Services
 
         public void DeleteArtifact(DeleteArtifactDTO input)
         {
-            Artifact artifact = new Artifact();
-            artifact.Id = input.Id;
+            var artifact = _mapper.Map<Artifact>(input);
             _repository.Delete(artifact);
         }
 
@@ -45,18 +51,18 @@ namespace Beamity.Application.Service.Services
         {
             var artifacts = _repository.GetAll();
             var result = _mapper.Map<List<ReadArtifactDTO>>(artifacts);
-            return result; 
+            return result;
         }
 
         public ReadArtifactDTO GetArtifact(EntityDTO input)
         {
-            Artifact artifact = new Artifact();
-            artifact.Id = input.Id;
-            return _repository.GetById(artifact.Id);
+            var artifacts = _repository.GetById(input.Id);
+            var result = _mapper.Map<ReadArtifactDTO>(artifacts);
+            return result;
         }
 
         public void UpdateArtifact(UpdateArtifactDTO input)
-        { 
+        {
             var artifact = _mapper.Map<Artifact>(input);
             _repository.Update(artifact);
         }
