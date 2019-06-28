@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Beamity.Application.DTOs.BuildingDTOs
 {
-    public class CreateBuildingDTOs
+    public class CreateBuildingDTO
     {
         public string Name { get; set; }
 
