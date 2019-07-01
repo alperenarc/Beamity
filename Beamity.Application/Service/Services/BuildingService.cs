@@ -23,8 +23,8 @@ namespace Beamity.Application.Service.Services
          *  5.UpdateBuilding methods
          */
         private readonly BuildingRepository _repository;
-        private readonly IMapper _mapper;
         private readonly LocationRepository _locationRepository;
+        private readonly IMapper _mapper;
         public BuildingService(LocationRepository locationRepository, IMapper mapper, BuildingRepository repository)
         {
             _mapper = mapper;
@@ -41,8 +41,7 @@ namespace Beamity.Application.Service.Services
 
         public void DeleteBuilding(DeleteBuildingDTO input)
         {
-            var building = _mapper.Map<Building>(input);
-            _repository.Delete(building);
+            _repository.Delete(input.Id);
         }
 
         public List<ReadBuildingDTO> GetAllBuildings()

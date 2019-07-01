@@ -23,11 +23,11 @@ namespace Beamity.Application.Service.Services
          *  5.UpdateArtifact methods
          */
         private readonly ArtifactRepository _repository;
-        private readonly BaseRepository<Room> _roomRepository;
+        private readonly RoomRepository _roomRepository;
 
         private readonly IMapper _mapper;
 
-        public ArtifactService(ArtifactRepository repository, BaseRepository<Room> roomRepository, IMapper mapper)
+        public ArtifactService(ArtifactRepository repository, RoomRepository roomRepository, IMapper mapper)
         {
             _repository = repository;
             _roomRepository = roomRepository;
@@ -43,8 +43,7 @@ namespace Beamity.Application.Service.Services
 
         public void DeleteArtifact(DeleteArtifactDTO input)
         {
-            var artifact = _mapper.Map<Artifact>(input);
-            _repository.Delete(artifact);
+            _repository.Delete(input.Id);
         }
 
         public List<ReadArtifactDTO> GetAllArtifacts()

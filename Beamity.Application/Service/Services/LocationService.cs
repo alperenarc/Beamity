@@ -13,16 +13,20 @@ namespace Beamity.Application.Service.Services
     public class LocationService : ILocationService
     {
         private readonly LocationRepository _repository;
+        private readonly ProjectRepository _projectRepository;
+
         private readonly IMapper _mapper;
-        public LocationService(LocationRepository repository, IMapper mapper)
+        public LocationService(LocationRepository repository, ProjectRepository projectRepository, IMapper mapper)
         {
             _mapper = mapper;
+            _projectRepository = projectRepository;
             _repository = repository;
         }
 
         public void CreateLocation(CreateLocationDTO input)
         {
             var location = _mapper.Map<Location>(input);
+            location.Project = _projectRepository.GetById(input.ProjectId);
             _repository.Create(location);
         }
 

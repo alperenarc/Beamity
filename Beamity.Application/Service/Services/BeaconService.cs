@@ -38,8 +38,7 @@ namespace Beamity.Application.Service.Services
 
         public void DeleteBeacon(DeleteBeaconDTO input)
         {
-            var beacon = _mapper.Map<Beacon>(input);
-            _repository.Delete(beacon);
+            _repository.Delete(input.Id);
         }
 
         public List<ReadBeaconDTO> GetAllBeacons()

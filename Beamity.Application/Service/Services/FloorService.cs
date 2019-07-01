@@ -42,8 +42,7 @@ namespace Beamity.Application.Service.Services
 
         public void DeleteFloor(DeleteFloorDTO input)
         {
-            var floor = _mapper.Map<Floor>(input);
-            _repository.Delete(floor);
+            _repository.Delete(input.Id);
         }
 
         public List<ReadFloorDTO> GetAllFloor()

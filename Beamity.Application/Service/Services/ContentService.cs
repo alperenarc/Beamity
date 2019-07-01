@@ -37,14 +37,13 @@ namespace Beamity.Application.Service.Services
 
         public void DeleteContent(DeleteContentDTO input)
         {
-            var content = _mapper.Map<Content>(input);
-            _repository.Delete(content);
+            _repository.Delete(input.Id);
         }
 
         public List<ReadContentDTO> GetAllContents()
         {
-            var content = _repository.GetAll();
-            var result = _mapper.Map<List<ReadContentDTO>>(content);
+            var contents = _repository.GetAll();
+            var result = _mapper.Map<List<ReadContentDTO>>(contents);
             return result;
         }
 
@@ -57,8 +56,8 @@ namespace Beamity.Application.Service.Services
 
         public List<ReadContentDTO> GetHomePageContents()
         {
-            var content = _repository.GetHomeContent();
-            var result = _mapper.Map<List<ReadContentDTO>>(content);
+            var contents = _repository.GetHomeContent();
+            var result = _mapper.Map<List<ReadContentDTO>>(contents);
             return result;
         }
 

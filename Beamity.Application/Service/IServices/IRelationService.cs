@@ -14,7 +14,7 @@ namespace Beamity.Application.Service.IServices
         List<ReadRelationDTO> GetAllRelations();
         ReadRelationDTO GetRelation(EntityDTO input);
         //Beacon Id den relation ı , oradan da  contenti bulur ve döndürür
-        ReadContentDTO GetRelationWithBeacon(GetContentWithBeaconDTO input);
+        ReadContentDTO GetContentWithBeacon(GetContentWithBeaconDTO input);
         void CreateRelation(CreateRelationDTO input);
         void DeleteRelationDTO(DeleteRelationDTO input);
         void UpdateRelation(UpdateRelationDTO input);

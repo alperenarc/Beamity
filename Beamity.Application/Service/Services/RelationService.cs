@@ -57,34 +57,34 @@ namespace Beamity.Application.Service.Services
             List<ReadRelationDTO> result = new List<ReadRelationDTO>();
             foreach (Relation item in relations)
             {
-                ReadRelationDTO r = new ReadRelationDTO();
+                ReadRelationDTO dto = new ReadRelationDTO();
 
-                r.ArtifacName = item.Artifact.Name;
-                r.BeaconName = item.Beacon.Name;
-                r.ContentName = item.Content.Name;
+                dto.ArtifacName = item.Artifact.Name;
+                dto.BeaconName = item.Beacon.Name;
+                dto.ContentName = item.Content.Name;
                 switch (item.Proximity)
                 {
                     case Proximity.Unknown:
-                        r.Proximity = "Unknown";
+                        dto.Proximity = "Unknown";
                         break;
                     case Proximity.Far:
-                        r.Proximity = "Far";
+                        dto.Proximity = "Far";
                         break;
                     case Proximity.Near:
-                        r.Proximity = "Near";
+                        dto.Proximity = "Near";
                         break;
                     case Proximity.Immediate:
-                        r.Proximity = "Immediate";
+                        dto.Proximity = "Immediate";
                         break;
                     case Proximity.All:
-                        r.Proximity = "All";
+                        dto.Proximity = "All";
                         break;
                     default:
-                        r.Proximity = "Unknown";
+                        dto.Proximity = "Unknown";
                         break;
                 }
 
-                result.Add(r);
+                result.Add(dto);
             }
             return result;
         }
@@ -123,7 +123,7 @@ namespace Beamity.Application.Service.Services
             return result;
         }
 
-        public ReadContentDTO GetRelationWithBeacon(GetContentWithBeaconDTO input)
+        public ReadContentDTO GetContentWithBeacon(GetContentWithBeaconDTO input)
         {
             var beacon = _beaconRepository.GetBeaconWithIds(input.UUID, input.Major, input.Minor);
             var relation = _relationRepository.GetRelationWithBeaconId(beacon.Id, input.Proximity);
