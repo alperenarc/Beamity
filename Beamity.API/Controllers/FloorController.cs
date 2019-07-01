@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Beamity.Application.DTOs;
+using Beamity.Application.DTOs.FloorDTOs;
 using Beamity.Application.Service.IServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +18,90 @@ namespace Beamity.API.Controllers
         public FloorController(IFloorService floorService)
         {
             _floorService = floorService;
+        }
+        [HttpGet("{id}")]
+        public ReadFloorDTO GetBuilding(EntityDTO input)
+        {
+            try
+            {
+                var floor = _floorService.GetFloor(input);
+                return floor;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        [HttpGet]
+        public List<ReadFloorDTO> GetAllBuildings()
+        {
+            try
+            {
+                var floors = _floorService.GetAllFloor();
+                return floors;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        [HttpGet]
+        public async Task<List<ReadFloorDTO>> GetBuildingsAtLocation(EntityDTO input)
+        {
+            try
+            {
+                var floors = await _floorService.GetFloorsOnBuilding(input);
+                return floors;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        [HttpPost]
+        public IActionResult CreateBuilding(CreateFloorDTO input)
+        {
+            try
+            {
+                _floorService.CreateFloor(input);
+                return Ok();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        [HttpPut]
+        public IActionResult UpdateBuilding(UpdateFloorDTO input)
+        {
+            try
+            {
+                _floorService.UpdateFloor(input);
+                return Ok();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        [HttpDelete]
+        public IActionResult DeleteBuilding(DeleteFloorDTO input)
+        {
+            try
+            {
+                _floorService.DeleteFloor(input);
+                return Ok();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }
