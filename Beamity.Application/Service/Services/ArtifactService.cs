@@ -3,6 +3,7 @@ using Beamity.Application.DTOs;
 using Beamity.Application.DTOs.ArtifactDTOs;
 using Beamity.Application.Service.IServices;
 using Beamity.Core.Models;
+using Beamity.EntityFrameworkCore.EntityFrameworkCore.Interfaces;
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories;
 using System;
 using System.Collections.Generic;
@@ -22,12 +23,12 @@ namespace Beamity.Application.Service.Services
          *  4.GetArtifact
          *  5.UpdateArtifact methods
          */
-        private readonly ArtifactRepository _repository;
-        private readonly RoomRepository _roomRepository;
+        private readonly IArtifactRepository _repository;
+        private readonly IRoomRepository _roomRepository;
 
         private readonly IMapper _mapper;
 
-        public ArtifactService(ArtifactRepository repository, RoomRepository roomRepository, IMapper mapper)
+        public ArtifactService(IArtifactRepository repository, IRoomRepository roomRepository, IMapper mapper)
         {
             _repository = repository;
             _roomRepository = roomRepository;

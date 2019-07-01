@@ -1,5 +1,6 @@
 ﻿using Beamity.Core.Models;
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Contexts;
+using Beamity.EntityFrameworkCore.EntityFrameworkCore.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Text;
 
 namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories
 {
-    public class ContentRepository : BaseRepository<Content>
+    public class ContentRepository : BaseRepository<Content>,IContentRepository
     {
         public ContentRepository(BeamityDbContext context)
             : base(context)

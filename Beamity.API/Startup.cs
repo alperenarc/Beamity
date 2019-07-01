@@ -3,7 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Beamity.Application.Service.IServices;
+using Beamity.Application.Service.Services;
+using Beamity.Core.Models;
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Contexts;
+using Beamity.EntityFrameworkCore.EntityFrameworkCore.Interfaces;
+using Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -33,6 +38,13 @@ namespace Beamity.API
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContext<BeamityDbContext>(options => 
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped<IArtifactService, ArtifactService>();
+            services.AddScoped<IRoomRepository, RoomRepository>();
+            services.AddScoped<IArtifactRepository, ArtifactRepository>();
+
+            //services.AddScoped<BaseRepository<Artifact>, ArtifactRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

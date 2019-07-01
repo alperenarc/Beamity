@@ -1,5 +1,6 @@
 ﻿using Beamity.Core.Models;
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Contexts;
+using Beamity.EntityFrameworkCore.EntityFrameworkCore.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories
 {
-    public class BuildingRepository : BaseRepository<Building>
+    public class BuildingRepository : BaseRepository<Building>,IBuildingRepository
     {
         public BuildingRepository(BeamityDbContext context)
             : base(context)
