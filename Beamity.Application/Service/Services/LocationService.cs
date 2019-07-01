@@ -34,14 +34,27 @@ namespace Beamity.Application.Service.Services
         public List<ReadLocationDTO> GetAllLocation()
         {
             var locations = _repository.GetAll();
-            var result = _mapper.Map<List<ReadLocationDTO>>(locations);
+            List<ReadLocationDTO> result = new List<ReadLocationDTO>();
+            foreach (var item in locations)
+            {
+                ReadLocationDTO dto = new ReadLocationDTO();
+
+                dto.Name = item.Name;
+                dto.Latitude = item.Latitude;
+                dto.Longitude = item.Longitude;
+                dto.ProjectName = item.Project.Name;
+
+                result.Add(dto);
+            }
             return result;
         }
 
         public ReadLocationDTO GetLocation(EntityDTO input)
         {
             var location = _repository.GetById(input.Id);
-            return _mapper.Map<ReadLocationDTO>(location);
+            var result = _mapper.Map<ReadLocationDTO>(location);
+            result.ProjectName = location.Project.Name;
+            return result;
         }
 
         public void UpdateLocation(UpdateLocationDTO input)

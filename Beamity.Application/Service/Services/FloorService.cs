@@ -47,8 +47,17 @@ namespace Beamity.Application.Service.Services
 
         public List<ReadFloorDTO> GetAllFloor()
         {
-            var floor = _repository.GetAll();
-            var result = _mapper.Map<List<ReadFloorDTO>>(floor);
+            var floors = _repository.GetAll();
+            List<ReadFloorDTO> result = new List<ReadFloorDTO>();
+            foreach (var item in floors)
+            {
+                ReadFloorDTO dto = new ReadFloorDTO();
+
+                dto.Name = item.Name;
+                dto.BuildingName = item.Building.Name;
+
+                result.Add(dto);
+            }
             return result;
         }
 
@@ -56,6 +65,7 @@ namespace Beamity.Application.Service.Services
         {
             var floor = _repository.GetById(input.Id);
             var result = _mapper.Map<ReadFloorDTO>(floor);
+            result.BuildingName = floor.Building.Name;
             return result;
         }
 
