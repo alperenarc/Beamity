@@ -17,6 +17,6 @@ namespace Beamity.Application.Service.IServices
         ReadContentDTO GetRelationWithBeacon(GetContentWithBeaconDTO input);
         void CreateRelation(CreateRelationDTO input);
         void DeleteRelationDTO(DeleteRelationDTO input);
-        Task UpdateRelation(UpdateRelationDTO input);
+        void UpdateRelation(UpdateRelationDTO input);
     }
 }
