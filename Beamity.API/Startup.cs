@@ -39,8 +39,11 @@ namespace Beamity.API
             services.AddDbContext<BeamityDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            //services.AddScoped<IRoomService, RoomService>();
-            //services.AddScoped<IBaseRepository<Room>, RoomRepository>();
+            services.AddScoped<IArtifactService, ArtifactService>();
+            services.AddScoped<IRoomRepository, RoomRepository>();
+            services.AddScoped<IArtifactRepository, ArtifactRepository>();
+
+            //services.AddScoped<BaseRepository<Artifact>, ArtifactRepository>();
 
         }
 
