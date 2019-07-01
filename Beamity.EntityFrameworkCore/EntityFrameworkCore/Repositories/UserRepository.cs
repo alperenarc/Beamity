@@ -1,8 +1,10 @@
 ﻿using Beamity.Core.Models;
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Contexts;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,9 +16,10 @@ namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories
             : base(context)
         {
         }
-        public async Task<bool> IsUserExist(string email, string password)
-        {
-            throw new NotImplementedException();
+        public User getUserForLogin(string email) {
+            
+            var user = _context.Users.Where(x=>x.Email == email).FirstOrDefault();
+            return user;
         }
     }
 }
