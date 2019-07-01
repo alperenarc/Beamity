@@ -35,7 +35,7 @@ namespace Beamity.API.Controllers
             return relation;
 
         }
-        [HttpGet]
+        [HttpPost]
         public ReadContentDTO GetContentWithBeacon(GetContentWithBeaconDTO input)
         {
             var content = _relationService.GetContentWithBeacon(input);
