@@ -43,6 +43,7 @@ namespace Beamity.Application.Service.Services
                 Beacon = _beaconRepository.GetById(input.BeaconId),
                 Proximity = (Proximity)Enum.Parse(typeof(Proximity), input.Proximity, true)
             };
+            _relationRepository.Create(relation);
         }
 
         public void DeleteRelationDTO(DeleteRelationDTO input)
@@ -61,7 +62,27 @@ namespace Beamity.Application.Service.Services
                 r.ArtifacName = item.Artifact.Name;
                 r.BeaconName = item.Beacon.Name;
                 r.ContentName = item.Content.Name;
-                r.Proximity = item.Proximity.ToString();
+                switch (item.Proximity)
+                {
+                    case Proximity.Unknown:
+                        r.Proximity = "Unknown";
+                        break;
+                    case Proximity.Far:
+                        r.Proximity = "Far";
+                        break;
+                    case Proximity.Near:
+                        r.Proximity = "Near";
+                        break;
+                    case Proximity.Immediate:
+                        r.Proximity = "Immediate";
+                        break;
+                    case Proximity.All:
+                        r.Proximity = "All";
+                        break;
+                    default:
+                        r.Proximity = "Unknown";
+                        break;
+                }
 
                 result.Add(r);
             }
@@ -76,16 +97,36 @@ namespace Beamity.Application.Service.Services
             {
                 ArtifacName = relation.Artifact.Name,
                 BeaconName = relation.Beacon.Name,
-                ContentName = relation.Content.Name,
-                Proximity = relation.Proximity.ToString()
+                ContentName = relation.Content.Name   
             };
+            switch (relation.Proximity)
+            {
+                case Proximity.Unknown:
+                    result.Proximity = "Unknown";
+                    break;
+                case Proximity.Far:
+                    result.Proximity = "Far";
+                    break;
+                case Proximity.Near:
+                    result.Proximity = "Near";
+                    break;
+                case Proximity.Immediate:
+                    result.Proximity = "Immediate";
+                    break;
+                case Proximity.All:
+                    result.Proximity = "All";
+                    break;
+                default:
+                    result.Proximity = "Unknown";
+                    break;
+            }
             return result;
         }
 
         public ReadContentDTO GetRelationWithBeacon(GetContentWithBeaconDTO input)
         {
             var beacon = _beaconRepository.GetBeaconWithIds(input.UUID, input.Major, input.Minor);
-            var relation = _relationRepository.GetRelationWithBeaconId(beacon.Id);
+            var relation = _relationRepository.GetRelationWithBeaconId(beacon.Id, input.Proximity);
             return _mapper.Map<ReadContentDTO>(relation.Content);
         }
 
