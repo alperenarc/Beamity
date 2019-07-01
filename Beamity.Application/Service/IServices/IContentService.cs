@@ -1,4 +1,5 @@
-﻿using Beamity.Application.DTOs.ContentDTOs;
+﻿using Beamity.Application.DTOs;
+using Beamity.Application.DTOs.ContentDTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,6 +11,7 @@ namespace Beamity.Application.Service.IServices
     {
         List<ReadContentDTO> GetHomePageContents();
         List<ReadContentDTO> GetAllContents();
+        ReadContentDTO GetContent(EntityDTO input);
         void CrateContent(CreateContentDTO input);
         void UpdateContent(UpdateContentDTO input);
         void DeleteContent(DeleteContentDTO input);
