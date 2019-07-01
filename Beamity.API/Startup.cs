@@ -36,7 +36,7 @@ namespace Beamity.API
             services.AddAutoMapper();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddDbContext<BeamityDbContext>(options => 
+            services.AddDbContext<BeamityDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IArtifactService, ArtifactService>();

@@ -21,6 +21,7 @@ namespace Beamity.Application.Service.Services
         {
             _roomRepository = roomRepository;
             _floorRepository = floorRepository;
+            _mapper = mapper;
         }
 
         public void CreateRoom(CreateRoomDTO input)
