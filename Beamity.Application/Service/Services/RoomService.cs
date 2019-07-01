@@ -43,9 +43,9 @@ namespace Beamity.Application.Service.Services
             {
                 ReadRoomDTO dto = new ReadRoomDTO()
                 {
-                    Name = item.Name,
                     FloorName = item.Floor.Name
                 };
+                dto = _mapper.Map<ReadRoomDTO>(item);
                 result.Add(dto);
             }
             return _mapper.Map<List<ReadRoomDTO>>(rooms);
@@ -56,6 +56,21 @@ namespace Beamity.Application.Service.Services
             var room = _roomRepository.GetById(input.Id);
             var result = _mapper.Map<ReadRoomDTO>(room);
             result.FloorName = room.Floor.Name;
+            return result;
+        }
+
+        public async Task<List<ReadRoomDTO>> GetRoomsOnFloor(EntityDTO input)
+        {
+            var rooms = await _roomRepository.GetRoomsWithFloorId(input.Id);
+            List<ReadRoomDTO> result = new List<ReadRoomDTO>();
+            foreach (var item in rooms)
+            {
+                ReadRoomDTO dto = new ReadRoomDTO();
+                dto = _mapper.Map<ReadRoomDTO>(item);
+                dto.FloorName = item.Floor.Name;
+              
+                result.Add(dto);
+            }
             return result;
         }
 

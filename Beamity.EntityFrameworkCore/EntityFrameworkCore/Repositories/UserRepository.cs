@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories
 {
@@ -12,6 +13,10 @@ namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories
         public UserRepository(BeamityDbContext context)
             : base(context)
         {
+        }
+        public async Task<bool> IsUserExist(string email, string password)
+        {
+            throw new NotImplementedException();
         }
     }
 }

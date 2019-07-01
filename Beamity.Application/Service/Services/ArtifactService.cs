@@ -55,8 +55,7 @@ namespace Beamity.Application.Service.Services
             {
                 ReadArtifactDTO dto = new ReadArtifactDTO();
 
-                dto.Name = item.Name;
-                dto.MainImageURL = item.MainImageURL;
+                dto = _mapper.Map<ReadArtifactDTO>(item);
                 dto.RoomName = item.Room.Name;
 
                 result.Add(dto);
@@ -69,6 +68,22 @@ namespace Beamity.Application.Service.Services
             var artifact = _repository.GetById(input.Id);
             var result = _mapper.Map<ReadArtifactDTO>(artifact);
             result.RoomName = artifact.Room.Name;
+            return result;
+        }
+
+        public async Task<List<ReadArtifactDTO>> GetArtifactsInRoom(EntityDTO input)
+        {
+            var artifacts = await _repository.GetArtifactsWithRoomId(input.Id);
+            List<ReadArtifactDTO> result = new List<ReadArtifactDTO>();
+            foreach (var item in artifacts)
+            {
+                ReadArtifactDTO dto = new ReadArtifactDTO();
+
+                dto = _mapper.Map<ReadArtifactDTO>(item);
+                dto.RoomName = item.Room.Name;
+
+                result.Add(dto);
+            }
             return result;
         }
 

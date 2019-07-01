@@ -7,6 +7,7 @@ using Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Beamity.Application.Service.Services
 {
@@ -53,7 +54,7 @@ namespace Beamity.Application.Service.Services
             {
                 ReadFloorDTO dto = new ReadFloorDTO();
 
-                dto.Name = item.Name;
+                dto = _mapper.Map<ReadFloorDTO>(item);
                 dto.BuildingName = item.Building.Name;
 
                 result.Add(dto);
@@ -66,6 +67,21 @@ namespace Beamity.Application.Service.Services
             var floor = _repository.GetById(input.Id);
             var result = _mapper.Map<ReadFloorDTO>(floor);
             result.BuildingName = floor.Building.Name;
+            return result;
+        }
+
+        public async Task<List<ReadFloorDTO>> GetFloorsOnBuilding(EntityDTO input)
+        {
+            var floors = await _repository.GetFloorsWithBuildingId(input.Id);
+            List<ReadFloorDTO> result = new List<ReadFloorDTO>();
+            foreach (var item in floors)
+            {
+                ReadFloorDTO dto = new ReadFloorDTO();
+                dto = _mapper.Map<ReadFloorDTO>(item);
+                dto.BuildingName = item.Building.Name;
+
+                result.Add(dto);
+            }
             return result;
         }
 
