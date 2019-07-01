@@ -7,16 +7,19 @@ namespace Beamity.Application.Helpers
 {
     public class EmailHelper
     {
-        public static void SendMail()
+        public static void SendMail(string email, string guidkey)
         {
 
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress("info@nootelib.com")); // This are for from mail
-            message.To.Add(new MailboxAddress("alp@gmail.com")); // This are for to mail
-            message.Subject = "Email Onaylama"; // This are for the subject
+            message.To.Add(new MailboxAddress(email)); // This are for to mail
+            message.Subject = "Hesap Doğrulama"; // This are for the subject
             message.Body = new TextPart("html")
             {
                 // This are for the content
+                Text = "Hesabınızı onaylamak için aşağıdaki linke tıklayınız... <br/>" +
+                "<a href='https://nootelib.com/Confirmation/Verification/?guidcode=" + guidkey + "'>Onaylama Linki<a/>"
+                //Confirmation / Verification /
             };
             
 
