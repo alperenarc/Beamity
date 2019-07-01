@@ -14,5 +14,6 @@ namespace Beamity.Application.Service.IServices
         void UpdateFloor(UpdateFloorDTO input);
         void DeleteFloor(DeleteFloorDTO input);
         ReadFloorDTO GetFloor(EntityDTO input);
+        Task<List<ReadFloorDTO>> GetFloorsOnBuilding(EntityDTO input);
     }
 }

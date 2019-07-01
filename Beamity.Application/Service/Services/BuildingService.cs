@@ -7,6 +7,7 @@ using Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Beamity.Application.Service.Services
 {
@@ -52,7 +53,7 @@ namespace Beamity.Application.Service.Services
             {
                 ReadBuildingDTO dto = new ReadBuildingDTO();
 
-                dto.Name = item.Name;
+                dto = _mapper.Map<ReadBuildingDTO>(item);
                 dto.LocationName = item.Location.Name;
 
                 result.Add(dto);
@@ -65,6 +66,22 @@ namespace Beamity.Application.Service.Services
             var building = _repository.GetById(input.Id);
             var result = _mapper.Map<ReadBuildingDTO>(input);
             result.LocationName = building.Location.Name;
+            return result;
+        }
+
+        public async Task<List<ReadBuildingDTO>> GetBuildingsAtLocation(EntityDTO input)
+        {
+            var buildings = await _repository.GetBuildingWithLocationId(input.Id);
+            List<ReadBuildingDTO> result = new List<ReadBuildingDTO>();
+            foreach (var item in buildings)
+            {
+                ReadBuildingDTO dto = new ReadBuildingDTO();
+
+                dto = _mapper.Map<ReadBuildingDTO>(item);
+                dto.LocationName = item.Location.Name;
+
+                result.Add(dto);
+            }
             return result;
         }
 

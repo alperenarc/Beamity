@@ -3,6 +3,7 @@ using Beamity.Application.DTOs.BuildingDTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Beamity.Application.Service.IServices
 {
@@ -13,5 +14,7 @@ namespace Beamity.Application.Service.IServices
         void CreateBuilding(CreateBuildingDTO input);
         void DeleteBuilding(DeleteBuildingDTO input);
         void UpdateBuilding (UpdateBuildingDTO input);
+        Task<List<ReadBuildingDTO>> GetBuildingsAtLocation(EntityDTO input);
+
     }
 }

@@ -39,9 +39,7 @@ namespace Beamity.Application.Service.Services
             {
                 ReadLocationDTO dto = new ReadLocationDTO();
 
-                dto.Name = item.Name;
-                dto.Latitude = item.Latitude;
-                dto.Longitude = item.Longitude;
+                dto = _mapper.Map<ReadLocationDTO>(item);
                 dto.ProjectName = item.Project.Name;
 
                 result.Add(dto);

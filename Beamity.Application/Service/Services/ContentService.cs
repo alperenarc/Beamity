@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Beamity.Application.DTOs;
 using Beamity.Application.DTOs.ContentDTOs;
 using Beamity.Application.Service.IServices;
 using Beamity.Core.Models;
@@ -44,6 +45,13 @@ namespace Beamity.Application.Service.Services
         {
             var content = _repository.GetAll();
             var result = _mapper.Map<List<ReadContentDTO>>(content);
+            return result;
+        }
+
+        public ReadContentDTO GetContent(EntityDTO input)
+        {
+            var content = _repository.GetById(input.Id);
+            var result = _mapper.Map<ReadContentDTO>(content);
             return result;
         }
 
