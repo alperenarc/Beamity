@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Beamity.Application.DTOs;
+using Beamity.Application.DTOs.ArtifactDTOs;
 using Beamity.Application.Service.IServices;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Beamity.API.Controllers
 {
@@ -16,6 +15,91 @@ namespace Beamity.API.Controllers
         public ArtifactController(IArtifactService artifactService)
         {
             _artifactService = artifactService;
+        }
+        [HttpGet("{id}")]
+        public ReadArtifactDTO GetArtifact(EntityDTO input)
+        {
+            try
+            {
+                var artifact = _artifactService.GetArtifact(input);
+                return artifact;
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+
+        }
+        [HttpGet]
+        public List<ReadArtifactDTO> GetAllArtifacts()
+        {
+            try
+            {
+                var artifacts = _artifactService.GetAllArtifacts();
+                return artifacts;
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
+        [HttpGet("room/{id}")]
+        public async Task<List<ReadArtifactDTO>> GetArtifactsInRoom(EntityDTO input)
+        {
+            try
+            {
+                var artifacts = await _artifactService.GetArtifactsInRoom(input);
+                return artifacts;
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
+        [HttpPost]
+        public IActionResult CreateArtifact(CreateArtifactDTO input)
+        {
+            try
+            {
+                _artifactService.CreateArtifact(input);
+                return Ok();
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
+        [HttpPut]
+        public IActionResult UpdateArtifact(UpdateArtifactDTO input)
+        {
+            try
+            {
+                _artifactService.UpdateArtifact(input);
+                return Ok();
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
+        [HttpDelete]
+        public IActionResult DeleteArtifact(DeleteArtifactDTO input)
+        {
+            try
+            {
+                _artifactService.DeleteArtifact(input);
+                return Ok();
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
         }
     }
 }
