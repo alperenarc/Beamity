@@ -1,10 +1,6 @@
 ﻿using Beamity.Application.DTOs;
 using Beamity.Application.DTOs.ArtifactDTOs;
-using Beamity.Core.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Beamity.Application.Service.IServices
 {

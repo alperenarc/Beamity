@@ -38,13 +38,25 @@ namespace Beamity.Application.Service.Services
         public List<ReadRoomDTO> GetAllRooms()
         {
             var rooms = _roomRepository.GetAll();
+            List<ReadRoomDTO> result = new List<ReadRoomDTO>();
+            foreach (var item in rooms)
+            {
+                ReadRoomDTO dto = new ReadRoomDTO()
+                {
+                    Name = item.Name,
+                    FloorName = item.Floor.Name
+                };
+                result.Add(dto);
+            }
             return _mapper.Map<List<ReadRoomDTO>>(rooms);
         }
 
         public ReadRoomDTO GetRoom(EntityDTO input)
         {
             var room = _roomRepository.GetById(input.Id);
-            return _mapper.Map<ReadRoomDTO>(room);
+            var result = _mapper.Map<ReadRoomDTO>(room);
+            result.FloorName = room.Floor.Name;
+            return result;
         }
 
         public void UpdateRoom(UpdateRoomDTO input)

@@ -23,7 +23,7 @@ namespace Beamity.Application.Service.Services
         private readonly IMapper _mapper;
 
         public RelationService(RelationRepository relationRepository,
-                                BeaconRepository beaconRepository, 
+                                BeaconRepository beaconRepository,
                                 ArtifactRepository artifactRepository,
                                 ContentRepository contentRepository, IMapper mapper)
         {
@@ -40,7 +40,8 @@ namespace Beamity.Application.Service.Services
             {
                 Artifact = _artifactRepository.GetById(input.ArtifactId),
                 Content = _contentRepository.GetById(input.ContentId),
-                Beacon = _beaconRepository.GetById(input.BeaconId)
+                Beacon = _beaconRepository.GetById(input.BeaconId),
+                Proximity = (Proximity)Enum.Parse(typeof(Proximity), input.Proximity, true)
             };
         }
 
@@ -56,24 +57,28 @@ namespace Beamity.Application.Service.Services
             foreach (Relation item in relations)
             {
                 ReadRelationDTO r = new ReadRelationDTO();
+
                 r.ArtifacName = item.Artifact.Name;
                 r.BeaconName = item.Beacon.Name;
                 r.ContentName = item.Content.Name;
+                r.Proximity = item.Proximity.ToString();
+
                 result.Add(r);
             }
             return result;
         }
 
-        public ReadRelationDTO GetRealtion(EntityDTO input)
+        public ReadRelationDTO GetRelation(EntityDTO input)
         {
             Relation relation = _relationRepository.GetById(input.Id);
 
-            ReadRelationDTO result = new ReadRelationDTO();
-
-            result.ArtifacName = relation.Artifact.Name;
-            result.BeaconName = relation.Beacon.Name;
-            result.ContentName = relation.Content.Name;
-
+            ReadRelationDTO result = new ReadRelationDTO()
+            {
+                ArtifacName = relation.Artifact.Name,
+                BeaconName = relation.Beacon.Name,
+                ContentName = relation.Content.Name,
+                Proximity = relation.Proximity.ToString()
+            };
             return result;
         }
 
@@ -86,11 +91,15 @@ namespace Beamity.Application.Service.Services
 
         public void UpdateRelation(UpdateRelationDTO input)
         {
-            Relation result = new Relation();
-            result.Id = input.Id;
-            result.Artifact = _artifactRepository.GetById(input.ArtifactId);
-            result.Beacon = _beaconRepository.GetById(input.BeaconId);
-            result.Content = _contentRepository.GetById(input.ContentId);
+            Relation result = new Relation()
+            {
+                Id = input.Id,
+                Artifact = _artifactRepository.GetById(input.ArtifactId),
+                Beacon = _beaconRepository.GetById(input.BeaconId),
+                Content = _contentRepository.GetById(input.ContentId),
+                Proximity = (Proximity)Enum.Parse(typeof(Proximity), input.Proximity, true)
+            };
+
 
             _relationRepository.Update(result);
         }

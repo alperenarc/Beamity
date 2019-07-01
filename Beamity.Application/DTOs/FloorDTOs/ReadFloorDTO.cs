@@ -7,5 +7,6 @@ namespace Beamity.Application.DTOs.FloorDTOs
     public class ReadFloorDTO : BaseReadDTO
     {
         public string Name { get; set; }
+        public string BuildingName { get; set; }
     }
 }

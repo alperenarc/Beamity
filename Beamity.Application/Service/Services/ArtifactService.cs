@@ -50,14 +50,25 @@ namespace Beamity.Application.Service.Services
         public List<ReadArtifactDTO> GetAllArtifacts()
         {
             var artifacts = _repository.GetAll();
-            var result = _mapper.Map<List<ReadArtifactDTO>>(artifacts);
+            List<ReadArtifactDTO> result = new List<ReadArtifactDTO>();
+            foreach (var item in artifacts)
+            {
+                ReadArtifactDTO dto = new ReadArtifactDTO();
+
+                dto.Name = item.Name;
+                dto.MainImageURL = item.MainImageURL;
+                dto.RoomName = item.Room.Name;
+
+                result.Add(dto);
+            }
             return result;
         }
 
         public ReadArtifactDTO GetArtifact(EntityDTO input)
         {
-            var artifacts = _repository.GetById(input.Id);
-            var result = _mapper.Map<ReadArtifactDTO>(artifacts);
+            var artifact = _repository.GetById(input.Id);
+            var result = _mapper.Map<ReadArtifactDTO>(artifact);
+            result.RoomName = artifact.Room.Name;
             return result;
         }
 

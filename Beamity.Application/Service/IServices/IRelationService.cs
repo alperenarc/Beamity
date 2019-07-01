@@ -12,7 +12,7 @@ namespace Beamity.Application.Service.IServices
     public interface IRelationService
     {
         List<ReadRelationDTO> GetAllRelations();
-        ReadRelationDTO GetRealtion(EntityDTO input);
+        ReadRelationDTO GetRelation(EntityDTO input);
         //Beacon Id den relation ı , oradan da  contenti bulur ve döndürür
         ReadContentDTO GetRelationWithBeacon(GetContentWithBeaconDTO input);
         void CreateRelation(CreateRelationDTO input);
