@@ -20,7 +20,7 @@ namespace Beamity.Application.Service.Services
             _repository = repository;
         }
 
-        public void CreateProcet(CreateProjectDTO input)
+        public void CreateProject(CreateProjectDTO input)
         {
             var project = _mapper.Map<Project>(input);
             _repository.Create(project);
