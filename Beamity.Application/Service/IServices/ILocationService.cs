@@ -10,8 +10,8 @@ namespace Beamity.Application.Service.IServices
     public interface ILocationService
     {
         void CreateLocation(CreateLocationDTO input);
-        void UpdateFloor(UpdateLocationDTO input);
-        void DeleteFloor(DeleteLocationDTO input);
+        void UpdateLocation(UpdateLocationDTO input);
+        void DeleteLocation(DeleteLocationDTO input);
         List<ReadLocationDTO> GetAllLocation();
         ReadLocationDTO GetLocation(EntityDTO input);
     }
