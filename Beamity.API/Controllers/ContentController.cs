@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Beamity.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class ContentController : ControllerBase
     {

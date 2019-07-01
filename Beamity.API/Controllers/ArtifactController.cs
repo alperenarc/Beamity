@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Beamity.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class ArtifactController : ControllerBase
     {
@@ -16,7 +16,7 @@ namespace Beamity.API.Controllers
         {
             _artifactService = artifactService;
         }
-        [HttpGet("{id}")]
+        [HttpGet]
         public ReadArtifactDTO GetArtifact(EntityDTO input)
         {
             try
@@ -45,7 +45,7 @@ namespace Beamity.API.Controllers
                 throw;
             }
         }
-        [HttpGet("room/{id}")]
+        [HttpGet]
         public async Task<List<ReadArtifactDTO>> GetArtifactsInRoom(EntityDTO input)
         {
             try
