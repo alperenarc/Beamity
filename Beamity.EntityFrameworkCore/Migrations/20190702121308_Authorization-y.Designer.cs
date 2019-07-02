@@ -4,14 +4,16 @@ using Beamity.EntityFrameworkCore.EntityFrameworkCore.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Beamity.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(BeamityDbContext))]
-    partial class BeamityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190702121308_Authorization-y")]
+    partial class Authorizationy
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -279,7 +281,7 @@ namespace Beamity.EntityFrameworkCore.Migrations
 
                     b.Property<string>("Phone");
 
-                    b.Property<string>("RoleName");
+                    b.Property<Guid?>("RoleId");
 
                     b.Property<string>("Surname")
                         .IsRequired();
@@ -287,6 +289,8 @@ namespace Beamity.EntityFrameworkCore.Migrations
                     b.Property<string>("Token");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("Users");
                 });
@@ -339,6 +343,13 @@ namespace Beamity.EntityFrameworkCore.Migrations
                     b.HasOne("Beamity.Core.Models.Floor", "Floor")
                         .WithMany("Rooms")
                         .HasForeignKey("FloorId");
+                });
+
+            modelBuilder.Entity("Beamity.Core.Models.User", b =>
+                {
+                    b.HasOne("Beamity.Core.Models.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId");
                 });
 #pragma warning restore 612, 618
         }

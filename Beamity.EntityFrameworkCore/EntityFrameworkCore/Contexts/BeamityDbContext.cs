@@ -23,7 +23,7 @@ namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Contexts
         public DbSet<Relation> Relations { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles{ get; set; }
 
-        
     }
 }

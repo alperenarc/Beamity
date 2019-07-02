@@ -1,18 +1,20 @@
 ﻿using Beamity.Application.Service.IServices;
 using Beamity.Application.Service.Services;
+using Beamity.Application.Tokens;
+using Beamity.Core.Models.Tokens;
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Interfaces;
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Beamity.API
 {
     public class DependencyInjection
     {
-        public DependencyInjection(IServiceCollection services)
+        public DependencyInjection(IServiceCollection services, IConfiguration Configuration)
         {
             services.AddTransient<IArtifactService, ArtifactService>();
             services.AddTransient<IBeaconService, BeaconService>();
@@ -34,6 +36,33 @@ namespace Beamity.API
             services.AddScoped<BuildingRepository, BuildingRepository>();
             services.AddScoped<FloorRepository, FloorRepository>();
             services.AddScoped<UserRepository, UserRepository>();
+
+
+            services.AddSingleton<ITokenHandler,Beamity.Application.Tokens.TokenHandler>();
+
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
+
+            services.Configure<TokenOptions>(Configuration.GetSection("TokenOptions"));
+            var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
+
+            var signingConfigurations = new SigningConfigurations();
+            services.AddSingleton(signingConfigurations);
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(jwtBearerOptions =>
+                {
+                    jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = tokenOptions.Issuer,
+                        ValidAudience = tokenOptions.Audience,
+                        IssuerSigningKey = signingConfigurations.Key,
+                        ClockSkew = TimeSpan.Zero
+                    };
+                });
         }
     }
 }

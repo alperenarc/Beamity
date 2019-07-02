@@ -21,5 +21,8 @@ namespace Beamity.Core.Models
         public string Phone { get; set; }
         public string Token { get; set; }
         public string Hash { get; set; }
+        public string RoleName { get; set; } 
+
     }
+  
 }
