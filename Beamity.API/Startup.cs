@@ -39,11 +39,8 @@ namespace Beamity.API
             services.AddDbContext<BeamityDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddTransient<IArtifactService, ArtifactService>();
-
-            services.AddScoped(typeof(IBaseRepository<>),typeof(BaseRepository<>));
-            services.AddScoped<RoomRepository, RoomRepository>();
-            services.AddScoped<ArtifactRepository, ArtifactRepository>();
+            ////Adds Dependency Injections
+            DependencyInjection DI = new DependencyInjection(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
