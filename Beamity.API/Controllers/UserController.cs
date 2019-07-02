@@ -45,7 +45,7 @@ namespace Beamity.API.Controllers
                 AccessTokenResource accessTokenResource = new AccessTokenResource();
                 accessTokenResource.AccessToken = response.Token.Token;
                 accessTokenResource.RefreshToken = response.Token.RefreshToken.Token;
-                accessTokenResource.Expiration = response.Token.Expiration;
+                accessTokenResource.Expiration = 30000/*response.Token.Expiration*/;
 
 
                 return Ok(accessTokenResource);
