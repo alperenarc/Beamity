@@ -27,7 +27,6 @@ namespace Beamity.Application.Service.Services
         private readonly RoomRepository _roomRepository;
 
         private readonly IMapper _mapper;
-
         public ArtifactService(ArtifactRepository repository, RoomRepository roomRepository, IMapper mapper)
         {
             _repository = repository;
