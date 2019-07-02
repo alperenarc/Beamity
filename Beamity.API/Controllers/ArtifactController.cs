@@ -34,6 +34,7 @@ namespace Beamity.API.Controllers
 
         }
         [HttpGet]
+        [Authorize]
         public List<ReadArtifactDTO> GetAllArtifacts()
         {
             try
