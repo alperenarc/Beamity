@@ -24,7 +24,7 @@ namespace Beamity.Application.Service.Services
         public bool Login(LoginUserDTO input)
         {
             // get user for Login
-            var getUser = _userRepository.getUserForLogin(input.Email);
+            var getUser = _userRepository.GetUserForLogin(input.Email);
 
             // take user s hash
             string correctHash = getUser.Hash;
@@ -57,9 +57,32 @@ namespace Beamity.Application.Service.Services
             input.Token = GuidKey;
 
             // Send an email for account confirmation
-            Helpers.EmailHelper.SendMail(input.Email, GuidKey);
-            var user = _mapper.Map<User>(input);
-            _userRepository.Create(user);
+
+           
+            //Helpers.EmailHelper.SendMail(input.Email, GuidKey);
+            try
+            {
+                //var user = _mapper.Map<User>(input);
+
+                User user = new User();
+                user.Name = input.Name;
+                user.Phone = input.Phone;
+                user.Surname = input.Surname;
+                user.Email = input.Email;
+                user.Hash = input.Password;
+                user.Token = input.Token;
+                user.IsActive = input.IsActive;
+
+                //a = user;
+                 _userRepository.Create(user, ERole.Common);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+            
+            
         }
 
         public void UpdateProfile(UpdateUserDTO input)

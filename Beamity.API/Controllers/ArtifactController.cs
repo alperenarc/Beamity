@@ -1,12 +1,14 @@
 ﻿using Beamity.Application.DTOs;
 using Beamity.Application.DTOs.ArtifactDTOs;
 using Beamity.Application.Service.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Beamity.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class ArtifactController : ControllerBase

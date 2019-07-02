@@ -4,14 +4,16 @@ using Beamity.EntityFrameworkCore.EntityFrameworkCore.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Beamity.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(BeamityDbContext))]
-    partial class BeamityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190702104436_Authorization-x")]
+    partial class Authorizationx
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -279,8 +281,6 @@ namespace Beamity.EntityFrameworkCore.Migrations
 
                     b.Property<string>("Phone");
 
-                    b.Property<string>("RoleName");
-
                     b.Property<string>("Surname")
                         .IsRequired();
 
@@ -289,6 +289,28 @@ namespace Beamity.EntityFrameworkCore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Beamity.Core.Models.UserRole", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatedTime");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<Guid?>("RoleId");
+
+                    b.Property<Guid?>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("Beamity.Core.Models.Artifact", b =>
@@ -339,6 +361,17 @@ namespace Beamity.EntityFrameworkCore.Migrations
                     b.HasOne("Beamity.Core.Models.Floor", "Floor")
                         .WithMany("Rooms")
                         .HasForeignKey("FloorId");
+                });
+
+            modelBuilder.Entity("Beamity.Core.Models.UserRole", b =>
+                {
+                    b.HasOne("Beamity.Core.Models.Role", "Role")
+                        .WithMany("UsersRole")
+                        .HasForeignKey("RoleId");
+
+                    b.HasOne("Beamity.Core.Models.User", "User")
+                        .WithMany("Roles")
+                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }

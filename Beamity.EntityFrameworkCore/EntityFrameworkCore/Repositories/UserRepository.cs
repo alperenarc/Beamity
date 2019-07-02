@@ -17,10 +17,27 @@ namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories
             : base(context)
         {
         }
-        public User getUserForLogin(string email) {
-            
-            var user = _context.Users.Where(x=>x.Email == email).FirstOrDefault();
+        public User GetUserForLogin(string email)
+        {
+
+            var user = _context.Users.FirstOrDefault(x => x.Email == email);
             return user;
+        }
+        public User Create(User model, params ERole[] userRoles)
+        {
+            var role = _context.Roles.FirstOrDefault(r => userRoles.Any(ur => ur.ToString() == r.Name));
+            try
+            {
+                model.RoleName = role.Name;
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+
+
+            return base.Create(model);
         }
     }
 }
