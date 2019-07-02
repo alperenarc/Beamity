@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories
 {
-    public class UserRepository : BaseRepository<User>,IUserRepository
+    public class UserRepository : BaseRepository<User>
     {
         public UserRepository(BeamityDbContext context)
             : base(context)

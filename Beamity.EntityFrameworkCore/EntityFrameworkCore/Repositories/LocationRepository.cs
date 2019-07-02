@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories
 {
-    public class LocationRepository : BaseRepository<Location>,ILocationRepository
+    public class LocationRepository : BaseRepository<Location>
     {
         public LocationRepository(BeamityDbContext context)
             : base(context)

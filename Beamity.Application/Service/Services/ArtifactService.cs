@@ -23,12 +23,12 @@ namespace Beamity.Application.Service.Services
          *  4.GetArtifact
          *  5.UpdateArtifact methods
          */
-        private readonly IArtifactRepository _repository;
-        private readonly IRoomRepository _roomRepository;
+        private readonly ArtifactRepository _repository;
+        private readonly RoomRepository _roomRepository;
 
         private readonly IMapper _mapper;
 
-        public ArtifactService(IArtifactRepository repository, IRoomRepository roomRepository, IMapper mapper)
+        public ArtifactService(ArtifactRepository repository, RoomRepository roomRepository, IMapper mapper)
         {
             _repository = repository;
             _roomRepository = roomRepository;

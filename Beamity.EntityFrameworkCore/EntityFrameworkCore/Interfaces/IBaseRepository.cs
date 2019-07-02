@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Interfaces
 {
-  public  interface IBaseRepository<TModel>
+    public interface IBaseRepository<TModel>
     {
         List<TModel> GetAll();
         TModel GetById(Guid id);

@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories
 {
-    public class ContentRepository : BaseRepository<Content>,IContentRepository
+    public class ContentRepository : BaseRepository<Content>
     {
         public ContentRepository(BeamityDbContext context)
             : base(context)

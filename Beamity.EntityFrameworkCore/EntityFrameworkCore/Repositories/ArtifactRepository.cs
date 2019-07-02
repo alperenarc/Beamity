@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories
 {
-    public class ArtifactRepository : BaseRepository<Artifact>,IArtifactRepository
+    public class ArtifactRepository : BaseRepository<Artifact>
     {
         public ArtifactRepository(BeamityDbContext context)
             : base(context)
