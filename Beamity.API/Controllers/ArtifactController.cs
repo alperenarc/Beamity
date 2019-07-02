@@ -16,7 +16,7 @@ namespace Beamity.API.Controllers
         {
             _artifactService = artifactService;
         }
-        [HttpGet]
+        [HttpGet("{id}")]
         public ReadArtifactDTO GetArtifact(EntityDTO input)
         {
             try
@@ -45,7 +45,7 @@ namespace Beamity.API.Controllers
                 throw;
             }
         }
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<List<ReadArtifactDTO>> GetArtifactsInRoom(EntityDTO input)
         {
             try

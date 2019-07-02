@@ -20,7 +20,7 @@ namespace Beamity.API.Controllers
             _floorService = floorService;
         }
         [HttpGet("{id}")]
-        public ReadFloorDTO GetBuilding(EntityDTO input)
+        public ReadFloorDTO GetFloor(EntityDTO input)
         {
             try
             {
@@ -34,7 +34,7 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpGet]
-        public List<ReadFloorDTO> GetAllBuildings()
+        public List<ReadFloorDTO> GetAllFloors()
         {
             try
             {
@@ -47,8 +47,8 @@ namespace Beamity.API.Controllers
                 throw;
             }
         }
-        [HttpGet]
-        public async Task<List<ReadFloorDTO>> GetBuildingsAtLocation(EntityDTO input)
+        [HttpGet("{id}")]
+        public async Task<List<ReadFloorDTO>> GetFloorsAtBuilding(EntityDTO input)
         {
             try
             {
@@ -62,7 +62,7 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpPost]
-        public IActionResult CreateBuilding(CreateFloorDTO input)
+        public IActionResult CreateFloor(CreateFloorDTO input)
         {
             try
             {
@@ -76,7 +76,7 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpPut]
-        public IActionResult UpdateBuilding(UpdateFloorDTO input)
+        public IActionResult UpdateFloor(UpdateFloorDTO input)
         {
             try
             {
@@ -90,7 +90,7 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpDelete]
-        public IActionResult DeleteBuilding(DeleteFloorDTO input)
+        public IActionResult DeleteFloor(DeleteFloorDTO input)
         {
             try
             {

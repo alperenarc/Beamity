@@ -47,6 +47,20 @@ namespace Beamity.API.Controllers
                 throw;
             }
         }
+        [HttpGet]
+        public List<ReadContentDTO> GetHomeContents()
+        {
+            try
+            {
+                var contents = _contentService.GetHomePageContents();
+                return contents;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         [HttpPost]
         public IActionResult CreateBeacon(CreateContentDTO input)
         {
