@@ -47,7 +47,7 @@ namespace Beamity.API.Controllers
                 throw;
             }
         }
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<List<ReadBuildingDTO>> GetBuildingsAtLocation(EntityDTO input)
         {
             try

@@ -65,7 +65,7 @@ namespace Beamity.API.Controllers
             var list = _projectService.GetAllProject();
             return list;
         }
-        [HttpGet]
+        [HttpGet("{id}")]
         public ReadProjectDTO GetProject(EntityDTO input)
         {
             var project = _projectService.GetProject(input);

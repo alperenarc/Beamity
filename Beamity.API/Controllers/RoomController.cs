@@ -59,7 +59,7 @@ namespace Beamity.API.Controllers
             return Ok("The process is success");
         }
         [HttpGet]
-        public ReadRoomDTO getRoom(EntityDTO id)
+        public ReadRoomDTO GetRoom(EntityDTO id)
         {
             var room = _roomService.GetRoom(id);
             return room;
@@ -69,7 +69,7 @@ namespace Beamity.API.Controllers
         {
             return _roomService.GetAllRooms();
         }
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<List<ReadRoomDTO>> GetRoomsOnFloor(EntityDTO room)
         {
             return await _roomService.GetRoomsOnFloor(room);

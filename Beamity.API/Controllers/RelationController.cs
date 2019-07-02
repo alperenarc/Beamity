@@ -27,7 +27,7 @@ namespace Beamity.API.Controllers
             var relations = _relationService.GetAllRelations();
             return relations;
         }
-        [HttpGet]
+        [HttpGet("{id}")]
         public ReadRelationDTO GetRelation(EntityDTO Relation)
         {
 
