@@ -67,6 +67,7 @@ namespace Beamity.API.Controllers
             return list;
         }
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public ReadLocationDTO GetLocation(EntityDTO input)
         {
             var location = _locationService.GetLocation(input);

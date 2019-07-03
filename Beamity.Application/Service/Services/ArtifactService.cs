@@ -56,7 +56,8 @@ namespace Beamity.Application.Service.Services
 
                 dto = _mapper.Map<ReadArtifactDTO>(item);
                 dto.RoomName = item.Room.Name;
-
+                dto.FloorName = item.Room.Floor.Name;
+                dto.BuildingName = item.Room.Floor.Building.Name;
                 result.Add(dto);
             }
             return result;
