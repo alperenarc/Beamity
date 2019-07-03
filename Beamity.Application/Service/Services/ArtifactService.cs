@@ -68,6 +68,8 @@ namespace Beamity.Application.Service.Services
             var artifact = _repository.GetById(input.Id);
             var result = _mapper.Map<ReadArtifactDTO>(artifact);
             result.RoomName = artifact.Room.Name;
+            result.FloorName = artifact.Room.Floor.Name;
+            result.BuildingName = artifact.Room.Floor.Building.Name;
             return result;
         }
 
@@ -81,6 +83,8 @@ namespace Beamity.Application.Service.Services
 
                 dto = _mapper.Map<ReadArtifactDTO>(item);
                 dto.RoomName = item.Room.Name;
+                dto.FloorName = item.Room.Floor.Name;
+                dto.BuildingName = item.Room.Floor.Building.Name;
 
                 result.Add(dto);
             }

@@ -48,7 +48,7 @@ namespace Beamity.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                IdentityModelEventSource.ShowPII = true;
+               // IdentityModelEventSource.ShowPII = true;
             }
             else
             {
