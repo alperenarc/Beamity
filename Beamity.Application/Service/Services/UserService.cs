@@ -62,19 +62,19 @@ namespace Beamity.Application.Service.Services
             //Helpers.EmailHelper.SendMail(input.Email, GuidKey);
             try
             {
-                //var user = _mapper.Map<User>(input);
+                var user = _mapper.Map<User>(input);
 
-                User user = new User();
-                user.Name = input.Name;
-                user.Phone = input.Phone;
-                user.Surname = input.Surname;
-                user.Email = input.Email;
-                user.Hash = input.Password;
-                user.Token = input.Token;
-                user.IsActive = input.IsActive;
+                //User user = new User();
+                //user.Name = input.Name;
+                //user.Phone = input.Phone;
+                //user.Surname = input.Surname;
+                //user.Email = input.Email;
+                //user.Hash = input.Password;
+                //user.Token = input.Token;
+                //user.IsActive = input.IsActive;
 
                 //a = user;
-                 _userRepository.Create(user, ERole.Common);
+                _userRepository.Create(user, ERole.Common);
             }
             catch (Exception e)
             {
