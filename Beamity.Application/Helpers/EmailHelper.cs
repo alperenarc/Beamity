@@ -11,7 +11,7 @@ namespace Beamity.Application.Helpers
         {
 
             var message = new MimeMessage();
-            message.From.Add(new MailboxAddress("info@nootelib.com")); // This are for from mail
+            message.From.Add(new MailboxAddress("beamity@nootelib.com")); // This are for from mail
             message.To.Add(new MailboxAddress(email)); // This are for to mail
             message.Subject = "Hesap Doğrulama"; // This are for the subject
             message.Body = new TextPart("html")
@@ -26,7 +26,7 @@ namespace Beamity.Application.Helpers
             using (var client = new MailKit.Net.Smtp.SmtpClient())
             {
                 client.Connect("srvm04.turhost.com", 587, false); // You must write your host information on this area
-                client.Authenticate("info@nootelib.com", "Qwerty123"); // You must write your server email and password
+                client.Authenticate("beamity@nootelib.com", "Qwerty123"); // You must write your server email and password
                 client.Send(message);
                 client.Disconnect(true);
             };

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Beamity.Application.DTOs;
 using Beamity.Application.DTOs.LocationDTOs;
 using Beamity.Application.Service.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,6 +13,7 @@ namespace Beamity.API.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize]
     public class LocationController : ControllerBase
     {
         private readonly ILocationService _locationService;

@@ -7,6 +7,7 @@ using Beamity.Application.DTOs.BeaconDTOs;
 using Beamity.Application.DTOs.ContentDTOs;
 using Beamity.Application.DTOs.RelationDTO;
 using Beamity.Application.Service.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,6 +15,7 @@ namespace Beamity.API.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize]
     public class RelationController : ControllerBase
     {
         private readonly IRelationService _relationService;
