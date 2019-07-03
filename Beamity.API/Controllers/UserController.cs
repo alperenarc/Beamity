@@ -81,6 +81,20 @@ namespace Beamity.API.Controllers
             }
             return Ok("Editing process is success");
         }
+        [HttpPut]
+        public IActionResult ConfirmEmail(Guid confirmCode)
+        {
+            
+            try
+            {
+                _userService.ConfirmEmail(confirmCode);
+                return Ok("Success");
+            }
+            catch (Exception)
+            {
+                return BadRequest("Wrong");
+            }
+        }
 
     }
 }

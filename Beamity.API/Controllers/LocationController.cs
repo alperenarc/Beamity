@@ -21,7 +21,7 @@ namespace Beamity.API.Controllers
         {
             _locationService = locationService;
         }
-        [HttpGet]
+        [HttpPost]
         public IActionResult CreateLocation(CreateLocationDTO input)
         {
             try

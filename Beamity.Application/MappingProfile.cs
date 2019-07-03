@@ -23,31 +23,36 @@ namespace Beamity.Application
             CreateMap<CreateUserDTO, User>();
             CreateMap<UpdateUserDTO, User>();
             CreateMap<CreateArtifactDTO, Artifact>();
-            CreateMap<ReadArtifactDTO, Artifact>();
+            
+
+            CreateMap<Artifact, ReadArtifactDTO>();
+
             CreateMap<UpdateArtifactDTO, Artifact>();
             CreateMap<CreateRoomDTO, Room>();
-            CreateMap<ReadRoomDTO, Room>();
+
+            CreateMap<Room, ReadRoomDTO>();
+
             CreateMap<UpdateRoomDTO, Room>();
             CreateMap<CreateRelationDTO, Relation>();
-            CreateMap<ReadRelationDTO, Relation>();
+            CreateMap<Relation, ReadRelationDTO>();
             CreateMap<UpdateRelationDTO, Relation>();
             CreateMap<CreateProjectDTO,Project>();
             CreateMap<ReadProjectDTO, Project>();
             CreateMap<UpdateProjectDTO, Project>();
             CreateMap<CreateLocationDTO, Location>();
-            CreateMap<ReadLocationDTO, Location>();
+            CreateMap<Location, ReadLocationDTO>();
             CreateMap<UpdateLocationDTO,Location>();
             CreateMap<CreateFloorDTO,Floor>();
-            CreateMap<ReadFloorDTO,Floor>();
+            CreateMap<Floor, ReadFloorDTO>();
             CreateMap<UpdateFloorDTO,Floor>();
             CreateMap<CreateContentDTO,Content>();
-            CreateMap<ReadContentDTO, Content>();
+            CreateMap<Content, ReadContentDTO>();
             CreateMap<UpdateContentDTO, Content>();
             CreateMap<CreateBuildingDTO,Building>();
-            CreateMap<ReadBuildingDTO, Building>();
+            CreateMap<Building, ReadBuildingDTO>();
             CreateMap<UpdateBuildingDTO, Building>();
             CreateMap<CreateBeaconDTO,Beacon>();
-            CreateMap<ReadBeaconDTO, Beacon>();
+            CreateMap<Beacon, ReadBeaconDTO>();
             CreateMap<UpdateBeaconDTO, Beacon>();
         }
     }
