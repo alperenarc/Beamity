@@ -64,6 +64,7 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult CreateFloor(CreateFloorDTO input)
         {
             try

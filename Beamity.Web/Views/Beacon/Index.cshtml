@@ -1,0 +1,156 @@
+﻿@model IEnumerable<Beamity.Application.DTOs.BeaconDTOs.ReadBeaconDTO>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+
+<button id="btnShowModal" type="button"
+        class="btn btn-default pull-left col-lg-11 button button4">
+    Create New
+</button>
+
+<div class="modal fade" tabindex="-1" id="loginModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title align-content-lg-start">Create Beacon</h4>
+                <button type="button" class="close text-lg-right" data-dismiss="modal">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <input class="form-control" type="text"
+                               placeholder="Beacon Name" id="inputName" />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Login UUID"
+                               id="inputUUID" />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="number"
+                               placeholder="Major Id" id="inputMajor" />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="number"
+                               placeholder="Minor Id" id="inputMinor" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="create" class="btn btn-primary button button4">Create</button>
+                <button type="button" id="btnHideModal" class="btn btn-primary button button4">
+                    Hide
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UUID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Major)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Minor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UUID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Major)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Minor)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsActive)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<footer>
+    <p style="background-color: Yellow; font-weight: bold; color:blue; text-align: center; font-style: oblique">
+        ©
+        <script>document.write(new Date().toDateString());</script>
+    </p>
+</footer>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
+
+</script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#btnShowModal").click(function () {
+            $("#loginModal").modal('show');
+        });
+
+        $("#btnHideModal").click(function () {
+            $("#loginModal").modal('hide');
+        });
+    });
+    $("#create").click(function () {
+        var options = {};
+        options.url = "https://localhost:5001/api/Beacon/CreateBeacon";
+        options.type = "POST";
+        debugger
+        var obj = {};
+        obj.Name = $("#inputName").val();
+        obj.UUID = $("#inputUUID").val();
+        obj.Major = $("#inputMajor").val();
+        obj.Minor = $("#inputMinor").val();
+
+        options.data = JSON.stringify(obj);
+        options.contentType = "application/json";
+        options.dataType = "html";
+        debugger
+        options.success = function (msg) {
+            $("#msg").html(msg);
+        };
+        options.error = function () {
+            $("#msg").html("Error while calling the Web API!");
+        };
+        $.ajax(options);
+    });
+</script>  

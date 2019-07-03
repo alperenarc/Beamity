@@ -36,6 +36,7 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpGet]
+        [AllowAnonymous]
         public List<ReadBuildingDTO> GetAllBuildings()
         {
             try
