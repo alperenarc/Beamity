@@ -58,10 +58,11 @@ namespace Beamity.Application.Service.Services
 
             // Send an email for account confirmation
 
+
            
-            //Helpers.EmailHelper.SendMail(input.Email, GuidKey);
             try
             {
+                Helpers.EmailHelper.SendMail(input.Email, GuidKey);
                 var user = _mapper.Map<User>(input);
                 user.Hash = input.Password;
                 _userRepository.Create(user, ERole.Common);
