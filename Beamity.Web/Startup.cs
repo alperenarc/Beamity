@@ -53,7 +53,10 @@ namespace Beamity.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

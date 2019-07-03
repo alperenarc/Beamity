@@ -26,6 +26,10 @@ namespace Beamity.Web.Controllers
         {
             return View();
         }
-
+        [HttpPost]
+        public ActionResult Deneme()
+        {
+            return Ok();
+        }
     }
 }
