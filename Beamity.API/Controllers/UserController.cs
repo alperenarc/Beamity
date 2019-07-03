@@ -60,9 +60,9 @@ namespace Beamity.API.Controllers
             {
                 _userService.Register(user);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return BadRequest("An error occurred during the registration process. Please try again !");
+                return  BadRequest(e.Message);
             }
             return Ok("Registration process is success");
 
