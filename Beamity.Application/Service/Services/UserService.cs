@@ -33,10 +33,12 @@ namespace Beamity.Application.Service.Services
             bool confirmPassword = Helpers.PasswordHelper.ValidatePassword(input.Password, correctHash);
 
             // Login
-            if (confirmPassword.Equals(true) && getUser.IsActive.Equals(true)){
+            if (confirmPassword.Equals(true) && getUser.IsActive.Equals(true))
+            {
                 return true;
             }
-            else{
+            else
+            {
                 return false;
             }
         }
@@ -58,10 +60,11 @@ namespace Beamity.Application.Service.Services
 
             // Send an email for account confirmation
 
-           
-            Helpers.EmailHelper.SendMail(input.Email, GuidKey);
+
+
             try
             {
+                Helpers.EmailHelper.SendMail(input.Email, GuidKey);
                 var user = _mapper.Map<User>(input);
                 user.Hash = input.Password;
                 _userRepository.Create(user, ERole.Common);
@@ -71,8 +74,8 @@ namespace Beamity.Application.Service.Services
 
                 throw e;
             }
-            
-            
+
+
         }
 
         public void UpdateProfile(UpdateUserDTO input)

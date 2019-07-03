@@ -50,6 +50,10 @@ namespace Beamity.API
 
             app.UseAuthentication();
             app.UseHttpsRedirection();
+            app.UseCors(x => x
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
             app.UseMvc();
         }
     }

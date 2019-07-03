@@ -22,6 +22,7 @@ namespace Beamity.API.Controllers
             _contentService = contentService;
         }
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public ReadContentDTO GetContent(EntityDTO input)
         {
             try
@@ -36,6 +37,7 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpGet]
+        [AllowAnonymous]
         public List<ReadContentDTO> GetAllContents()
         {
             try
@@ -50,6 +52,7 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpGet]
+        [AllowAnonymous]
         public List<ReadContentDTO> GetHomeContents()
         {
             try

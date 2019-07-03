@@ -49,6 +49,7 @@ namespace Beamity.API.Controllers
 
 
                 return Ok(accessTokenResource);
+
             }
             return NotFound("User is not found !");
         }

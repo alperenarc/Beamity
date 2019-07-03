@@ -1,0 +1,126 @@
+﻿@model Beamity.Application.DTOs.UserDTOs.CreateUserDTO
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="sweetalert2.min.css">
+
+
+    <title>SB Admin - Login</title>
+
+    <!-- Custom fonts for this template-->
+    <script src="https://kit.fontawesome.com/9e517a54b5.js"></script>
+</head>
+
+<body class="bg-dark">
+
+    <div class="container">
+        <div class="card card-login mx-auto mt-5">
+            <div class="card-header">Login</div>
+            <div class="card-body">
+                <form asp-action="Login">
+                    <div class="form-group">
+                        <div class="form-label-group">
+                            <input asp-for="Email" id="inputEmail" class="form-control" placeholder="Email address" autofocus="autofocus">
+                            <label for="inputEmail">Email address</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-label-group">
+                            <input asp-for="Password" type="password" id="inputPassword" class="form-control" placeholder="Password" required="required">
+                            <label for="inputPassword">Password</label>
+                        </div>
+                    </div>
+                    <input id="Submit" onclick="myClickEvent()" type="button" value="Giriş" class="btn btn-primary btn-block" />
+                </form>
+                <div class="text-center">
+                    <a class="d-block small mt-3" href="/User/Register">Register an Account</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!--Ajax Libraries-->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+            asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+            asp-fallback-test="window.jQuery"
+            crossorigin="anonymous"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
+    </script>
+
+
+    <!-- Bootstrap core JavaScript-->
+    @*<script src="~/js/jquery.min.js"></script>*@
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    @*<script src="~/js/jquery.easing.min.js"></script>*@
+
+
+  
+
+    <script>
+        var fileButton = document.getElementById('Submit');
+
+        function myClickEvent(e) {
+            var myData = {};
+            myData.email = document.getElementById('inputEmail').value;
+            myData.password = document.getElementById('inputPassword').value;
+
+            debugger
+            $.ajax({
+                type: "POST",
+                url: 'https://localhost:5001/api/user/login',
+                data: JSON.stringify(myData),
+                dataType: 'json',
+                contentType: "application/json",
+                success: function (returndata) {
+                    if (returndata) {
+                        console.log("succes");
+                        alert('Successfully called');
+                        //Swal({
+                        //    title: 'Teşekkürler !',
+                        //    type: 'success',
+                        //    html:
+                        //        '<p>Dosya Yüklemesi Başarıyla Gerçekleşti! Dosyanız incelendikten sonra yayınlanacaktır.</p>'
+                        //}).then(function () {
+                        //    window.location.href = "/Account/Index";
+                        //});
+                    }
+                    else {
+                        //Swal({
+                        //    title: 'Hata !',
+                        //    type: 'error',
+                        //    html:
+                        //        '<p>Alanlar boş bırakılamaz !</p>'
+                        //}).then(function () {
+                        //    window.location.href = "/File/Create";
+                        //});
+                        console.log("Unsuccess");
+                    }
+                },
+                error: function (Exception) {
+                    console.log("asdasd");
+                }
+            });
+
+        }
+    </script>
+</body>
+
+</html>
