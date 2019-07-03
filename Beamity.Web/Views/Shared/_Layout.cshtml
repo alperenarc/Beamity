@@ -86,7 +86,7 @@
         </ul>
 
     </nav>
-    @RenderBody()
+    
     <div id="wrapper">
 
         <!-- Sidebar -->
@@ -130,6 +130,10 @@
 
         <!-- /.content-wrapper -->
         @*@Html.Partial("~/Views/Shared/_Content.cshtml");*@
+        <div class="container-fluid">
+            @RenderBody()
+        </div>
+       
     </div>
 
 

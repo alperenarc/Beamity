@@ -60,7 +60,7 @@ services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                         ValidIssuer = tokenOptions.Issuer,
                         ValidAudience = tokenOptions.Audience,
                         IssuerSigningKey = signingConfigurations.Key,
-                        ClockSkew = TimeSpan.Zero
+                        ClockSkew = TimeSpan.FromMinutes(60)
                     };
                 });
         }
