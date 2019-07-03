@@ -11,5 +11,8 @@ namespace Beamity.Application.DTOs.ArtifactDTOs
         public string MainImageURL { get; set; }
 
         public string RoomName { get; set; }
+        public string FloorName { get; set; }
+        public string BuildingName { get; set; }
+
     }
 }

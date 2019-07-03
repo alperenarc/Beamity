@@ -34,7 +34,7 @@ namespace Beamity.API.Controllers
 
         }
         [HttpGet]
-        [Authorize]
+        [AllowAnonymous]
         public List<ReadArtifactDTO> GetAllArtifacts()
         {
             try
@@ -49,6 +49,7 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<List<ReadArtifactDTO>> GetArtifactsInRoom(EntityDTO input)
         {
             try

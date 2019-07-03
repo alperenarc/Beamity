@@ -50,6 +50,7 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpGet]
+        [AllowAnonymous]
         public List<ReadContentDTO> GetHomeContents()
         {
             try
@@ -64,7 +65,7 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpPost]
-        public IActionResult CreateBeacon(CreateContentDTO input)
+        public IActionResult CreateContent(CreateContentDTO input)
         {
             try
             {
@@ -78,7 +79,7 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpPut]
-        public IActionResult UpdateBeacon(UpdateContentDTO input)
+        public IActionResult UpdateContent(UpdateContentDTO input)
         {
             try
             {
@@ -92,7 +93,7 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpDelete]
-        public IActionResult DeleteBeacon(DeleteContentDTO input)
+        public IActionResult DeleteContent(DeleteContentDTO input)
         {
             try
             {

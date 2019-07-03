@@ -38,6 +38,7 @@ namespace Beamity.API.Controllers
 
         }
         [HttpPost]
+        [AllowAnonymous]
         public ReadContentDTO GetContentWithBeacon(GetContentWithBeaconDTO input)
         {
             var content = _relationService.GetContentWithBeacon(input);

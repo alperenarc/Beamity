@@ -24,7 +24,7 @@ namespace Beamity.API.Controllers
 
         
         [HttpPost]
-        public IActionResult CreateProcet(CreateProjectDTO input)
+        public IActionResult CreateProject(CreateProjectDTO input)
         {
             try
             {
