@@ -21,5 +21,9 @@ namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories
 
             return await Table.Where(p => p.Location.Id == locaitonId).ToListAsync();
         }
+        public override List<Building> GetAll()
+        {
+            return Table.Where(p => p.IsActive == true).Include(p => p.Location).ToList();
+        }
     }
 }

@@ -19,14 +19,14 @@ namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories
             _context = context;
             this.Table = context.Set<TModel>();
         }
-        public TModel Create(TModel model)
+        public virtual TModel Create(TModel model)
         {
             _context.Add(model);
             _context.SaveChanges();
             return model;
         }
 
-        public void Delete(TModel model)
+        public virtual void Delete(TModel model)
         {
             _context.Remove(model);
             _context.SaveChanges();
@@ -42,17 +42,17 @@ namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories
             }            
         }
 
-        public List<TModel> GetAll()
+        public virtual List<TModel> GetAll()
         {
             return Table.Where(p => p.IsActive == true).ToList();
         }
 
-        public TModel GetById(Guid id)
+        public virtual TModel GetById(Guid id)
         {
             return Table.FirstOrDefault(p => p.Id == id && p.IsActive == true);
         }
 
-        public void Update(TModel model)
+        public virtual void Update(TModel model)
         {
             Table.Update(model);
             _context.SaveChangesAsync();

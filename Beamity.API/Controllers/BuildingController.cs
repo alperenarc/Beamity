@@ -43,10 +43,10 @@ namespace Beamity.API.Controllers
                 var buildings = _buildingService.GetAllBuildings();
                 return buildings;
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                throw;
+                throw e;
             }
         }
         [HttpGet("{id}")]

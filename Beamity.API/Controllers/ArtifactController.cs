@@ -42,10 +42,10 @@ namespace Beamity.API.Controllers
                 var artifacts = _artifactService.GetAllArtifacts();
                 return artifacts;
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
 
-                throw;
+                throw e;
             }
         }
         [HttpGet("{id}")]

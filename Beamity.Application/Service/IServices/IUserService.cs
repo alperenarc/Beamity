@@ -1,4 +1,5 @@
 ﻿using Beamity.Application.DTOs.UserDTOs;
+using Beamity.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,5 +12,6 @@ namespace Beamity.Application.Service.IServices
         void Register(CreateUserDTO input);
         bool Login(LoginUserDTO input);
         void UpdateProfile(UpdateUserDTO input);
+        void ConfirmEmail(Guid confirmCode);
     }
 }

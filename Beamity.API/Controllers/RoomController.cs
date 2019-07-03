@@ -67,6 +67,7 @@ namespace Beamity.API.Controllers
             return room;
         }
         [HttpGet]
+        [AllowAnonymous]
         public List<ReadRoomDTO> GetAllRooms()
         {
             return _roomService.GetAllRooms();

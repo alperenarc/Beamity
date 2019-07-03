@@ -64,6 +64,7 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult CreateFloor(CreateFloorDTO input)
         {
             try
@@ -71,10 +72,10 @@ namespace Beamity.API.Controllers
                 _floorService.CreateFloor(input);
                 return Ok();
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                throw;
+                throw e;
             }
         }
         [HttpPut]
