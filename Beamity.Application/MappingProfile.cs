@@ -33,24 +33,31 @@ namespace Beamity.Application
             CreateMap<Room, ReadRoomDTO>();
 
             CreateMap<UpdateRoomDTO, Room>();
+
             CreateMap<CreateRelationDTO, Relation>();
             CreateMap<Relation, ReadRelationDTO>();
             CreateMap<UpdateRelationDTO, Relation>();
+
             CreateMap<CreateProjectDTO,Project>();
             CreateMap<ReadProjectDTO, Project>();
             CreateMap<UpdateProjectDTO, Project>();
+
             CreateMap<CreateLocationDTO, Location>();
             CreateMap<Location, ReadLocationDTO>();
             CreateMap<UpdateLocationDTO,Location>();
-            CreateMap<CreateFloorDTO,Floor>();
+
+            CreateMap<CreateFloorDTO, Floor>();
             CreateMap<Floor, ReadFloorDTO>();
             CreateMap<UpdateFloorDTO,Floor>();
+
             CreateMap<CreateContentDTO,Content>();
             CreateMap<Content, ReadContentDTO>();
             CreateMap<UpdateContentDTO, Content>();
+
             CreateMap<CreateBuildingDTO,Building>();
             CreateMap<Building, ReadBuildingDTO>();
             CreateMap<UpdateBuildingDTO, Building>();
+
             CreateMap<CreateBeaconDTO,Beacon>();
             CreateMap<Beacon, ReadBeaconDTO>();
             CreateMap<UpdateBeaconDTO, Beacon>();
