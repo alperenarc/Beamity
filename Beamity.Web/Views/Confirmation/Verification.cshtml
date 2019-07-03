@@ -1,0 +1,133 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Verification</title>
+</head>
+<body>
+    <h1>Thanks For Verification. You can go login page.</h1>
+    @{
+        var data = ViewBag.Message;
+    }
+    <h3 id="ConfirmCode">@data</h3>
+
+    <!--Ajax Libraries-->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+            asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+            asp-fallback-test="window.jQuery"
+            crossorigin="anonymous"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
+    </script>
+
+
+    <!-- Bootstrap core JavaScript-->
+    @*<script src="~/js/jquery.min.js"></script>*@
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    @*<script src="~/js/jquery.easing.min.js"></script>*@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @*
+        verify methodunu tamamen değiştir user confirm e post at ve kontrol et değiştiriyor mu dıye 
+        bu sayfa yarım 
+    
+        *@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        var fileButton = document.getElementById('ConfirmCode');
+
+        function Verify() {
+
+            debugger
+            $.ajax({
+                type: "POST",
+                url: 'https://localhost:5001/api/user/login',
+                data: JSON.stringify(myData),
+                dataType: 'json',
+                contentType: "application/json",
+                success: function (returndata) {
+                    if (returndata) {
+                        console.log("succes");
+                        alert('Successfully called');
+                        //Swal({
+                        //    title: 'Teşekkürler !',
+                        //    type: 'success',
+                        //    html:
+                        //        '<p>Dosya Yüklemesi Başarıyla Gerçekleşti! Dosyanız incelendikten sonra yayınlanacaktır.</p>'
+                        //}).then(function () {
+                        //    window.location.href = "/Account/Index";
+                        //});
+                    }
+                    else {
+                        //Swal({
+                        //    title: 'Hata !',
+                        //    type: 'error',
+                        //    html:
+                        //        '<p>Alanlar boş bırakılamaz !</p>'
+                        //}).then(function () {
+                        //    window.location.href = "/File/Create";
+                        //});
+                        console.log("Unsuccess");
+                    }
+                },
+                error: function (Exception) {
+                    console.log("asdasd");
+                }
+            });
+
+        }
+    </script>
+</body>
+</html>
+
+

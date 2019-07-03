@@ -22,6 +22,7 @@ namespace Beamity.API.Controllers
             _locationService = locationService;
         }
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult CreateLocation(CreateLocationDTO input)
         {
             try

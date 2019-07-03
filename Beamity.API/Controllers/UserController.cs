@@ -84,6 +84,7 @@ namespace Beamity.API.Controllers
         [HttpPut]
         public IActionResult ConfirmEmail(Guid confirmCode)
         {
+
             
             try
             {
