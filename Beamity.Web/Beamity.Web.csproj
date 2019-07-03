@@ -15,7 +15,13 @@
 
 
   <ItemGroup>
+    <Folder Include="Models\" />
     <Folder Include="wwwroot\lib\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\Beamity.API\Beamity.API.csproj" />
   </ItemGroup>
 
 </Project>
