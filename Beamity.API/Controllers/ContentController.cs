@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Beamity.Application.DTOs;
 using Beamity.Application.DTOs.ContentDTOs;
 using Beamity.Application.Service.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,6 +13,7 @@ namespace Beamity.API.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize]
     public class ContentController : ControllerBase
     {
         private readonly IContentService _contentService;
