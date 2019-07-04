@@ -32,13 +32,13 @@ namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories
             _context.SaveChanges();
         }
 
-        public async void Delete(Guid id)
+        public  void Delete(Guid id)
         {
-            var model = await Table.FirstOrDefaultAsync(p => p.Id == id);
+            var model = Table.FirstOrDefault(p => p.Id == id);
             if(model != null)
             {
                 _context.Remove(model);
-                await _context.SaveChangesAsync();
+                 _context.SaveChanges();
             }            
         }
 

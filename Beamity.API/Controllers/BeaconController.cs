@@ -85,10 +85,10 @@ namespace Beamity.API.Controllers
                 _beaconService.DeleteBeacon(input);
                 return Ok();
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                throw;
+                throw e;
             }
         }
     }
