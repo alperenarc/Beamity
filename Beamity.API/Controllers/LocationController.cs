@@ -62,6 +62,7 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpGet]
+        [AllowAnonymous]
         public List<ReadLocationDTO> GetAllLocation()
         {
             var list =_locationService.GetAllLocation();
