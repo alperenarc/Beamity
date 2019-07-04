@@ -207,6 +207,14 @@
         debugger
         options.success = function (msg) {
             $("#msg").html(msg);
+            Swal({
+                type: 'success',
+                title: 'Thanks',
+                text: 'Operation is success',
+            }).then(function () {
+
+                window.location.href = "/Beacon/Index";
+            })
         };
         options.error = function () {
             $("#msg").html("Error while calling the Web API!");
@@ -239,7 +247,14 @@
         options.dataType = "html";
         debugger
         options.success = function () {
-            alert("succes");
+            Swal({
+                type: 'success',
+                title: 'Thanks',
+                text: 'Operation is success',
+            }).then(function () {
+
+                window.location.href = "/Beacon/Index";
+            })
         };
         options.error = function () {
             alert("error");
@@ -287,7 +302,14 @@
         options.dataType = "html";
         debugger
         options.success = function () {
-            alert("succes");
+            Swal({
+                type: 'success',
+                title: 'Thanks',
+                text: 'Operation is success',
+            }).then(function () {
+
+                window.location.href = "/Beacon/Index";
+            })
         };
         options.error = function () {
             alert("error");
