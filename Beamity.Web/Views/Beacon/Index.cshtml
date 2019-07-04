@@ -134,9 +134,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.CreatedTime)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsActive)
-            </th>
+           
             <th></th>
         </tr>
     </thead>
@@ -159,9 +157,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.CreatedTime)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsActive)
-                </td>
+               
                 <td>
                     <input type="button" class="btn btn-primary"data-id="@item.Id" data-name="@item.Name" 
                             data-uuid="@item.UUID" data-major="@item.Major" 

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Beamity.Application.DTOs.BuildingDTOs.ReadBuildingDTO>
+﻿@model IEnumerable<Beamity.Application.DTOs.ArtifactDTOs.ReadArtifactDTO>
 
 @{
     ViewData["Title"] = "Index";
@@ -16,12 +16,23 @@
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
+         
             <th>
-                @Html.DisplayNameFor(model => model.LocationName)
+                @Html.DisplayNameFor(model => model.RoomName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FloorName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BuildingName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CreatedTime)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+           
             <th></th>
         </tr>
     </thead>
@@ -31,8 +42,15 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
+            
             <td>
-                @Html.DisplayFor(modelItem => item.LocationName)
+                @Html.DisplayFor(modelItem => item.RoomName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FloorName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BuildingName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CreatedTime)
@@ -40,8 +58,8 @@
             
             <td>
                 <input type="button" class="btn btn-primary" data-id="@item.Id" data-name="@item.Name"
-                       data-uuid="@item.UUID" data-major="@item.Major"
-                       data-minor="@item.Minor" data-ctime="@item.CreatedTime" value="Details" id="detailShowModal" />
+                     
+                     data-ctime="@item.CreatedTime" value="Details" id="detailShowModal" />
                 <input type="button" class="btn btn-primary" id="deleteShowModal" data-name="@item.Name" data-id="@item.Id" value="Delete" />
             </td>
         </tr>
