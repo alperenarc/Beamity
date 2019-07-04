@@ -13,7 +13,6 @@ namespace Beamity.API.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [Authorize]
     public class BuildingController : ControllerBase
     {
         private readonly IBuildingService _buildingService;
@@ -21,90 +20,76 @@ namespace Beamity.API.Controllers
         {
             _buildingService = buildingService;
         }
-        [HttpGet("{id}")]
-        public ReadBuildingDTO GetBuilding(EntityDTO input)
-        {
-            try
-            {
-                var building = _buildingService.GetBuilding(input);
-                return building;
-            }
-            catch (Exception)
-            {
+        //[HttpGet("{id}")]
+        //public async Task<ReadBuildingDTO> GetBuilding(EntityDTO input)
+        //{
+        //    try
+        //    {
+        //        var building = await  _buildingService.GetBuildingAsync(input);
+        //        return building;
+        //    }
+        //    catch (Exception)
+        //    {
 
-                throw;
-            }
-        }
+        //        throw;
+        //    }
+        //}
         [HttpGet]
         [AllowAnonymous]
-        public List<ReadBuildingDTO> GetAllBuildings()
+        public async Task<string> GetAllBuildings()
         {
-            try
-            {
-                var buildings = _buildingService.GetAllBuildings();
-                return buildings;
-            }
-            catch (Exception e)
-            {
-
-                throw e;
-            }
+                //var buildings = await _buildingService.GetAllBuildings();
+                return "eray";
+         
         }
-        [HttpGet("{id}")]
-        public async Task<List<ReadBuildingDTO>> GetBuildingsAtLocation(EntityDTO input)
-        {
-            try
-            {
-                var buildings = await _buildingService.GetBuildingsAtLocation(input);
-                return buildings;
-            }
-            catch (Exception)
-            {
+        //[HttpGet("{id}")]
+        //public async Task<string> GetBuildingsAtLocation(EntityDTO input)
+        //{
+        //       //var buildings = await _buildingService.GetBuildingsAtLocation(input);
+        //        //return buildings;
+           
+        //}
+        //[HttpPost]
+        //public IActionResult CreateBuilding(CreateBuildingDTO input)
+        //{
+        //    try
+        //    {
+        //        _buildingService.CreateBuildingAsync(input);
+        //        return Ok();
+        //    }
+        //    catch (Exception)
+        //    {
 
-                throw;
-            }
-        }
-        [HttpPost]
-        public IActionResult CreateBuilding(CreateBuildingDTO input)
-        {
-            try
-            {
-                _buildingService.CreateBuilding(input);
-                return Ok();
-            }
-            catch (Exception)
-            {
+        //        throw;
+        //    }
+        //}
+        //[HttpPut]
+        //public IActionResult UpdateBuilding(UpdateBuildingDTO input)
+        //{
+        //    try
+        //    {
+        //        _buildingService.UpdateBuilding(input);
+        //        return Ok();
+        //    }
+        //    catch (Exception)
+        //    {
 
-                throw;
-            }
-        }
-        [HttpPut]
-        public IActionResult UpdateBuilding(UpdateBuildingDTO input)
-        {
-            try
-            {
-                _buildingService.UpdateBuilding(input);
-                return Ok();
-            }
-            catch (Exception)
-            {
+        //        throw;
+        //    }
+        //}
+        //[HttpDelete]
+        //public IActionResult DeleteBuilding(DeleteBuildingDTO input)
+        //{
+        //    try
+        //    {
+        //        _buildingService.DeleteBuilding(input);
+        //        return Ok();
+        //    }
+        //    catch (Exception)
+        //    {
 
-                throw;
-            }
-        }
-        [HttpDelete]
-        public IActionResult DeleteBuilding(DeleteBuildingDTO input)
-        {
-            try
-            {
-                _buildingService.DeleteBuilding(input);
-                return Ok();
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
+        //        throw;
+        //    }
+        //}
     }
 }
