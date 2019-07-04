@@ -20,76 +20,76 @@ namespace Beamity.API.Controllers
         {
             _buildingService = buildingService;
         }
-        //[HttpGet("{id}")]
-        //public async Task<ReadBuildingDTO> GetBuilding(EntityDTO input)
-        //{
-        //    try
-        //    {
-        //        var building = await  _buildingService.GetBuildingAsync(input);
-        //        return building;
-        //    }
-        //    catch (Exception)
-        //    {
+        [HttpGet("{id}")]
+        public async Task<ReadBuildingDTO> GetBuilding(EntityDTO input)
+        {
+            try
+            {
+                var building = await _buildingService.GetBuildingAsync(input);
+                return building;
+            }
+            catch (Exception)
+            {
 
-        //        throw;
-        //    }
-        //}
+                throw;
+            }
+        }
         [HttpGet]
         [AllowAnonymous]
-        public async Task<string> GetAllBuildings()
+        public async Task<IList<ReadBuildingDTO>> GetAllBuildings()
         {
-                //var buildings = await _buildingService.GetAllBuildings();
-                return "eray";
-         
+            var buildings = await _buildingService.GetAllBuildings();
+            return buildings;
+
         }
-        //[HttpGet("{id}")]
-        //public async Task<string> GetBuildingsAtLocation(EntityDTO input)
-        //{
-        //       //var buildings = await _buildingService.GetBuildingsAtLocation(input);
-        //        //return buildings;
-           
-        //}
-        //[HttpPost]
-        //public IActionResult CreateBuilding(CreateBuildingDTO input)
-        //{
-        //    try
-        //    {
-        //        _buildingService.CreateBuildingAsync(input);
-        //        return Ok();
-        //    }
-        //    catch (Exception)
-        //    {
+        [HttpGet("{id}")]
+        public async Task<IList<ReadBuildingDTO>> GetBuildingsAtLocation(EntityDTO input)
+        {
+            var buildings = await _buildingService.GetBuildingsAtLocation(input);
+            return buildings;
 
-        //        throw;
-        //    }
-        //}
-        //[HttpPut]
-        //public IActionResult UpdateBuilding(UpdateBuildingDTO input)
-        //{
-        //    try
-        //    {
-        //        _buildingService.UpdateBuilding(input);
-        //        return Ok();
-        //    }
-        //    catch (Exception)
-        //    {
+        }
+        [HttpPost]
+        public IActionResult CreateBuilding(CreateBuildingDTO input)
+        {
+            try
+            {
+                _buildingService.CreateBuildingAsync(input);
+                return Ok();
+            }
+            catch (Exception)
+            {
 
-        //        throw;
-        //    }
-        //}
-        //[HttpDelete]
-        //public IActionResult DeleteBuilding(DeleteBuildingDTO input)
-        //{
-        //    try
-        //    {
-        //        _buildingService.DeleteBuilding(input);
-        //        return Ok();
-        //    }
-        //    catch (Exception)
-        //    {
+                throw;
+            }
+        }
+        [HttpPut]
+        public IActionResult UpdateBuilding(UpdateBuildingDTO input)
+        {
+            try
+            {
+                _buildingService.UpdateBuilding(input);
+                return Ok();
+            }
+            catch (Exception)
+            {
 
-        //        throw;
-        //    }
-        //}
+                throw;
+            }
+        }
+        [HttpDelete]
+        public IActionResult DeleteBuilding(DeleteBuildingDTO input)
+        {
+            try
+            {
+                _buildingService.DeleteBuilding(input);
+                return Ok();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
