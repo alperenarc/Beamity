@@ -75,6 +75,47 @@
         </div>
     </div>
 </div>
+<div class="modal fade" tabindex="-1" id="detailModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title align-content-lg-start">Beacon Details</h4>
+                <button type="button" class="close text-lg-right" data-dismiss="modal">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <p id="detailModalText"></p>
+                    <div class="form-group">
+                        <input class="form-control" type="text"
+                               placeholder="Beacon Name" id="editName" />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" placeholder="Beacon UUID"
+                               id="editUUID" />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="number"
+                               placeholder="Major Id" id="editMajor" />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="number"
+                               placeholder="Minor Id" id="editMinor" />
+                    </div>
+                    <input id="editCTime" type="datetime" disabled/>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="update" class="btn btn-primary button button4">Update</button>
+                <button type="button" id="detailHideModal" class="btn btn-primary button button4">
+                    Hide
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -122,8 +163,9 @@
                     @Html.DisplayFor(modelItem => item.IsActive)
                 </td>
                 <td>
-                    <input type="button" class="btn btn-primary" value="Edit" id="editShowModal" /> 
-                    <input type="button" class="btn btn-primary" value="Details" id="detailShowModal" /> 
+                    <input type="button" class="btn btn-primary"data-id="@item.Id" data-name="@item.Name" 
+                            data-uuid="@item.UUID" data-major="@item.Major" 
+                           data-minor="@item.Minor" data-ctime="@item.CreatedTime" value="Details" id="detailShowModal" /> 
                     <input type="button" class="btn btn-primary" id="deleteShowModal" data-name="@item.Name" data-id="@item.Id" value="Delete" />
                 </td>
             </tr>
@@ -203,6 +245,54 @@
             alert("error");
         };
         $("#deleteModal").modal('hide');
+        $.ajax(options);
+    });
+
+    $(document).ready(function () {
+        $('[id="detailShowModal"]').click(function () {
+            $("#detailModal").modal('show');
+            var id = $(this).data('id');
+            var cTime = $(this).data('ctime');
+            var name = $(this).data('name');
+            var minor = $(this).data('minor');
+            var major = $(this).data('major');
+            var uuid = $(this).data('uuid');
+            $("#editName").val(name);
+            $("#editCTime").val(cTime);
+            $("#editMinor").val(minor);
+            $("#editMajor").val(major);
+            $("#editUUID").val(uuid);
+            $("#detailModalText").append('<input type="hidden" id="deleteModalId"/>');
+            $('#deleteModalId').val(id);
+        });
+
+        $("#detailHideModal").click(function () {
+            $("#detailModal").modal('hide');
+        });
+    });
+    $("#update").click(function () {
+        var options = {};
+        options.url = "https://localhost:5001/api/Beacon/UpdateBeacon";
+        options.type = "PUT";
+        var obj = {};
+        obj.Id = $("#deleteModalId").val();
+        obj.Name = $("#editName").val();
+        obj.Minor = $("#editMinor").val();
+        obj.Major = $("#editMajor").val();
+        obj.UUID = $("#editUUID").val();
+        //obj.CreatedTime = $.now();
+        debugger
+        options.data = JSON.stringify(obj);
+        options.contentType = "application/json";
+        options.dataType = "html";
+        debugger
+        options.success = function () {
+            alert("succes");
+        };
+        options.error = function () {
+            alert("error");
+        };
+        $("#detailModal").modal('hide');
         $.ajax(options);
     });
 </script>
