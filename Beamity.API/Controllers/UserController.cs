@@ -81,11 +81,11 @@ namespace Beamity.API.Controllers
             }
             return Ok("Editing process is success");
         }
-        [HttpPut]
-        public IActionResult ConfirmEmail(Guid confirmCode)
+        [HttpPost]
+        [AllowAnonymous]
+        public IActionResult ConfirmEmail(string confirmCode)
         {
-
-            
+            confirmCode = HttpContext.Request.Query["guidcode"].ToString();
             try
             {
                 _userService.ConfirmEmail(confirmCode);

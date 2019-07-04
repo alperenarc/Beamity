@@ -12,6 +12,6 @@ namespace Beamity.Application.Service.IServices
         void Register(CreateUserDTO input);
         bool Login(LoginUserDTO input);
         void UpdateProfile(UpdateUserDTO input);
-        void ConfirmEmail(Guid confirmCode);
+        void ConfirmEmail(string confirmCode);
     }
 }
