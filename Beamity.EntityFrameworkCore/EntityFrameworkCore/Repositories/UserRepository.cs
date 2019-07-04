@@ -39,10 +39,11 @@ namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories
 
             return base.Create(model);
         }
-        public User ConfirmEmail(Guid ConfirmCode)
+        public User ConfirmEmail(string ConfirmCode)
         {
             var user = _context.Users.Where(x=>x.Token == Convert.ToString(ConfirmCode)).FirstOrDefault();
-
+            user.IsActive = true;
+            _context.SaveChanges();
             return user;
         }
     }

@@ -87,11 +87,11 @@ namespace Beamity.Application.Service.Services
         }
 
 
-        public void ConfirmEmail(Guid confirmCode)
+        public void ConfirmEmail(string confirmCode)
         {
             var a = _userRepository.ConfirmEmail(confirmCode);
-            a.IsActive = true;
             var user = _mapper.Map<User>(a);
+            
 
         }
     }

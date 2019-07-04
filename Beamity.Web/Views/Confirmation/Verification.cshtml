@@ -15,7 +15,8 @@
     @{
         var data = ViewBag.Message;
     }
-    <h3 id="ConfirmCode">@data</h3>
+    @*<h3 id="ConfirmCode">@data</h3>*@
+    <input type="text" id="ConfirmCode" name="name" value="@data" />
 
     <!--Ajax Libraries-->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -38,94 +39,29 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    @*
-        verify methodunu tamamen değiştir user confirm e post at ve kontrol et değiştiriyor mu dıye 
-        bu sayfa yarım 
-    
-        *@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <script>
-        var fileButton = document.getElementById('ConfirmCode');
-
+       
+       var code = document.getElementById('ConfirmCode').value;
+        debugger
+        
         function Verify() {
-
+            var options = {};
+            options.url = "https://localhost:5001/api/User/ConfirmEmail";
+            options.type = "POST";
             debugger
-            $.ajax({
-                type: "POST",
-                url: 'https://localhost:5001/api/user/login',
-                data: JSON.stringify(myData),
-                dataType: 'json',
-                contentType: "application/json",
-                success: function (returndata) {
-                    if (returndata) {
-                        console.log("succes");
-                        alert('Successfully called');
-                        //Swal({
-                        //    title: 'Teşekkürler !',
-                        //    type: 'success',
-                        //    html:
-                        //        '<p>Dosya Yüklemesi Başarıyla Gerçekleşti! Dosyanız incelendikten sonra yayınlanacaktır.</p>'
-                        //}).then(function () {
-                        //    window.location.href = "/Account/Index";
-                        //});
-                    }
-                    else {
-                        //Swal({
-                        //    title: 'Hata !',
-                        //    type: 'error',
-                        //    html:
-                        //        '<p>Alanlar boş bırakılamaz !</p>'
-                        //}).then(function () {
-                        //    window.location.href = "/File/Create";
-                        //});
-                        console.log("Unsuccess");
-                    }
-                },
-                error: function (Exception) {
-                    console.log("asdasd");
-                }
-            });
 
+            options.data = { 'confirmCode': code };
+            //options.contentType = "application/json";
+            //options.dataType = "html";
+            options.success = function () {
+                alert("asd");
+            };
+            options.error = function () {
+                alert("error");
+            };
+            $.ajax(options);
         }
+        window.onload = Verify();
     </script>
 </body>
 </html>
