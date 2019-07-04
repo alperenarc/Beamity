@@ -28,6 +28,7 @@ namespace Beamity.API.Controllers
             try
             {
                 _locationService.CreateLocation(input);
+
                 return Ok("The process is success");
             }
             catch (Exception)

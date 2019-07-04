@@ -19,6 +19,9 @@
 <!--Create page for A New Item-->
 <div class="modal fade" tabindex="-1" id="loginModal"
      data-keyboard="false" data-backdrop="static">
+
+
+
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -28,11 +31,35 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <div class="container text-center">
+                    <div id='menu'>
+                        <input id='streets-v11' type='radio' name='rtoggle' value='streets' checked='checked'>
+                        <label for='streets'>streets</label>
+                        <input id='light-v10' type='radio' name='rtoggle' value='light'>
+                        <label for='light'>light</label>
+                        <input id='dark-v10' type='radio' name='rtoggle' value='dark'>
+                        <label for='dark'>dark</label>
+                        <input id='outdoors-v11' type='radio' name='rtoggle' value='outdoors'>
+                        <label for='outdoors'>outdoors</label>
+                        <input id='satellite-v9' type='radio' name='rtoggle' value='satellite'>
+                        <label for='satellite'>satellite</label>
+                    </div>
+                </div>
+                <div id='map' style="height:300px; width:auto"></div>
+                <form class="mt-3">
                     <div class="form-group">
                         <input class="form-control" type="text"
                                placeholder="Location Name" id="inputName" />
                     </div>
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" class="form-control" id="latitude" placeholder="Latitude">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control" id="longitude" placeholder="Longitude">
+                        </div>
+                    </div>
+                    <select class="form-control" id="projects"></select>
                 </form>
             </div>
             <div class="modal-footer">
@@ -43,22 +70,12 @@
             </div>
 
             <pre id='info'></pre>
-            <div id='map' style="height:300px; width:auto"></div>
-            <div id='menu'>
-                <input id='streets-v11' type='radio' name='rtoggle' value='streets' checked='checked'>
-                <label for='streets'>streets</label>
-                <input id='light-v10' type='radio' name='rtoggle' value='light'>
-                <label for='light'>light</label>
-                <input id='dark-v10' type='radio' name='rtoggle' value='dark'>
-                <label for='dark'>dark</label>
-                <input id='outdoors-v11' type='radio' name='rtoggle' value='outdoors'>
-                <label for='outdoors'>outdoors</label>
-                <input id='satellite-v9' type='radio' name='rtoggle' value='satellite'>
-                <label for='satellite'>satellite</label>
-            </div>
+            
+
+
         </div>
 
-        
+
 
     </div>
 </div>
@@ -152,21 +169,35 @@
 <script type="text/javascript">
 
 
-
+    var Lat;
+    var Lng;
 
     mapboxgl.accessToken = 'pk.eyJ1IjoiYWxwZXJlbmFyYyIsImEiOiJjanhvajk2OTUwN211M2hxczBiM2dyZmVwIn0.tVVrqxVmx9Io-0dMbKBH_w';
+
     var map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v11'
     });
-    map.on('mousemove', function (e) {
-        document.getElementById('info').innerHTML =
-            // e.point is the x, y coordinates of the mousemove event relative
-            // to the top-left corner of the map
-            JSON.stringify(e.point) + '<br />' +
-            // e.lngLat is the longitude, latitude geographical position of the event
-            JSON.stringify(e.lngLat);
+
+    map.on('load', function () {
+        map.resize();
     });
+
+    var marker = new mapboxgl.Marker();
+    map.on('click', function (e) {
+
+        
+        marker.remove();
+        Lat = e.lngLat.lat;
+        Lng = e.lngLat.lng;
+        document.getElementById('latitude').value = Lat.toString();
+        document.getElementById('longitude').value = Lng.toString();
+
+        marker.setLngLat([Lng, Lat])
+        marker.addTo(map);
+    });
+    
+
 
     var layerList = document.getElementById('menu');
     var inputs = layerList.getElementsByTagName('input');
@@ -187,16 +218,50 @@
             $("#loginModal").modal('show');
         });
 
+        $("#loginModal").on('shown.bs.modal', function () {
+            map.resize();
+        });
+
+
+
+
         $("#btnHideModal").click(function () {
             $("#loginModal").modal('hide');
         });
+
+
+        
     });
+    
+    //function GetAllProjects() {
+
+    //    var options = {};
+    //    options.url = "https://localhost:5001/api/Project/GetAllProjects";
+    //    options.type = "GET";
+        
+    //    options.contentType = "application/json";
+    //    options.dataType = "html";
+    //    options.success = function (returndata) {
+    //        console.log(returndata);
+    //    };
+    //    options.error = function () {
+    //        $("#msg").html("Error while calling the Web API!");
+    //    };
+    //    $.ajax(options);
+    //}
+    //window.onload = GetAllProjects();
+
+
     $("#create").click(function () {
+        
         var options = {};
         options.url = "https://localhost:5001/api/Location/CreateLocation";
         options.type = "POST";
         var obj = {};
-        obj.Name = $("#inputName").val();
+        obj.Name = $("#inputName").val(); 
+        obj.Latitude = Lat.toString();
+        obj.Longitude = Lng.toString();
+        obj.ProjectId = $("#projects").val();
         options.data = JSON.stringify(obj);
         options.contentType = "application/json";
         options.dataType = "html";
@@ -207,8 +272,7 @@
                 title: 'Thanks',
                 text: 'Operation is success',
             }).then(function () {
-                //GetAllItems();
-                //window.location.href = "/Location/Index";
+                window.location.href = "/Location/Index";
             })
         };
         options.error = function () {
@@ -226,7 +290,21 @@
         });
     });
 
-
+    $(document).ready(function () {
+        var options = {};
+        options.url = "https://localhost:5001/api/Project/GetAllProject";
+        options.type = "GET";
+        options.dataType = "json";
+        options.success = function (data) {
+            data.forEach(function (v) {
+                $("#projects").append('<option value="' + v.id + '">' + v.name + '</option>');
+            });
+        };
+        options.error = function () {
+            alert("error");
+        };
+        $.ajax(options);
+    });
 
 </script>
 
