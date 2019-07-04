@@ -39,7 +39,7 @@ namespace Beamity.Application
             CreateMap<UpdateRelationDTO, Relation>();
 
             CreateMap<CreateProjectDTO,Project>();
-            CreateMap<ReadProjectDTO, Project>();
+            CreateMap<Project, ReadProjectDTO>();
             CreateMap<UpdateProjectDTO, Project>();
 
             CreateMap<CreateLocationDTO, Location>();
