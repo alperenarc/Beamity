@@ -1,0 +1,232 @@
+﻿@model IEnumerable<Beamity.Application.DTOs.LocationDTOs.ReadLocationDTO>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<h1>Location</h1>
+<!--Create A New Item-->
+<div class="row justify-content-end">
+    <button id="btnShowModal" type="button" class="btn btn-outline-success">
+        Create New
+    </button>
+    <div class="col-md-1"></div>
+</div>
+<!--Create page for A New Item-->
+<div class="modal fade" tabindex="-1" id="loginModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title align-content-lg-start">Create Location</h4>
+                <button type="button" class="close text-lg-right" data-dismiss="modal">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <input class="form-control" type="text"
+                               placeholder="Location Name" id="inputName" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="create" class="btn btn-primary button button4">Create</button>
+                <button type="button" id="btnHideModal" class="btn btn-primary button button4">
+                    Hide
+                </button>
+            </div>
+
+            <pre id='info'></pre>
+            <div id='map' style="height:300px; width:auto"></div>
+            <div id='menu'>
+                <input id='streets-v11' type='radio' name='rtoggle' value='streets' checked='checked'>
+                <label for='streets'>streets</label>
+                <input id='light-v10' type='radio' name='rtoggle' value='light'>
+                <label for='light'>light</label>
+                <input id='dark-v10' type='radio' name='rtoggle' value='dark'>
+                <label for='dark'>dark</label>
+                <input id='outdoors-v11' type='radio' name='rtoggle' value='outdoors'>
+                <label for='outdoors'>outdoors</label>
+                <input id='satellite-v9' type='radio' name='rtoggle' value='satellite'>
+                <label for='satellite'>satellite</label>
+            </div>
+        </div>
+
+        
+
+    </div>
+</div>
+
+
+
+
+<div class="modal fade" tabindex="-1" id="deleteModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title align-content-lg-start">Create Location</h4>
+                <button type="button" class="close text-lg-right" data-dismiss="modal">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body">
+                <h4>Are you sure you want to delete this?</h4>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="delete" class="btn btn-primary button button4">Delete</button>
+                <button type="button" id="deleteHideModal" class="btn btn-primary button button4">
+                    Hide
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="w-100">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Longitude)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Latitude)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProjectName)
+                </th>
+                <th>Operations</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Longitude)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Latitude)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProjectName)
+                    </td>
+                    <td>
+                        <input type="button" class="btn btn-primary" value="Edit" id="editShowModal" />
+                        <input type="button" class="btn btn-primary" value="Details" id="detailShowModal" />
+                        <input type="button" class="btn btn-primary" value="Delete" id="deleteShowModal" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="~/package/dist/sweetalert2.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+
+
+
+<script type="text/javascript">
+
+
+
+
+    mapboxgl.accessToken = 'pk.eyJ1IjoiYWxwZXJlbmFyYyIsImEiOiJjanhvajk2OTUwN211M2hxczBiM2dyZmVwIn0.tVVrqxVmx9Io-0dMbKBH_w';
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11'
+    });
+    map.on('mousemove', function (e) {
+        document.getElementById('info').innerHTML =
+            // e.point is the x, y coordinates of the mousemove event relative
+            // to the top-left corner of the map
+            JSON.stringify(e.point) + '<br />' +
+            // e.lngLat is the longitude, latitude geographical position of the event
+            JSON.stringify(e.lngLat);
+    });
+
+    var layerList = document.getElementById('menu');
+    var inputs = layerList.getElementsByTagName('input');
+
+    function switchLayer(layer) {
+        var layerId = layer.target.id;
+        map.setStyle('mapbox://styles/mapbox/' + layerId);
+    }
+
+    for (var i = 0; i < inputs.length; i++) {
+        inputs[i].onclick = switchLayer;
+    }
+
+
+
+    $(document).ready(function () {
+        $("#btnShowModal").click(function () {
+            $("#loginModal").modal('show');
+        });
+
+        $("#btnHideModal").click(function () {
+            $("#loginModal").modal('hide');
+        });
+    });
+    $("#create").click(function () {
+        var options = {};
+        options.url = "https://localhost:5001/api/Location/CreateLocation";
+        options.type = "POST";
+        var obj = {};
+        obj.Name = $("#inputName").val();
+        options.data = JSON.stringify(obj);
+        options.contentType = "application/json";
+        options.dataType = "html";
+        options.success = function (msg) {
+            $("#msg").html(msg);
+            Swal({
+                type: 'success',
+                title: 'Thanks',
+                text: 'Operation is success',
+            }).then(function () {
+                //GetAllItems();
+                //window.location.href = "/Location/Index";
+            })
+        };
+        options.error = function () {
+            $("#msg").html("Error while calling the Web API!");
+        };
+        $.ajax(options);
+    });
+    $(document).ready(function () {
+        $("#deleteShowModal").click(function () {
+            $("#deleteModal").modal('show');
+        });
+
+        $("#deleteHideModal").click(function () {
+            $("#deleteModal").modal('hide');
+        });
+    });
+
+
+
+</script>
+
