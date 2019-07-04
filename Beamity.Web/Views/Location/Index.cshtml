@@ -59,7 +59,7 @@
                             <input type="text" class="form-control" id="longitude" placeholder="Longitude">
                         </div>
                     </div>
-
+                    <select class="form-control" id="projects"></select>
                 </form>
             </div>
             <div class="modal-footer">
@@ -258,10 +258,10 @@
         options.url = "https://localhost:5001/api/Location/CreateLocation";
         options.type = "POST";
         var obj = {};
-        obj.Name = $("#inputName").val();
+        obj.Name = $("#inputName").val(); 
         obj.Latitude = Lat.toString();
         obj.Longitude = Lng.toString();
-
+        obj.ProjectId = $("#projects").val();
         options.data = JSON.stringify(obj);
         options.contentType = "application/json";
         options.dataType = "html";
@@ -290,7 +290,21 @@
         });
     });
 
-
+    $(document).ready(function () {
+        var options = {};
+        options.url = "https://localhost:5001/api/Project/GetAllProject";
+        options.type = "GET";
+        options.dataType = "json";
+        options.success = function (data) {
+            data.forEach(function (v) {
+                $("#projects").append('<option value="' + v.id + '">' + v.name + '</option>');
+            });
+        };
+        options.error = function () {
+            alert("error");
+        };
+        $.ajax(options);
+    });
 
 </script>
 
