@@ -5,14 +5,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Beacon</h1>
 
-
-<button id="btnShowModal" type="button"
-        class="btn btn-default pull-left col-lg-11 button button4">
-    Create New
-</button>
-
+<div class="row justify-content-end">
+    <button id="btnShowModal" type="button" class="btn btn-outline-success">
+        Create New
+    </button>
+    <div class="col-md-1"></div>
+</div>
 <div class="modal fade" tabindex="-1" id="loginModal"
      data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog modal-lg">
@@ -46,6 +46,29 @@
             <div class="modal-footer">
                 <button type="button" id="create" class="btn btn-primary button button4">Create</button>
                 <button type="button" id="btnHideModal" class="btn btn-primary button button4">
+                    Hide
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" id="deleteModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title align-content-lg-start">Create Beacon</h4>
+                <button type="button" class="close text-lg-right" data-dismiss="modal">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body">
+                <h4>Are you sure you want to delete this?</h4>
+               
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="delete" class="btn btn-primary button button4">Delete</button>
+                <button type="button" id="deleteHideModal" class="btn btn-primary button button4">
                     Hide
                 </button>
             </div>
@@ -99,21 +122,16 @@
                     @Html.DisplayFor(modelItem => item.IsActive)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    <input type="button" class="btn btn-primary" value="Edit" id="editShowModal" /> 
+                    <input type="button" class="btn btn-primary" value="Details" id="detailShowModal" /> 
+                    <input type="button" class="btn btn-primary" type="hidden" value="@Html.DisplayFor(modelItem => item.CreatedTime)" id="deleteShowModal" />
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
-<footer>
-    <p style="background-color: Yellow; font-weight: bold; color:blue; text-align: center; font-style: oblique">
-        ©
-        <script>document.write(new Date().toDateString());</script>
-    </p>
-</footer>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
 
 </script>
@@ -153,4 +171,35 @@
         };
         $.ajax(options);
     });
-</script>  
+    $(document).ready(function () {
+        $("#deleteShowModal").click(function () {
+            $("#deleteModal").modal('show');
+        });
+
+        $("#deleteHideModal").click(function () {
+            $("#deleteModal").modal('hide');
+        });
+    });
+    $("#delete").click(function () {
+        return
+
+        var options = {};
+        options.url = "https://localhost:5001/api/Beacon/DeleteBeacon"+;
+        options.type = "DELETE";
+        
+
+        //options.data = JSON.stringify(obj);
+        //options.contentType = "application/json";
+        //options.dataType = "html";
+        //debugger
+        //options.success = function (msg) {
+        //    $("#msg").html(msg);
+        //};
+        //options.error = function () {
+        //    $("#msg").html("Error while calling the Web API!");
+        //};
+        //$.ajax(options);
+    });
+</script>
+
+

@@ -35,7 +35,6 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpGet]
-        [AllowAnonymous]
         public List<ReadBeaconDTO> GetAllBeacons()
         {
             try
@@ -57,10 +56,10 @@ namespace Beamity.API.Controllers
                 _beaconService.CreateBeacon(input);
                 return Ok();
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                throw;
+                throw e;
             }
         }
         [HttpPut]

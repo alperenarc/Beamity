@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Beamity.Application.DTOs
 {
-    public abstract class BaseReadDTO
+    public abstract class BaseReadDTO:BaseDTO<Guid>
     {
         public DateTime CreatedTime { get; set; }
         public bool IsActive { get; set; }
