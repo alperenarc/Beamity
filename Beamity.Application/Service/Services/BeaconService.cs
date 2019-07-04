@@ -7,6 +7,7 @@ using Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Beamity.Application.Service.Services
 {
@@ -38,7 +39,7 @@ namespace Beamity.Application.Service.Services
 
         public void DeleteBeacon(DeleteBeaconDTO input)
         {
-            _repository.Delete(input.Id);
+           _repository.Delete(input.Id);
         }
 
         public List<ReadBeaconDTO> GetAllBeacons()

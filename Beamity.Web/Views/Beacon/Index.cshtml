@@ -64,7 +64,7 @@
             </div>
             <div class="modal-body">
                 <h4>Are you sure you want to delete this?</h4>
-               
+               <p id="deleteModalText"></p>
             </div>
             <div class="modal-footer">
                 <button type="button" id="delete" class="btn btn-primary button button4">Delete</button>
@@ -124,7 +124,7 @@
                 <td>
                     <input type="button" class="btn btn-primary" value="Edit" id="editShowModal" /> 
                     <input type="button" class="btn btn-primary" value="Details" id="detailShowModal" /> 
-                    <input type="button" class="btn btn-primary" type="hidden" value="@Html.DisplayFor(modelItem => item.CreatedTime)" id="deleteShowModal" />
+                    <input type="button" class="btn btn-primary" id="deleteShowModal" data-name="@item.Name" data-id="@item.Id" value="Delete" />
                 </td>
             </tr>
         }
@@ -172,8 +172,13 @@
         $.ajax(options);
     });
     $(document).ready(function () {
-        $("#deleteShowModal").click(function () {
+        $('[id="deleteShowModal"]').click(function () {
             $("#deleteModal").modal('show');
+            var id = $(this).data('id');
+            var name = $(this).data('name');
+            $("#deleteModalText").empty();
+            $("#deleteModalText").append(name).append('<input type="hidden" id="deleteModalId"/>');
+            $('#deleteModalId').val(id);
         });
 
         $("#deleteHideModal").click(function () {
@@ -181,24 +186,24 @@
         });
     });
     $("#delete").click(function () {
-        return
-
         var options = {};
-        options.url = "https://localhost:5001/api/Beacon/DeleteBeacon"+;
+        options.url = "https://localhost:5001/api/Beacon/DeleteBeacon/";
         options.type = "DELETE";
-        
-
-        //options.data = JSON.stringify(obj);
-        //options.contentType = "application/json";
-        //options.dataType = "html";
-        //debugger
-        //options.success = function (msg) {
-        //    $("#msg").html(msg);
-        //};
-        //options.error = function () {
-        //    $("#msg").html("Error while calling the Web API!");
-        //};
-        //$.ajax(options);
+        var obj = {};
+        obj.Id = $("#deleteModalId").val();
+        options.data = JSON.stringify(obj);
+        options.contentType = "application/json";
+        options.dataType = "html";
+        options.dataType = "html";
+        debugger
+        options.success = function () {
+            alert("succes");
+        };
+        options.error = function () {
+            alert("error");
+        };
+        $("#deleteModal").modal('hide');
+        $.ajax(options);
     });
 </script>
 
