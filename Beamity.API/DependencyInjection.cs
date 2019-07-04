@@ -2,6 +2,7 @@
 using Beamity.Application.Service.Services;
 using Beamity.Application.Tokens;
 using Beamity.Core.Models.Tokens;
+using Beamity.EntityFrameworkCore.EntityFrameworkCore;
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Interfaces;
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -27,6 +28,7 @@ namespace Beamity.API
             services.AddTransient<IUserService, UserService>();
 
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+            services.AddScoped(typeof(IBaseGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<RoomRepository, RoomRepository>();
             services.AddScoped<ArtifactRepository, ArtifactRepository>();
             services.AddScoped<ContentRepository, ContentRepository>();

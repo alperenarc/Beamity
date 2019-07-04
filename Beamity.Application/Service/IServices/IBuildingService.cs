@@ -9,12 +9,12 @@ namespace Beamity.Application.Service.IServices
 {
     public interface IBuildingService
     {
-        List<ReadBuildingDTO> GetAllBuildings();
-        ReadBuildingDTO GetBuilding(EntityDTO input);
-        void CreateBuilding(CreateBuildingDTO input);
-        void DeleteBuilding(DeleteBuildingDTO input);
-        void UpdateBuilding (UpdateBuildingDTO input);
-        Task<List<ReadBuildingDTO>> GetBuildingsAtLocation(EntityDTO input);
+        Task<IList<ReadBuildingDTO>> GetAllBuildings();
+        Task<ReadBuildingDTO> GetBuildingAsync(EntityDTO input);
+        Task CreateBuildingAsync(CreateBuildingDTO input);
+        Task DeleteBuilding(DeleteBuildingDTO input);
+        Task UpdateBuilding (UpdateBuildingDTO input);
+        Task<IList<ReadBuildingDTO>> GetBuildingsAtLocation(EntityDTO input);
 
     }
 }

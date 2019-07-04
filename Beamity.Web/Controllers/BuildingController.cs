@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
+using Beamity.Application.DTOs.BuildingDTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,38 +12,24 @@ namespace Beamity.Web.Controllers
     public class BuildingController : Controller
     {
         // GET: Building
-        public ActionResult Index()
+        public async  Task<ActionResult> Index()
         {
-            return View();
-        }
+            IEnumerable<ReadBuildingDTO> buildings = null;
 
-        // GET: Building/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://localhost:5001/api/");
+                var responseTask = await client.GetAsync("Building/GetAllBuildings");
 
-        // GET: Building/Create
-        public ActionResult Create()
-        {
-            return View();
+                var readTask = responseTask.Content.ReadAsAsync<IList<ReadBuildingDTO>>();
+
+                buildings = readTask.Result;
+
+            }
+            return View(buildings);
         }
 
       
-        // GET: Building/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Building/Edit/5
-     
-        // GET: Building/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
       
     }
 }
