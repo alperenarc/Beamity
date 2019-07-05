@@ -23,10 +23,10 @@ namespace Beamity.Application.Service.Services
          *  5.Update Floor methods
          */
         private readonly FloorRepository _repository;
-        private readonly BaseRepository<Building> _buildingRepository;
+        private readonly BuildingRepository  _buildingRepository;
         private readonly IMapper _mapper;
 
-        public FloorService(FloorRepository repository, BaseRepository<Building> buildingRepository, IMapper mapper)
+        public FloorService(FloorRepository repository, BuildingRepository buildingRepository, IMapper mapper)
         {
             _mapper = mapper; // define class of mapper library
             _buildingRepository = buildingRepository;
