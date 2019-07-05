@@ -64,6 +64,7 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult CreateArtifact(CreateArtifactDTO input)
         {
             try
@@ -71,10 +72,10 @@ namespace Beamity.API.Controllers
                 _artifactService.CreateArtifact(input);
                 return Ok();
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
 
-                throw;
+                throw e;
             }
         }
         [HttpPut]
