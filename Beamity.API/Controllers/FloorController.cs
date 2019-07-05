@@ -36,11 +36,12 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpGet]
-        public List<ReadFloorDTO> GetAllFloors()
+        [AllowAnonymous]
+        public async Task<List<ReadFloorDTO>> GetAllFloors()
         {
             try
             {
-                var floors = _floorService.GetAllFloor();
+                var floors = await _floorService.GetAllFloor();
                 return floors;
             }
             catch (Exception)
