@@ -29,15 +29,15 @@
                         <input class="form-control" type="text"
                                placeholder="Room Name" id="inputName" />
                     </div>
+
                     <div class="form-group">
-                        <input class="form-control" type="datetime"
-                               id="inputCTime" />
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Locations</label>
+                        <label class="control-label">Floors</label>
                         <select id="floors" class="form-control"></select>
                     </div>
-
+                    <div class="form-group>
+                        <input class="form-control-sm" type="datetime"
+                               id="inputCTime" />
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -49,6 +49,31 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" tabindex="-1" id="deleteModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title align-content-lg-start">Create Beacon</h4>
+                <button type="button" class="close text-lg-right" data-dismiss="modal">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body">
+                <h4>Are you sure you want to delete this?</h4>
+                <p id="deleteModalText"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="delete" class="btn btn-primary button button4">Delete</button>
+                <button type="button" id="deleteHideModal" class="btn btn-primary button button4">
+                    Hide
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <table class="table">
     <thead>
         <tr>
@@ -110,7 +135,7 @@
         debugger
         var obj = {};
         obj.Name = $("#inputName").val();
-        obj.LocationId = $("#floors").val();
+        obj.FloorId = $("#floors").val();
 
         options.data = JSON.stringify(obj);
         options.contentType = "application/json";
@@ -124,7 +149,7 @@
                 text: 'Operation is success',
             }).then(function () {
 
-                window.location.href = "/Floor/Index";
+                window.location.href = "/Room/Index";
             })
         };
         options.error = function () {
@@ -149,5 +174,48 @@
             alert("error");
         };
         $.ajax(options);
+    });
+
+    $("#delete").click(function () {
+        var options = {};
+        options.url = "https://localhost:5001/api/Room/DeleteRoom";
+        options.type = "DELETE";
+        var obj = {};
+        obj.Id = $("#deleteModalId").val();
+        options.data = JSON.stringify(obj);
+        options.contentType = "application/json";
+        options.dataType = "html";
+        debugger
+        options.success = function () {
+            Swal({
+                type: 'success',
+                title: 'Thanks',
+                text: 'Operation is success',
+            }).then(function () {
+
+                window.location.href = "/Room/Index";
+            })
+        };
+        options.error = function () {
+            alert("error");
+        };
+        $("#deleteModal").modal('hide');
+        $.ajax(options);
+    });
+
+    $(document).ready(function () {
+        $('[id="deleteShowModal"]').click(function () {
+            $("#deleteModal").modal('show');
+            var id = $(this).data('id');
+            var name = $(this).data('name');
+            $("#deleteModalText").empty();
+            debugger
+            $("#deleteModalText").append(name).append('<input type="hidden" id="deleteModalId"/>');
+            $('#deleteModalId').val(id);
+        });
+
+        $("#deleteHideModal").click(function () {
+            $("#deleteModal").modal('hide');
+        });
     });
 </script>
