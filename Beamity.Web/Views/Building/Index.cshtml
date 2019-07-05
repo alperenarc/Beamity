@@ -128,7 +128,6 @@
         var options = {};
         options.url = "https://localhost:5001/api/Building/CreateBuilding/";
         options.type = "POST";
-        debugger
         var obj = {};
         obj.Name = $("#inputName").val();
         obj.LocationId = $("#locations").val();
@@ -136,7 +135,6 @@
         options.data = JSON.stringify(obj);
         options.contentType = "application/json";
         options.dataType = "html";
-        debugger
         options.success = function (msg) {
             $("#msg").html(msg);
             Swal({
@@ -160,7 +158,6 @@
         options.type = "GET";
         options.dataType = "json";
         options.success = function (data) {
-            debugger
             data.forEach(function (v) {
                 $("#locations").append('<option value="' + v.id + '">' + v.name + '</option>');
             });
@@ -194,8 +191,6 @@
         options.data = JSON.stringify(obj);
         options.contentType = "application/json";
         options.dataType = "html";
-        options.dataType = "html";
-        debugger
         options.success = function () {
             Swal({
                 type: 'success',
