@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Beamity.Application.DTOs.RelationDTO
 {
-    public class ReadRelationDTO
+    public class ReadRelationDTO :BaseReadDTO
     {
         public string ArtifacName { get; set; }
         public string ContentName{ get; set; }

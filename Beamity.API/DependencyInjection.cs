@@ -25,6 +25,7 @@ namespace Beamity.API
             services.AddTransient<IBuildingService, BuildingService>();
             services.AddTransient<IFloorService, FloorService>();
             services.AddTransient<IRoomService, RoomService>();
+            services.AddTransient<IRelationService, RelationService>();
             services.AddTransient<IUserService, UserService>();
 
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
@@ -34,6 +35,7 @@ namespace Beamity.API
             services.AddScoped<ContentRepository, ContentRepository>();
             services.AddScoped<BeaconRepository, BeaconRepository>();
             services.AddScoped<ProjectRepository, ProjectRepository>();
+            services.AddScoped<RelationRepository, RelationRepository>();
             services.AddScoped<LocationRepository, LocationRepository>();
             services.AddScoped<BuildingRepository, BuildingRepository>();
             services.AddScoped<FloorRepository, FloorRepository>();

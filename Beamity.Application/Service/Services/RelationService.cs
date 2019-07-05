@@ -57,11 +57,12 @@ namespace Beamity.Application.Service.Services
             List<ReadRelationDTO> result = new List<ReadRelationDTO>();
             foreach (Relation item in relations)
             {
-                ReadRelationDTO dto = new ReadRelationDTO();
-
-                dto.ArtifacName = item.Artifact.Name;
-                dto.BeaconName = item.Beacon.Name;
-                dto.ContentName = item.Content.Name;
+                ReadRelationDTO dto = new ReadRelationDTO
+                {
+                    ArtifacName = item.Artifact.Name,
+                    BeaconName = item.Beacon.Name,
+                    ContentName = item.Content.Name
+                };
                 switch (item.Proximity)
                 {
                     case Proximity.Unknown:
