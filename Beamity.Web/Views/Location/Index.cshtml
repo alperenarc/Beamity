@@ -95,6 +95,7 @@
             </div>
             <div class="modal-body">
                 <h4>Are you sure you want to delete this?</h4>
+                <p id="deleteModalText"></p>
 
             </div>
             <div class="modal-footer">
@@ -106,6 +107,53 @@
         </div>
     </div>
 </div>
+
+
+
+<div class="modal fade" tabindex="-1" id="detailModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title align-content-lg-start">Beacon Details</h4>
+                <button type="button" class="close text-lg-right" data-dismiss="modal">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <p id="detailModalText"></p>
+                    <div id='map' style="height:300px; width:auto"></div>
+                    <div class="form-group">
+                        <input class="form-control" type="text"
+                               placeholder="Location Name" id="editName" />
+                    </div>
+
+                    <div class="form-group">
+                        <input class="form-control" type="number"
+                               placeholder="Latitude" id="editLat" />
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="number"
+                               placeholder="Longtitude" id="editLong" />
+                    </div>
+                    <select class="form-control" id="projects"></select>
+                    <input id="editCTime" type="datetime" disabled />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="update" class="btn btn-primary button button4">Update</button>
+                <button type="button" id="detailHideModal" class="btn btn-primary button button4">
+                    Hide
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 <div class="w-100">
     <table class="table">
         <thead>
@@ -128,25 +176,25 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Longitude)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Latitude)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ProjectName)
-                    </td>
-                    <td>
-                        <input type="button" class="btn btn-primary" value="Edit" id="editShowModal" />
-                        <input type="button" class="btn btn-primary" value="Details" id="detailShowModal" />
-                        <input type="button" class="btn btn-primary" value="Delete" id="deleteShowModal" />
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Longitude)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Latitude)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProjectName)
+                </td>
+                <td>
+                    <input type="button" class="btn btn-primary" data-id="@item.Id" data-name="@item.Name"
+                           data-ctime="@item.CreatedTime" data-lat="@item.Latitude" data-long="@item.Longitude" value="Details" id="detailShowModal" />
+                    <input type="button" class="btn btn-primary" id="deleteShowModal" data-name="@item.Name" data-id="@item.Id" value="Delete" />
+                </td>
+            </tr>
             }
         </tbody>
     </table>
@@ -233,24 +281,6 @@
         
     });
     
-    //function GetAllProjects() {
-
-    //    var options = {};
-    //    options.url = "https://localhost:5001/api/Project/GetAllProjects";
-    //    options.type = "GET";
-        
-    //    options.contentType = "application/json";
-    //    options.dataType = "html";
-    //    options.success = function (returndata) {
-    //        console.log(returndata);
-    //    };
-    //    options.error = function () {
-    //        $("#msg").html("Error while calling the Web API!");
-    //    };
-    //    $.ajax(options);
-    //}
-    //window.onload = GetAllProjects();
-
 
     $("#create").click(function () {
         
@@ -281,13 +311,106 @@
         $.ajax(options);
     });
     $(document).ready(function () {
-        $("#deleteShowModal").click(function () {
+        $('[id="deleteShowModal"]').click(function () {
             $("#deleteModal").modal('show');
+            var id = $(this).data('id');
+            var name = $(this).data('name');
+            $("#deleteModalText").empty();
+            $("#deleteModalText").append(name).append('<input type="hidden" id="deleteModalId"/>');
+            $('#deleteModalId').val(id);
         });
 
         $("#deleteHideModal").click(function () {
             $("#deleteModal").modal('hide');
         });
+    });
+
+
+    $("#delete").click(function () {
+        var options = {};
+        options.url = "https://localhost:5001/api/Location/DeleteLocation/";
+        options.type = "DELETE";
+        var obj = {};
+        obj.Id = $("#deleteModalId").val();
+        options.data = JSON.stringify(obj);
+        options.contentType = "application/json";
+        options.dataType = "html";
+        debugger
+        options.success = function () {
+            Swal({
+                type: 'success',
+                title: 'Thanks',
+                text: 'Operation is success',
+            }).then(function () {
+
+                window.location.href = "/Location/Index";
+            })
+        };
+        options.error = function () {
+            alert("error");
+        };
+        $("#deleteModal").modal('hide');
+        $.ajax(options);
+    });
+
+    $(document).ready(function () {
+        $('[id="detailShowModal"]').click(function () {
+            $("#detailModal").modal('show');
+
+            var id = $(this).data('id');
+            var cTime = $(this).data('ctime');
+            var name = $(this).data('name');
+            var lat = $(this).data('lat');
+            var long = $(this).data('long');
+
+            $("#editName").val(name);
+            $("#editCTime").val(cTime);
+            $("#editLat").val(lat);
+            $("#editLong").val(long);
+
+            ////////////////////////////////
+            //map.Lat = e.lngLat.lat;
+            //map.Lng = e.lngLat.lng;
+            //////////////////////////////////
+            $("#detailModalText").append('<input type="hidden" id="detailModalId"/>');
+            $('#detailModalId').val(id);
+        });
+
+        $("#detailHideModal").click(function () {
+            $("#detailModal").modal('hide');
+        });
+    });
+    $("#update").click(function () {
+        var options = {};
+        options.url = "https://localhost:5001/api/Location/UpdateLocation";
+        options.type = "PUT";
+
+        var obj = {};
+        obj.Id = $("#detailModalId").val();
+        obj.Name = $("#editName").val();
+        obj.CreatedTime = $.now();
+        obj.ProjectId = $("#projects").val();
+
+        debugger
+        options.data = JSON.stringify(obj);
+        options.contentType = "application/json";
+        options.dataType = "html";
+        debugger
+        options.success = function () {
+            Swal({
+                type: 'success',
+                title: 'Thanks',
+                text: 'Operation is success',
+            }).then(function () {
+
+                window.location.href = "/Location/Index";
+            })
+        };
+        options.error = function () {
+            alert("error");
+        };
+        $("#detailModal").modal('hide');
+        $.ajax(options);
     });
 
     $(document).ready(function () {
@@ -296,8 +419,9 @@
         options.type = "GET";
         options.dataType = "json";
         options.success = function (data) {
+            
             data.forEach(function (v) {
-                $("#projects").append('<option value="' + v.id + '">' + v.name + '</option>');
+                $('[id = "projects"]').append('<option value="' + v.id + '">' + v.name + '</option>');
             });
         };
         options.error = function () {

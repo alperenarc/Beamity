@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Beamity.Application.DTOs.LocationDTOs
 {
-    public class ReadLocationDTO : BaseDTO<Guid>
+    public class ReadLocationDTO : BaseReadDTO
     {
         public string Name { get; set; }
         public string Latitude { get; set; }

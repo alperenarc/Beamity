@@ -273,8 +273,8 @@
             $("#editMinor").val(minor);
             $("#editMajor").val(major);
             $("#editUUID").val(uuid);
-            $("#detailModalText").append('<input type="hidden" id="deleteModalId"/>');
-            $('#deleteModalId').val(id);
+            $("#detailModalText").append('<input type="hidden" id="detailModalId"/>');
+            $('#detailModalId').val(id);
         });
 
         $("#detailHideModal").click(function () {
@@ -286,7 +286,7 @@
         options.url = "https://localhost:5001/api/Beacon/UpdateBeacon";
         options.type = "PUT";
         var obj = {};
-        obj.Id = $("#deleteModalId").val();
+        obj.Id = $("#detailModalId").val();
         obj.Name = $("#editName").val();
         obj.Minor = $("#editMinor").val();
         obj.Major = $("#editMajor").val();
