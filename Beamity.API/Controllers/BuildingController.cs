@@ -21,11 +21,11 @@ namespace Beamity.API.Controllers
             _buildingService = buildingService;
         }
         [HttpGet("{id}")]
-        public async Task<ReadBuildingDTO> GetBuilding(EntityDTO input)
+        public ReadBuildingDTO GetBuilding(EntityDTO input)
         {
             try
             {
-                var building = await _buildingService.GetBuildingAsync(input);
+                var building =  _buildingService.GetBuilding(input);
                 return building;
             }
             catch (Exception)
@@ -36,16 +36,16 @@ namespace Beamity.API.Controllers
         }
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IList<ReadBuildingDTO>> GetAllBuildings()
+        public List<ReadBuildingDTO> GetAllBuildings()
         {
-            var buildings = await _buildingService.GetAllBuildings();
+            var buildings =  _buildingService.GetAllBuildings();
             return buildings;
 
         }
         [HttpGet("{id}")]
-        public async Task<IList<ReadBuildingDTO>> GetBuildingsAtLocation(EntityDTO input)
+        public List<ReadBuildingDTO> GetBuildingsAtLocation(EntityDTO input)
         {
-            var buildings = await _buildingService.GetBuildingsAtLocation(input);
+            var buildings =  _buildingService.GetBuildingsAtLocation(input);
             return buildings;
 
         }
@@ -54,7 +54,7 @@ namespace Beamity.API.Controllers
         {
             try
             {
-                _buildingService.CreateBuildingAsync(input);
+                _buildingService.CreateBuilding(input);
                 return Ok();
             }
             catch (Exception)

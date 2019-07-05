@@ -31,7 +31,7 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label">Locations</label>
-                        <select id="buildings" class="form-control" ></select>
+                        <select id="locations" class="form-control" ></select>
                     </div>
                 </form>
             </div>
@@ -131,7 +131,7 @@
         debugger
         var obj = {};
         obj.Name = $("#inputName").val();
-        obj.BuildingId = $("#buildings").val();
+        obj.LocationId = $("#locations").val();
 
         options.data = JSON.stringify(obj);
         options.contentType = "application/json";
@@ -160,10 +160,9 @@
         options.type = "GET";
         options.dataType = "json";
         options.success = function (data) {
-            alert("success");
             debugger
             data.forEach(function (v) {
-                $("#buildings").append('<option value="' + v.id + '">' + v.name + '</option>');
+                $("#locations").append('<option value="' + v.id + '">' + v.name + '</option>');
             });
         };
         options.error = function () {
@@ -188,7 +187,7 @@
     });
     $("#delete").click(function () {
         var options = {};
-        options.url = " /";
+        options.url = "https://localhost:5001/api/Building/DeleteBuilding";
         options.type = "DELETE";
         var obj = {};
         obj.Id = $("#deleteModalId").val();
@@ -204,7 +203,7 @@
                 text: 'Operation is success',
             }).then(function () {
 
-                window.location.href = "/Beacon/Index";
+                window.location.href = "/Building/Index";
             })
         };
         options.error = function () {
