@@ -13,7 +13,6 @@ namespace Beamity.API.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [Authorize]
     public class ContentController : ControllerBase
     {
         private readonly IContentService _contentService;

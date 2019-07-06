@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Beamity.API.Controllers
 {
-    [Authorize]
+  
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class ArtifactController : ControllerBase

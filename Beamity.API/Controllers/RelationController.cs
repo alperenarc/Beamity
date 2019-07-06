@@ -15,7 +15,6 @@ namespace Beamity.API.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [Authorize]
     public class RelationController : ControllerBase
     {
         private readonly IRelationService _relationService;
@@ -26,8 +25,24 @@ namespace Beamity.API.Controllers
         [HttpGet]
         public List<ReadRelationDTO> GetAllRelations()
         {
-            var relations = _relationService.GetAllRelations();
-            return relations;
+
+            try
+            {
+                var relations = _relationService.GetAllRelations();
+                if(relations.Count > 0)
+                {
+                    return relations;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
         }
         [HttpGet("{id}")]
         public ReadRelationDTO GetRelation(EntityDTO Relation)

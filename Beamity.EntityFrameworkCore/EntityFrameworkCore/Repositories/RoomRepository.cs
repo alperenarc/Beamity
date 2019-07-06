@@ -24,5 +24,9 @@ namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories
         {
             return Table.Where(p => p.IsActive == true).Include(p => p.Floor).ToList();
         }
+        public override Room GetById( Guid id)
+        {
+            return Table.Include(p => p.Floor).FirstOrDefault(p => p.Id == id && p.IsActive == true);
+        }
     }
 }

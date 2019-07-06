@@ -19,7 +19,7 @@ namespace Beamity.Web.Controllers
                 client.BaseAddress = new Uri("https://localhost:5001/api/");
                 var responseTask = await client.GetAsync("Location/GetAllLocation");
 
-                var readTask = responseTask.Content.ReadAsAsync<IList<ReadLocationDTO>>();
+                var readTask = responseTask.Content.ReadAsAsync<List<ReadLocationDTO>>();
 
                 locations = readTask.Result;
 

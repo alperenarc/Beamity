@@ -21,7 +21,7 @@ namespace Beamity.Web.Controllers
                 client.BaseAddress = new Uri("https://localhost:5001/api/");
                 var responseTask = await client.GetAsync("Building/GetAllBuildings");
 
-                var readTask = responseTask.Content.ReadAsAsync<IList<ReadBuildingDTO>>();
+                var readTask = responseTask.Content.ReadAsAsync<List<ReadBuildingDTO>>();
 
                 buildings = readTask.Result;
 

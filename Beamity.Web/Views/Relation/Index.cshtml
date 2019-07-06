@@ -1,0 +1,289 @@
+﻿@model IEnumerable<Beamity.Application.DTOs.RelationDTO.ReadRelationDTO>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<div class="row justify-content-end">
+    <button id="btnShowModal" type="button" class="btn btn-outline-success">
+        Create New
+    </button>
+    <div class="col-md-1"></div>
+</div>
+<div class="modal fade" tabindex="-1" id="loginModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title align-content-lg-start">Create Relation</h4>
+                <button type="button" class="close text-lg-right" data-dismiss="modal">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+
+                    <div class="form-group">
+                        <label class="control-label">Contents</label>
+                        <select id="contents" class="form-control"></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Artifacts</label>
+                        <select id="artifacts" class="form-control"></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Beacons</label>
+                        <select id="beacons" class="form-control"></select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Proximity</label>
+                        <select id="proximity" class="form-control"></select>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="create" class="btn btn-primary button button4">Create</button>
+                <button type="button" id="btnHideModal" class="btn btn-primary button button4">
+                    Hide
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" id="deleteModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title align-content-lg-start">Create Beacon</h4>
+                <button type="button" class="close text-lg-right" data-dismiss="modal">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body">
+                <h4>Are you sure you want to delete this?</h4>
+                <p id="deleteModalText"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="delete" class="btn btn-primary button button4">Delete</button>
+                <button type="button" id="deleteHideModal" class="btn btn-primary button button4">
+                    Hide
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ArtifacName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContentName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BeaconName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Proximity)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null)
+            {
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ArtifacName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ContentName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BeaconName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Proximity)
+                        </td>
+                        <td>
+                            <input type="button" class="btn btn-primary" data-id="@item.Id"
+                                   value="Details" id="detailShowModal" />
+                            <input type="button" class="btn btn-primary" id="deleteShowModal" data-id="@item.Id" value="Delete" />
+                        </td>
+                    </tr>
+                }
+            }
+        }
+    </tbody>
+</table>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
+
+</script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        debugger
+        $("#btnShowModal").click(function () {
+            $("#loginModal").modal('show');
+
+        });
+
+        $("#btnHideModal").click(function () {
+            $("#loginModal").modal('hide');
+        });
+    });
+    $("#create").click(function () {
+        var options = {};
+        options.url = "https://localhost:5001/api/Relation/CreateRelation/";
+        options.type = "POST";
+        debugger
+        var obj = {};
+        obj.ArtifactId = $('#artifacts').val();
+        obj.ConTentId = $('#contents').val();
+        obj.BeaconId = $('#beacons').val();
+        obj.Proximity = $('#proximity').val();
+        ////Add Data/////
+
+        options.data = JSON.stringify(obj);
+        options.contentType = "application/json";
+        options.dataType = "html";
+        debugger
+        options.success = function (msg) {
+            $("#msg").html(msg);
+            Swal({
+                type: 'success',
+                title: 'Thanks',
+                text: 'Operation is success',
+            }).then(function () {
+
+                window.location.href = "/Building/Index";
+            })
+        };
+        options.error = function () {
+            $("#msg").html("Error while calling the Web API!");
+        };
+        $.ajax(options);
+        $("#loginModal").modal('hide');
+    });
+    $(document).ready(function () {
+        var options = {};
+        options.url = "https://localhost:5001/api/Artifact/GetAllArtifacts";
+        options.type = "GET";
+        options.dataType = "json";
+        options.success = function (data) {
+            debugger
+            data.forEach(function (v) {
+                $("#artifacts").append('<option value="' + v.id + '">' + v.name + '</option>');
+            });
+        };
+        options.error = function () {
+            alert("error");
+        };
+        $.ajax(options);
+    });
+    $(document).ready(function () {
+        var options = {};
+        options.url = "https://localhost:5001/api/Content/GetAllContents";
+        options.type = "GET";
+        options.dataType = "json";
+        options.success = function (data) {
+            debugger
+            data.forEach(function (v) {
+                $("#contents").append('<option value="' + v.id + '">' + v.name + '</option>');
+            });
+        };
+        options.error = function () {
+            alert("error");
+        };
+        $.ajax(options);
+    });
+    $(document).ready(function () {
+        var options = {};
+        options.url = "https://localhost:5001/api/Beacon/GetAllBeacons";
+        options.type = "GET";
+        options.dataType = "json";
+        options.success = function (data) {
+            debugger
+            data.forEach(function (v) {
+                $("#beacons").append('<option value="' + v.id + '">' + v.name + '</option>');
+            });
+        };
+        options.error = function () {
+            alert("error");
+        };
+        $.ajax(options);
+    });
+    $(document).ready(function () {
+        var myobject = {
+            ValueA: 'All',
+            ValueB: 'Immediate',
+            ValueC: 'Near',
+            ValueD: 'Far',
+            ValueE: 'UnKnown'
+        };
+
+        var select = document.getElementById("proximity");
+        for (index in myobject) {
+            select.options[select.options.length] = new Option(myobject[index], myobject[index]);
+        }
+    });
+
+
+    $(document).ready(function () {
+        $('[id="deleteShowModal"]').click(function () {
+            $("#deleteModal").modal('show');
+            var id = $(this).data('id');
+            $("#deleteModalText").empty();
+            $("#deleteModalText").append('<input type="hidden" id="deleteModalId"/>');
+            $('#deleteModalId').val(id);
+        });
+
+        $("#deleteHideModal").click(function () {
+            $("#deleteModal").modal('hide');
+        });
+    });
+    $("#delete").click(function () {
+        var options = {};
+        options.url = "https://localhost:5001/api/Relation/DeleteRelation";
+        options.type = "DELETE";
+        var obj = {};
+        obj.Id = $("#deleteModalId").val();
+        options.data = JSON.stringify(obj);
+        options.contentType = "application/json";
+        options.dataType = "html";
+        options.dataType = "html";
+        debugger
+        options.success = function () {
+            Swal({
+                type: 'success',
+                title: 'Thanks',
+                text: 'Operation is success',
+            }).then(function () {
+
+                window.location.href = "/Building/Index";
+            })
+        };
+        options.error = function () {
+            alert("error");
+        };
+        $("#deleteModal").modal('hide');
+        $.ajax(options);
+    });
+</script>
