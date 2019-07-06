@@ -28,7 +28,11 @@
             <div class="modal-body">
                 <div class="container text-center">
                     <div class="form-group">
-                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Floor Name">
+                        <input type="text" class="form-control" id="floorname" placeholder="Floor Name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <select class="form-control" id="buildings"></select>
                     </div>
                 </div>
             </div>
@@ -124,7 +128,7 @@
         options.url = "https://localhost:5001/api/Floor/CreateFloor";
         options.type = "POST";
         var obj = {};
-        obj.Name = $("#inputName").val();
+        obj.Name = $("#floorname").val();
         obj.BuildingId = $("#buildings").val();
         options.data = JSON.stringify(obj);
         options.contentType = "application/json";
@@ -136,11 +140,12 @@
                 title: 'Thanks',
                 text: 'Operation is success',
             }).then(function () {
-                window.Floor.href = "/Floor/Index";
+                window.location.reload();
             })
         };
         options.error = function () {
             $("#msg").html("Error while calling the Web API!");
+            alert("Hata");
         };
         $.ajax(options);
     });
@@ -156,7 +161,7 @@
 
     $(document).ready(function () {
         var options = {};
-        options.url = "https://localhost:5001/api/Building/GetAllBuilding";
+        options.url = "https://localhost:5001/api/Building/GetAllBuildings";
         options.type = "GET";
         options.dataType = "json";
         options.success = function (data) {

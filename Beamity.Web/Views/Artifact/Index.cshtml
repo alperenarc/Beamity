@@ -1,0 +1,60 @@
+﻿@model Beamity.Web.Models.AzureViewModels.FilesViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<input type="text" name="name" value="" id="inputName" placeholder="Name" />
+<input type="text" name="name" value="" id="inputRoomId" placeholder="RoomId" />
+
+<form asp-controller="Artifact" asp-action="UploadFile" method="post"
+      enctype="multipart/form-data">
+
+    <input type="text" name="folder" id="FilePath" placeholder="Folder" />
+    <input type="file" name="file" />
+    <button type="submit" id="SubmitButton">Upload File</button>
+</form>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="~/package/dist/sweetalert2.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+    var filepath;
+    $('input[type="file"]').change(function (e) {
+        filepath = e.target.files[0].name;
+        alert('The file "' + filepath + '" has been selected.');
+    });
+    $("#SubmitButton").click(function () {
+        debugger
+        var options = {};
+        options.url = "https://localhost:5001/api/Artifact/CreateArtifact";
+        options.type = "POST";
+        var obj = {};
+
+        obj.Name = $("#inputName").val();
+        obj.MainImageURL = filepath;
+        obj.RoomId = $("#inputRoomId").val();
+
+        options.data = JSON.stringify(obj);
+        options.contentType = "application/json";
+        options.dataType = "html";
+        options.success = function (msg) {
+            $("#msg").html(msg);
+            Swal({
+                type: 'success',
+                title: 'Thanks',
+                text: 'Operation is success',
+            }).then(function () {
+
+                window.location.reload();
+            })
+        };
+        options.error = function () {
+            $("#msg").html("Error while calling the Web API!");
+        };
+        $.ajax(options);
+    });
+
+</script>

@@ -17,7 +17,7 @@ namespace Beamity.Web.Controllers
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("https://localhost:5001/api/");
-                var responseTask = await client.GetAsync("Floor/GetAllFloor");
+                var responseTask = await client.GetAsync("Floor/GetAllFloors");
 
                 var readTask = responseTask.Content.ReadAsAsync<IList<ReadFloorDTO>>();
 
