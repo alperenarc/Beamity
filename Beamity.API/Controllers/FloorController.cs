@@ -35,11 +35,12 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpGet]
+        [AllowAnonymous]
         public List<ReadFloorDTO> GetAllFloors()
         {
             try
             {
-                var floors = _floorService.GetAllFloor();
+                var floors =  _floorService.GetAllFloor();
                 return floors;
             }
             catch (Exception)
