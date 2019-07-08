@@ -94,6 +94,7 @@ namespace Beamity.Application.Service.Services
         public void UpdateArtifact(UpdateArtifactDTO input)
         {
             var artifact = _mapper.Map<Artifact>(input);
+            artifact.Room = _roomRepository.GetById(input.RoomId);
             _repository.Update(artifact);
         }
     }

@@ -5,9 +5,8 @@
 }
 
 
-<h1>Project</h1>
 <!--Create A New Item-->
-<div class="row justify-content-end">
+<div class="row justify-content-start m-1">
     <button id="btnShowModal" type="button" class="btn btn-outline-success">
         Create New
     </button>
@@ -83,7 +82,7 @@
                         <input class="form-control" type="text"
                                placeholder="Beacon Name" id="editName" />
                     </div>
-                    <input id="editCTime" type="datetime" disabled />
+                    @*<input id="editCTime" type="datetime" disabled />*@
                     <p id="detailModalText"></p>
                 </form>
             </div>
@@ -105,21 +104,27 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Name)
                 </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedTime)
+                </th>
                 <th>Operations</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        <input type="button" class="btn btn-primary" data-id="@item.Id" data-name="@item.Name" data-ctime="@item.CreatedTime" value="Details" id="detailShowModal" />
-                        <input type="button" class="btn btn-primary" data-name="@item.Name" data-id="@item.Id" value="Delete" id="deleteShowModal" />
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedTime)
+                </td>
+                <td>
+                    <input type="button" class="btn btn-primary" data-id="@item.Id" data-name="@item.Name" data-ctime="@item.CreatedTime" value="Details" id="detailShowModal" />
+                    <input type="button" class="btn btn-primary" data-name="@item.Name" data-id="@item.Id" value="Delete" id="deleteShowModal" />
+                </td>
+            </tr>
             }
         </tbody>
     </table>

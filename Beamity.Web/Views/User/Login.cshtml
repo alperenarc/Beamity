@@ -20,7 +20,7 @@
         <div class="card card-login mx-auto mt-5">
             <div class="card-header">Login</div>
             <div class="card-body">
-                <form asp-action="Login">
+                <form asp-action="Login" id="LoginForm">
                     <div class="form-group">
                         <div class="form-label-group">
                             <input asp-for="Email" id="inputEmail" class="form-control" placeholder="Email address" autofocus="autofocus">
@@ -55,10 +55,14 @@
         var fileButton = document.getElementById('Submit');
 
         function myClickEvent(e) {
+
+
+
+            $('#Submit').prop('disabled', true);
             var myData = {};
             myData.email = document.getElementById('inputEmail').value;
             myData.password = document.getElementById('inputPassword').value;
-            
+
             $.ajax({
                 type: "POST",
                 url: 'https://localhost:5001/api/user/login',
@@ -79,6 +83,8 @@
             });
 
         }
+
+
     </script>
 </body>
 </html>
