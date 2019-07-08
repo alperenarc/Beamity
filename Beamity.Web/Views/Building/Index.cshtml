@@ -249,4 +249,76 @@
         $.ajax(options);
     });
 
+
+    $(document).ready(function () {
+        var options = {};
+        options.url = "https://localhost:5001/api/Location/GetAllLocation";
+        options.type = "GET";
+        options.dataType = "json";
+        options.success = function (data) {
+            data.forEach(function (v) {
+                $("#Editlocations").append('<option value="' + v.id + '">' + v.name + '</option>');
+            });
+        };
+        options.error = function () {
+            alert("error");
+        };
+        $.ajax(options);
+    });
+    $("#update").click(function () {
+        var options = {};
+        options.url = "https://localhost:5001/api/Building/UpdateBuilding";
+        options.type = "PUT";
+        var obj = {};
+        obj.Id = $("#detailModalId").val();
+        obj.Name = $("#editName").val();
+        obj.LocationId = $("#Editlocations").val();
+        obj.CreatedTime = $.now();
+
+        debugger
+        options.data = JSON.stringify(obj);
+        options.contentType = "application/json";
+        options.dataType = "html";
+        debugger
+        options.success = function () {
+            Swal({
+                type: 'success',
+                title: 'Thanks',
+                text: 'Operation is success',
+            }).then(function () {
+
+                window.location.href = "/Building/Index";
+            })
+        };
+        options.error = function () {
+            Swal({
+                type: 'error',
+                title: 'Oppsss...',
+                text: 'Operation is not success. The item you want to delete have a relation.',
+            }).then(function () {
+                window.location.href = "/Building/Index";
+            })
+        };
+        $("#detailModal").modal('hide');
+        $.ajax(options);
+    });
+    $(document).ready(function () {
+        $('[id="detailShowModal"]').click(function () {
+            $("#detailModal").modal('show');
+
+            var id = $(this).data('id');
+            var name = $(this).data('name');
+            var location = $(this).data('location');
+
+            $("#editName").val(name);
+            $("#Editlocations").val(location);
+
+            $("#detailModalText").append('<input type="hidden" id="detailModalId"/>');
+            $('#detailModalId').val(id);
+        });
+
+        $("#detailHideModal").click(function () {
+            $("#detailModal").modal('hide');
+        });
+    });
 </script>
