@@ -5,44 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
 
 <div class="row justify-content-end">
 <button id="btnShowModal" type="button" class="btn btn-outline-success">
     Create New
 </button>
 <div class="col-md-1"></div>
-</div>
-<div class="modal fade" tabindex="-1" id="loginModal"
-     data-keyboard="false" data-backdrop="static">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title align-content-lg-start">Create Building</h4>
-                <button type="button" class="close text-lg-right" data-dismiss="modal">
-                    ×
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <input class="form-control" type="text"
-                               placeholder="Building Name" id="inputName" />
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Locations</label>
-                        <select id="locations" class="form-control" ></select>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="create" class="btn btn-primary button button4">Create</button>
-                <button type="button" id="btnHideModal" class="btn btn-primary button button4">
-                    Hide
-                </button>
-            </div>
-        </div>
-    </div>
 </div>
 
 <div class="modal fade" tabindex="-1" id="deleteModal"
