@@ -5,9 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Room</h1>
 
-<div class="row justify-content-end">
+<div class="row justify-content-lg-start m-1">
     <button id="btnShowModal" type="button" class="btn btn-outline-success">
         Create New
     </button>
@@ -18,7 +18,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title align-content-lg-start">Create Beacon</h4>
+                <h4 class="modal-title align-content-lg-start">Create Room</h4>
                 <button type="button" class="close text-lg-right" data-dismiss="modal">
                     ×
                 </button>
@@ -33,10 +33,6 @@
                     <div class="form-group">
                         <label class="control-label">Floors</label>
                         <select id="floors" class="form-control"></select>
-                    </div>
-                    <div class="form-group>
-                        <input class="form-control-sm" type="datetime"
-                               id="inputCTime" />
                     </div>
                 </form>
             </div>
@@ -55,7 +51,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title align-content-lg-start">Create Beacon</h4>
+                <h4 class="modal-title align-content-lg-start">Delete Room</h4>
                 <button type="button" class="close text-lg-right" data-dismiss="modal">
                     ×
                 </button>
@@ -73,7 +69,36 @@
         </div>
     </div>
 </div>
+<div class="modal fade" tabindex="-1" id="detailModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title align-content-lg-start">Building Details</h4>
+                <button type="button" class="close text-lg-right" data-dismiss="modal">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <p id="detailModalText"></p>
+                    <div class="form-group">
+                        <input class="form-control" type="text"
+                               placeholder="Name" id="editName" />
+                    </div>
 
+                    <select class="form-control" id="EditFloor"></select>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="update" class="btn btn-primary button button4">Update</button>
+                <button type="button" id="detailHideModal" class="btn btn-primary button button4">
+                    Hide
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -175,7 +200,6 @@
         };
         $.ajax(options);
     });
-
     $("#delete").click(function () {
         var options = {};
         options.url = "https://localhost:5001/api/Room/DeleteRoom";
@@ -197,12 +221,17 @@
             })
         };
         options.error = function () {
-            alert("error");
+            Swal({
+                type: 'error',
+                title: 'Oppsss...',
+                text: 'Operation is not success. The item you want to delete have a relation.',
+            }).then(function () {
+                window.location.href = "/Room/Index";
+            })
         };
         $("#deleteModal").modal('hide');
         $.ajax(options);
     });
-
     $(document).ready(function () {
         $('[id="deleteShowModal"]').click(function () {
             $("#deleteModal").modal('show');
@@ -217,5 +246,79 @@
         $("#deleteHideModal").click(function () {
             $("#deleteModal").modal('hide');
         });
+    }); 
+
+
+    $(document).ready(function () {
+        var options = {};
+        options.url = "https://localhost:5001/api/Floor/GetAllFloors";
+        options.type = "GET";
+        options.dataType = "json";
+        options.success = function (data) {
+            data.forEach(function (v) {
+                $("#EditFloor").append('<option value="' + v.id + '">' + v.name + '</option>');
+            });
+        };
+        options.error = function () {
+            alert("error");
+        };
+        $.ajax(options);
     });
+    $("#update").click(function () {
+        var options = {};
+        options.url = "https://localhost:5001/api/Room/UpdateRoom";
+        options.type = "PUT";
+        var obj = {};
+        obj.Id = $("#detailModalId").val();
+        obj.Name = $("#editName").val();
+        obj.FloorId = $("#EditFloor").val();
+        obj.CreatedTime = $.now();
+
+        debugger
+        options.data = JSON.stringify(obj);
+        options.contentType = "application/json";
+        options.dataType = "html";
+        debugger
+        options.success = function () {
+            Swal({
+                type: 'success',
+                title: 'Thanks',
+                text: 'Operation is success',
+            }).then(function () {
+
+                window.location.href = "/Room/Index";
+            })
+        };
+        options.error = function () {
+            Swal({
+                type: 'error',
+                title: 'Oppsss...',
+                text: 'Operation is not success. The item you want to delete have a relation.',
+            }).then(function () {
+                window.location.href = "/Room/Index";
+            })
+        };
+        $("#detailModal").modal('hide');
+        $.ajax(options);
+    });
+    $(document).ready(function () {
+        $('[id="detailShowModal"]').click(function () {
+            $("#detailModal").modal('show');
+
+            var id = $(this).data('id');
+            var name = $(this).data('name');
+            var floor = $(this).data('floor');
+
+            $("#editName").val(name);
+            $("#EditFloor").val(floor);
+
+            $("#detailModalText").append('<input type="hidden" id="detailModalId"/>');
+            $('#detailModalId').val(id);
+        });
+
+        $("#detailHideModal").click(function () {
+            $("#detailModal").modal('hide');
+        });
+    });
+
 </script>

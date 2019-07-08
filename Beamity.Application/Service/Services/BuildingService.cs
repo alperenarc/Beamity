@@ -116,6 +116,7 @@ namespace Beamity.Application.Service.Services
         public void UpdateBuilding(UpdateBuildingDTO input)
         {
             var building = _mapper.Map<Building>(input);
+            building.Location = _locationRepository.GetById(input.LocationId);
             _buildingRepository.Update(building);
         }
 

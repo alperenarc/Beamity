@@ -135,7 +135,7 @@
                         <input class="form-control" type="number"
                                placeholder="Longtitude" id="editLong" />
                     </div>
-                    <select class="form-control" id="projects"></select>
+                    <select class="form-control" id="editprojects"></select>
                     <input id="editCTime" type="datetime" disabled />
                 </form>
             </div>
@@ -263,20 +263,12 @@
         $("#btnShowModal").click(function () {
             $("#loginModal").modal('show');
         });
-
         $("#loginModal").on('shown.bs.modal', function () {
             map.resize();
         });
-
-
-
-
         $("#btnHideModal").click(function () {
             $("#loginModal").modal('hide');
         });
-
-
-        
     });
     
 
@@ -345,7 +337,13 @@
             })
         };
         options.error = function () {
-            alert("error");
+            Swal({
+                type: 'error',
+                title: 'Oppsss...',
+                text: 'Operation is not success. The item you want to delete have a relation.',
+            }).then(function () {
+                window.location.href = "/Location/Index";
+            })
         };
         $("#deleteModal").modal('hide');
         $.ajax(options);
@@ -386,8 +384,10 @@
         var obj = {};
         obj.Id = $("#detailModalId").val();
         obj.Name = $("#editName").val();
+        obj.Longitude = $("#editLat").val();
+        obj.Latitude = $("#editLong").val();
         obj.CreatedTime = $.now();
-        obj.ProjectId = $("#projects").val();
+        obj.ProjectId = $("#editprojects").val();
 
         debugger
         options.data = JSON.stringify(obj);
@@ -405,7 +405,13 @@
             })
         };
         options.error = function () {
-            alert("error");
+            Swal({
+                type: 'error',
+                title: 'Oppsss...',
+                text: 'Please try again !',
+            }).then(function () {
+                window.location.href = "/Location/Index";
+            })
         };
         $("#detailModal").modal('hide');
         $.ajax(options);
@@ -419,6 +425,22 @@
         options.success = function (data) {
             
             data.forEach(function (v) {
+                $('[id = "editprojects"]').append('<option value="' + v.id + '">' + v.name + '</option>');
+            });
+        };
+        options.error = function () {
+            alert("error");
+        };
+        $.ajax(options);
+    });
+    $(document).ready(function () {
+        var options = {};
+        options.url = "https://localhost:5001/api/Project/GetAllProject";
+        options.type = "GET";
+        options.dataType = "json";
+        options.success = function (data) {
+
+            data.forEach(function (v) {
                 $('[id = "projects"]').append('<option value="' + v.id + '">' + v.name + '</option>');
             });
         };
@@ -427,6 +449,5 @@
         };
         $.ajax(options);
     });
-
 </script>
 

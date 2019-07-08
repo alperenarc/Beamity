@@ -8,10 +8,10 @@
 <h1>Index</h1>
 
 <div class="row justify-content-end">
-<button id="btnShowModal" type="button" class="btn btn-outline-success">
-    Create New
-</button>
-<div class="col-md-1"></div>
+    <button id="btnShowModal" type="button" class="btn btn-outline-success">
+        Create New
+    </button>
+    <div class="col-md-1"></div>
 </div>
 <div class="modal fade" tabindex="-1" id="loginModal"
      data-keyboard="false" data-backdrop="static">
@@ -31,7 +31,7 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label">Locations</label>
-                        <select id="locations" class="form-control" ></select>
+                        <select id="locations" class="form-control"></select>
                     </div>
                 </form>
             </div>
@@ -50,7 +50,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title align-content-lg-start">Create Beacon</h4>
+                <h4 class="modal-title align-content-lg-start">Delete Building</h4>
                 <button type="button" class="close text-lg-right" data-dismiss="modal">
                     ×
                 </button>
@@ -62,6 +62,36 @@
             <div class="modal-footer">
                 <button type="button" id="delete" class="btn btn-primary button button4">Delete</button>
                 <button type="button" id="deleteHideModal" class="btn btn-primary button button4">
+                    Hide
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" id="detailModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title align-content-lg-start">Building Details</h4>
+                <button type="button" class="close text-lg-right" data-dismiss="modal">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <p id="detailModalText"></p>
+                    <div class="form-group">
+                        <input class="form-control" type="text"
+                               placeholder="Name" id="editName" />
+                    </div>
+
+                    <select class="form-control" id="Editlocations"></select>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="update" class="btn btn-primary button button4">Update</button>
+                <button type="button" id="detailHideModal" class="btn btn-primary button button4">
                     Hide
                 </button>
             </div>
@@ -164,7 +194,7 @@
         };
         options.error = function () {
             alert("error");
-    };
+        };
         $.ajax(options);
     });
 
@@ -203,9 +233,92 @@
             })
         };
         options.error = function () {
-            alert("error");
+            Swal({
+                type: 'error',
+                title: 'Oppsss...',
+                text: 'Operation is not success. The item you want to delete have a relation.',
+            }).then(function () {
+                window.location.href = "/Building/Index";
+            })
         };
         $("#deleteModal").modal('hide');
         $.ajax(options);
     });
-    </script>
+
+
+
+
+
+
+    $(document).ready(function () {
+        var options = {};
+        options.url = "https://localhost:5001/api/Location/GetAllLocation";
+        options.type = "GET";
+        options.dataType = "json";
+        options.success = function (data) {
+            data.forEach(function (v) {
+                $("#Editlocations").append('<option value="' + v.id + '">' + v.name + '</option>');
+            });
+        };
+        options.error = function () {
+            alert("error");
+        };
+        $.ajax(options);
+    });
+    $("#update").click(function () {
+        var options = {};
+        options.url = "https://localhost:5001/api/Building/UpdateBuilding";
+        options.type = "PUT";
+        var obj = {};
+        obj.Id = $("#detailModalId").val();
+        obj.Name = $("#editName").val(); 
+        obj.LocationId = $("#Editlocations").val();
+        obj.CreatedTime = $.now();
+
+        debugger
+        options.data = JSON.stringify(obj);
+        options.contentType = "application/json";
+        options.dataType = "html";
+        debugger
+        options.success = function () {
+            Swal({
+                type: 'success',
+                title: 'Thanks',
+                text: 'Operation is success',
+            }).then(function () {
+
+                window.location.href = "/Building/Index";
+            })
+        };
+        options.error = function () {
+            Swal({
+                type: 'error',
+                title: 'Oppsss...',
+                text: 'Operation is not success. The item you want to delete have a relation.',
+            }).then(function () {
+                window.location.href = "/Building/Index";
+            })
+        };
+        $("#detailModal").modal('hide');
+        $.ajax(options);
+    });
+    $(document).ready(function () {
+        $('[id="detailShowModal"]').click(function () {
+            $("#detailModal").modal('show');
+
+            var id = $(this).data('id');
+            var name = $(this).data('name');
+            var location = $(this).data('location');
+
+            $("#editName").val(name);
+            $("#Editlocations").val(location);
+
+            $("#detailModalText").append('<input type="hidden" id="detailModalId"/>');
+            $('#detailModalId').val(id);
+        });
+
+        $("#detailHideModal").click(function () {
+            $("#detailModal").modal('hide');
+        });
+    });
+</script>

@@ -62,6 +62,7 @@ namespace Beamity.Application.Service.Services
         public void UpdateLocation(UpdateLocationDTO input)
         {
             var location = _mapper.Map<Location>(input);
+            location.Project = _projectRepository.GetById(input.ProjectId);
             _repository.Update(location);
         }
     }

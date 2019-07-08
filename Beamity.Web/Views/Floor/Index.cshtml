@@ -45,7 +45,36 @@
         </div>
     </div>
 </div>
+<div class="modal fade" tabindex="-1" id="detailModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title align-content-lg-start">Building Details</h4>
+                <button type="button" class="close text-lg-right" data-dismiss="modal">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <p id="detailModalText"></p>
+                    <div class="form-group">
+                        <input class="form-control" type="text"
+                               placeholder="Name" id="editName" />
+                    </div>
 
+                    <select class="form-control" id="EditBuilding"></select>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="update" class="btn btn-primary button button4">Update</button>
+                <button type="button" id="detailHideModal" class="btn btn-primary button button4">
+                    Hide
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal fade" tabindex="-1" id="deleteModal"
      data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog modal-lg">
@@ -93,9 +122,8 @@
                         @Html.DisplayFor(modelItem => item.BuildingName)
                     </td>
                     <td>
-                        <input type="button" class="btn btn-primary" value="Edit" id="editShowModal" />
-                        <input type="button" class="btn btn-primary" value="Details" id="detailShowModal" />
-                        <input type="button" class="btn btn-primary" value="Delete" id="deleteShowModal" />
+                        <input type="button" class="btn btn-primary" data-id="@item.Id" data-name="@item.Name" value="Details" id="detailShowModal" />
+                        <input type="button" class="btn btn-primary" data-id="@item.Id" data-name="@item.Name" value="Delete" id="deleteShowModal" />
                     </td>
                 </tr>
             }
@@ -175,5 +203,125 @@
         $.ajax(options);
     });
 
+    $(document).ready(function () {
+        $('[id="deleteShowModal"]').click(function () {
+            $("#deleteModal").modal('show');
+            var id = $(this).data('id');
+            var name = $(this).data('name');
+            $("#deleteModalText").empty();
+            debugger
+            $("#deleteModalText").append(name).append('<input type="hidden" id="deleteModalId"/>');
+            $('#deleteModalId').val(id);
+        });
+
+        $("#deleteHideModal").click(function () {
+            $("#deleteModal").modal('hide');
+        });
+    });
+    $("#delete").click(function () {
+        var options = {};
+        options.url = "https://localhost:5001/api/Floor/DeleteFloor";
+        options.type = "DELETE";
+        var obj = {};
+        obj.Id = $("#deleteModalId").val();
+        options.data = JSON.stringify(obj);
+        options.contentType = "application/json";
+        options.dataType = "html";
+        debugger
+        options.success = function () {
+            Swal({
+                type: 'success',
+                title: 'Thanks',
+                text: 'Operation is success',
+            }).then(function () {
+
+                window.location.href = "/Floor/Index";
+            })
+        };
+        options.error = function () {
+            Swal({
+                type: 'error',
+                title: 'Oppsss...',
+                text: 'Operation is not success. The item you want to delete have a relation.',
+            }).then(function () {
+                window.location.href = "/Floor/Index";
+            })
+        };
+        $("#deleteModal").modal('hide');
+        $.ajax(options);
+    });
+
+    /*Update Items*/
+    $(document).ready(function () {
+        var options = {};
+        options.url = "https://localhost:5001/api/Building/GetAllBuildings";
+        options.type = "GET";
+        options.dataType = "json";
+        options.success = function (data) {
+            data.forEach(function (v) {
+                $("#EditBuilding").append('<option value="' + v.id + '">' + v.name + '</option>');
+            });
+        };
+        options.error = function () {
+            alert("error");
+        };
+        $.ajax(options);
+    });
+    $("#update").click(function () {
+        var options = {};
+        options.url = "https://localhost:5001/api/Floor/UpdateFloor";
+        options.type = "PUT";
+        var obj = {};
+        obj.Id = $("#detailModalId").val();
+        obj.Name = $("#editName").val();
+        obj.BuildingId = $("#EditBuilding").val();
+        obj.CreatedTime = $.now();
+
+        debugger
+        options.data = JSON.stringify(obj);
+        options.contentType = "application/json";
+        options.dataType = "html";
+        debugger
+        options.success = function () {
+            Swal({
+                type: 'success',
+                title: 'Thanks',
+                text: 'Operation is success',
+            }).then(function () {
+
+                window.location.href = "/Floor/Index";
+            })
+        };
+        options.error = function () {
+            Swal({
+                type: 'error',
+                title: 'Oppsss...',
+                text: 'Operation is not success. The item you want to delete have a relation.',
+            }).then(function () {
+                window.location.href = "/Floor/Index";
+            })
+        };
+        $("#detailModal").modal('hide');
+        $.ajax(options);
+    });
+    $(document).ready(function () {
+        $('[id="detailShowModal"]').click(function () {
+            $("#detailModal").modal('show');
+
+            var id = $(this).data('id');
+            var name = $(this).data('name');
+            var building = $(this).data('building');
+
+            $("#editName").val(name);
+            $("#EditBuilding").val(building);
+
+            $("#detailModalText").append('<input type="hidden" id="detailModalId"/>');
+            $('#detailModalId').val(id);
+        });
+
+        $("#detailHideModal").click(function () {
+            $("#detailModal").modal('hide');
+        });
+    });
 </script>
 
