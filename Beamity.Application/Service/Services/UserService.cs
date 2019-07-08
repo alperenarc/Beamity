@@ -25,21 +25,27 @@ namespace Beamity.Application.Service.Services
 
         public bool Login(LoginUserDTO input)
         {
-            // get user for Login
-            var getUser = _userRepository.GetUserForLogin(input.Email);
-
-            // take user s hash
-            string correctHash = getUser.Hash;
-
-            // confirm password and hash
-            bool confirmPassword = Helpers.PasswordHelper.ValidatePassword(input.Password, correctHash);
-
-            // Login
-            if (confirmPassword.Equals(true) && getUser.IsActive.Equals(true))
+            try
             {
-                return true;
+                // get user for Login
+                var getUser = _userRepository.GetUserForLogin(input.Email);
+
+                // take user s hash
+                string correctHash = getUser.Hash;
+                // confirm password and hash
+                bool confirmPassword = Helpers.PasswordHelper.ValidatePassword(input.Password, correctHash);
+
+                // Login
+                if (confirmPassword.Equals(true) && getUser.IsActive.Equals(true))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            else
+            catch (Exception)
             {
                 return false;
             }
@@ -91,7 +97,7 @@ namespace Beamity.Application.Service.Services
         {
             var a = _userRepository.ConfirmEmail(confirmCode);
             var user = _mapper.Map<User>(a);
-            
+
 
         }
     }

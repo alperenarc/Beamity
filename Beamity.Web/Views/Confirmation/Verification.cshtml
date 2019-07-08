@@ -43,8 +43,8 @@
        
        var code = document.getElementById('ConfirmCode').value;
         debugger
-        
-        function Verify() {
+        $(document).ready(function () {
+
             var options = {};
             options.url = "https://localhost:5001/api/User/ConfirmEmail";
             options.type = "POST";
@@ -60,8 +60,7 @@
                 alert("error");
             };
             $.ajax(options);
-        }
-        window.onload = Verify();
+        });
     </script>
 </body>
 </html>
