@@ -5,25 +5,17 @@
 }
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="stylesheet" href="sweetalert2.min.css">
-
-
-    <title>SB Admin - Login</title>
-
-    <!-- Custom fonts for this template-->
+    <title>Beamity - Login</title>
     <script src="https://kit.fontawesome.com/9e517a54b5.js"></script>
+    <link href="~/css/sb-admin.css" rel="stylesheet" />
 </head>
-
 <body class="bg-dark">
-
     <div class="container">
         <div class="card card-login mx-auto mt-5">
             <div class="card-header">Login</div>
@@ -49,10 +41,6 @@
             </div>
         </div>
     </div>
-
-
-
-    <!--Ajax Libraries-->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
             crossorigin="anonymous"></script>
@@ -62,18 +50,7 @@
             crossorigin="anonymous"
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
     </script>
-
-
-    <!-- Bootstrap core JavaScript-->
-    @*<script src="~/js/jquery.min.js"></script>*@
     <script src="~/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-    @*<script src="~/js/jquery.easing.min.js"></script>*@
-
-
-  
-
     <script>
         var fileButton = document.getElementById('Submit');
 
@@ -90,20 +67,18 @@
                 contentType: "application/json",
                 success: function (returndata) {
                     if (returndata) {
-                        console.log("succes");
-                        alert('Successfully called');
+                        window.location.href = "/Home/Index";
                     }
                     else {
-                        console.log("Unsuccess");
+                        alert("wrong password or email");
                     }
                 },
-                error: function (Exception) {
-                    console.log("asdasd");
+                error: function () {
+                    alert("wrong password or email");
                 }
             });
 
         }
     </script>
 </body>
-
 </html>
