@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Beamity.Application.Azure;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,14 +25,8 @@ namespace Beamity.Web
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            services.AddScoped<IAzureBlobStorage>(factory =>
-            {
-                return new AzureBlobStorage(new AzureBlobSetings(
-                    storageAccount: Configuration["Blob_StorageAccount"],
-                    storageKey: Configuration["Blob_StorageKey"],
-                    containerName: Configuration["Blob_ContainerName"]));
-            });
 
+            DependencyInjection DI = new DependencyInjection(services,Configuration);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

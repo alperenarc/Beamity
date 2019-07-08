@@ -1,111 +1,158 @@
-﻿@model Beamity.Web.Models.AzureViewModels.FilesViewModel
+﻿@model IEnumerable<Beamity.Application.DTOs.ArtifactDTOs.ReadArtifactDTO>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="form-group">
-    <input type="text" name="name" value="" class="form-control" id="inputName" placeholder="Name" />
+<div class="row justify-content-end">
+    <button id="btnShowModal" type="button" class="btn btn-outline-success">
+        Create New
+    </button>
+    <div class="col-md-1"></div>
+</div>
+<div class="modal fade" tabindex="-1" id="loginModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title align-content-lg-start">Create Building</h4>
+                <button type="button" class="close text-lg-right" data-dismiss="modal">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <input class="form-control" type="text"
+                               placeholder="Artifact Name" id="inputName" />
+                    </div>
+
+                    <input type="file" id="file" name="files" />
+
+                    <div class="form-group">
+                        <label class="control-label">Rooms</label>
+                        <select id="rooms" class="form-control"></select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="create" class="btn btn-primary button button4">Create</button>
+                <button type="button" id="btnHideModal" class="btn btn-primary button button4">
+                    Hide
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class="form-group">
-    <select class="form-control" id="rooms"></select>
-</div>
-<form asp-controller="Artifact" asp-action="UploadFile" method="post">
-    <input type="text" name="folder" id="FilePath" placeholder="Folder" />
-    <input type="file" name="file" />
-    <button type="submit" id="Submit">Upload File</button>
-</form>
-<input type="submit" name="name" id="SubmitButton" value="" />
 
 
 
 
-<input type="text" id="mesaj" name="name" value="@ViewBag.Mesaj" />
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="~/package/dist/sweetalert2.js"></script>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MainImageURL)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RoomName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FloorName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BuildingName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedTime)
+            </th>
+          
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MainImageURL)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoomName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FloorName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BuildingName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedTime)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
+
+</script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
+
     $(document).ready(function () {
-        var options = {};
-        options.url = "https://beamityapi20190703022513.azurewebsites.net/api/Room/GetAllRooms";
-        options.type = "GET";
-        options.dataType = "json";
-        options.success = function (data) {
-            data.forEach(function (v) {
-                $("#rooms").append('<option value="' + v.id + '">' + v.name + '</option>');
-            });
-        };
-        options.error = function () {
-            alert("error");
-        };
-        $.ajax(options);
+        $("#btnShowModal").click(function () {
+            $("#loginModal").modal('show');
+
+        });
+
+        $("#btnHideModal").click(function () {
+            $("#loginModal").modal('hide');
+        });
     });
+   
 
-
-    
-    var newFileName;
-    function GoPostMethod() {
-        function GenerateFilePath() {
-            return Math.floor((1 + Math.random()) * 0x10000)
-                .toString(16)
-                .substring(1);
-        }
-        var filepath;
-        
-        var ext;
-        var generate;
-        $('input[type="file"]').change(function (e) {
-            filepath = e.target.files[0].name;
-            
-
-        });
-        debugger
-        //ext = filepath.split('.').pop();
-        generate = GenerateFilePath();
-        newFileName = generate + ".jpg";
-
-        debugger
-
-        $.ajax({
-            url: '/Artifact/UploadFile',
-            type: 'POST',
-            dataType: 'json',
-            data: { inputModel: newFileName },
-            success: function (data) {
-
-            }, error: function (data) {
-                alert("Hata");
-            }
-
-
-        });
-    }
-
-    
-    $("#SubmitButton").click(function () {
-        //GoPostMethod();
-
-        var mesaj = $("#mesaj").val();
-        debugger
-
-
+    $("#create").click(function () {
         var options = {};
-        options.url = "https://localhost:5001/api/Artifact/CreateArtifact";
+        options.url = '/Artifact/CreateArtifact';
         options.type = "POST";
-        var obj = {};
 
-        obj.Name = $("#inputName").val();
-        //obj.MainImageURL = /*"https://testblobkayten.blob.core.windows.net/blobcontainer/" + newFileName + "?sv=2018-03-28&ss=bqtf&srt=sco&sp=rwdlacup&se=2019-07-05T16:28:48Z&sig=E8YuTSKxReDDt8%2F4fvHKiMt*/sNmS8X8KfOXuax9Ut5I4%3D&_=1562317007361";
-        obj.MainImageURL = mesaj;
-        obj.RoomId = $("#rooms").val();
+        var obj = new FormData();
+        obj.append('Name', $("#inputName").val());
+        obj.append('RoomId', $("#rooms").val());
+        obj.append('File', $("#file")[0].files[0]);
 
-        options.data = JSON.stringify(obj);
-        options.contentType = "application/json";
-        options.dataType = "html";
+        debugger
+        options.data = obj;
+
+        //options.data = JSON.stringify(obj);
+
+        options.contentType = false;
+        options.processData = false;
+
+        //options.dataType = "html";
+        //options.data = obj;
+
+        console.log($("#rooms").val());
         options.success = function (msg) {
             $("#msg").html(msg);
             Swal({
@@ -114,14 +161,31 @@
                 text: 'Operation is success',
             }).then(function () {
 
-                window.location.reload();
+                window.location.href = "/Artifact/Index";
             })
         };
-        options.error = function () {
-            $("#msg").html("Error while calling the Web API!");
+        options.error = function (error) {
+            alert("error");
+            alert(error.msg);
         };
         $.ajax(options);
+        $("#loginModal").modal('hide');
     });
-    
 
+        $(document).ready(function () {
+            var options = {};
+            options.url = "https://localhost:5001/api/Room/GetAllRooms";
+            options.type = "GET";
+            options.dataType = "json";
+            options.success = function (data) {
+                data.forEach(function (v) {
+                    $("#rooms").append('<option value="' + v.id + '">' + v.name + '</option>');
+                });
+            };
+            options.error = function () {
+                alert("error");
+            };
+            $.ajax(options);
+        });
+    
 </script>
