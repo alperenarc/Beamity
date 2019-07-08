@@ -1,0 +1,121 @@
+﻿@model Beamity.Web.Models.CreateContentViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>CreateContentDTO</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" id="inputName" class="form-control" required />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" id="inputTitle" class="form-control" required />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" id="inputDescription" class="form-control" required />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+
+            @* MainImageUrl  *@
+            <label asp-for="MainImage" class="control-label"></label>
+            <input asp-for="MainImage" type="file" class="file" id="mainImage" name="files" />
+
+            @* SlideImageUrl  *@
+            <label asp-for="SlideImage" class="control-label"></label>
+            <input asp-for="SlideImage" type="file" id="slideImage" name="slide" />
+
+            @* VideoUrl *@
+            <label asp-for="Video" class="control-label"></label>
+            <input asp-for="Video" type="file" id="video" name="video" />
+
+            @* AudioUrl *@
+            <label asp-for="Audio" class="control-label"></label>
+            <input asp-for="Audio" type="file" id="audio" name="audio" />
+
+
+            <div class="form-group">
+                <label asp-for="Text" class="control-label"></label>
+                <input asp-for="Text" id="inputText" class="form-control" />
+                <span asp-validation-for="Text" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" id="isHome" asp-for="IsHomePage" /> @Html.DisplayNameFor(model => model.IsHomePage)
+                </label>
+            </div>
+
+        </form>
+        <div class="form-group">
+            <input type="button" id="create" value="Create" class="btn btn-primary" />
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
+
+</script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+
+    $("#create").click(function () {
+        var options = {};
+        options.url = '/Content/Create';
+        options.type = "POST";
+
+        var obj = new FormData();
+        obj.append('Name', $("#inputName").val());
+        obj.append('Title', $("#inputTitle").val());
+        obj.append('Description', $("#inputDescription").val());
+
+        obj.append('MainImage', $("#mainImage")[0].files[0]);
+        obj.append('SlideImage', $("#slideImage")[0].files[0]);
+        obj.append('Video', $("#video")[0].files[0]);
+        obj.append('Audio', $("#audio")[0].files[0]);
+
+        obj.append('Text', $("#inputText").val());
+        obj.append('IsHomePage', $("#isHome").val());
+
+        debugger
+        options.data = obj;
+
+
+        options.contentType = false;
+        options.processData = false;
+
+        options.success = function (msg) {
+            $("#msg").html(msg);
+            Swal({
+                type: 'success',
+                title: 'Thanks',
+                text: 'Operation is success',
+            }).then(function () {
+
+                window.location.href = "/Content/Index";
+            })
+        };
+        options.error = function (error) {
+            alert("error");
+            alert(error.msg);
+        };
+        $.ajax(options);
+        $("#loginModal").modal('hide');
+    });
+</script>
