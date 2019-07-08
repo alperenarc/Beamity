@@ -4,26 +4,21 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Beamity.Application.DTOs.ContentDTOs;
+using Beamity.Application.Service.IServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Beamity.Web.Controllers
 {
     public class ContentController : Controller
     {
-        public async Task<IActionResult> Index()
+        private readonly IContentService _contentService;
+        public ContentController(IContentService contentService)
         {
-            IEnumerable<ReadContentDTO> buildings = null;
-
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri("https://localhost:5001/api/");
-                var responseTask = await client.GetAsync("Content/GetAllContents");
-
-                var readTask = responseTask.Content.ReadAsAsync<List<ReadContentDTO>>();
-
-                buildings = readTask.Result;
-
-            }
+            _contentService = contentService;
+        }
+        public IActionResult Index()
+        {
+            IEnumerable<ReadContentDTO> buildings = _contentService.GetAllContents();
             return View(buildings);
         }
     }

@@ -13,7 +13,6 @@ namespace Beamity.API.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [Authorize]
     public class ProjectController : ControllerBase
     {
         private readonly IProjectService _projectService;

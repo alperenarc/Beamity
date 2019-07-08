@@ -1,17 +1,16 @@
-﻿using Beamity.Application.Service.IServices;
+﻿using AutoMapper;
+using Beamity.Application;
+using Beamity.Application.Service.IServices;
 using Beamity.Application.Service.Services;
-using Beamity.Application.Tokens;
-using Beamity.Core.Models.Tokens;
-using Beamity.EntityFrameworkCore.EntityFrameworkCore;
+using Beamity.EntityFrameworkCore.EntityFrameworkCore.Contexts;
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Interfaces;
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Beamity.Web.Blob;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
-using System;
 
-namespace Beamity.API
+namespace Beamity.Web
 {
     public class DependencyInjection
     {
@@ -29,7 +28,6 @@ namespace Beamity.API
             services.AddTransient<IUserService, UserService>();
 
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-            services.AddScoped(typeof(IBaseGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<RoomRepository, RoomRepository>();
             services.AddScoped<ArtifactRepository, ArtifactRepository>();
             services.AddScoped<ContentRepository, ContentRepository>();
@@ -40,33 +38,15 @@ namespace Beamity.API
             services.AddScoped<BuildingRepository, BuildingRepository>();
             services.AddScoped<FloorRepository, FloorRepository>();
             services.AddScoped<UserRepository, UserRepository>();
-
-
-            services.AddSingleton<ITokenHandler,Beamity.Application.Tokens.TokenHandler>();
-
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddTransient<IBlobManager, BlobManager>();
 
-            services.Configure<TokenOptions>(Configuration.GetSection("TokenOptions"));
-            var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
+            services.AddDbContext<BeamityDbContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            var signingConfigurations = new SigningConfigurations();
-            services.AddSingleton(signingConfigurations);
+            Mapper.Initialize(cfg => cfg.AddProfile<MappingProfile>());
+            services.AddAutoMapper();
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(jwtBearerOptions =>
-                {
-                    jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = tokenOptions.Issuer,
-                        ValidAudience = tokenOptions.Audience,
-                        IssuerSigningKey = signingConfigurations.Key,
-                        ClockSkew = TimeSpan.FromMinutes(60)
-                    };
-                });
         }
     }
 }

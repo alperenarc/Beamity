@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Beamity.Application.Azure;
 using Beamity.Application.DTOs.ArtifactDTOs;
-using Beamity.Web.Models.AzureViewModels;
+using Beamity.Application.Service.IServices;
+using Beamity.Web.Blob;
+using Beamity.Web.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Beamity.Web.Controllers
 {
@@ -14,51 +18,46 @@ namespace Beamity.Web.Controllers
     {
         public string guid;
 
-        private readonly IAzureBlobStorage _blobStorage;
+        private readonly IBlobManager _blobManager;
+        private readonly IArtifactService _artifactService;
+      
 
-        public ArtifactController(IAzureBlobStorage blobStorage)
+        public ArtifactController(IBlobManager blobManager, IArtifactService artifactService)
         {
-            _blobStorage = blobStorage;
+            _blobManager = blobManager;
+            _artifactService = artifactService;
         }
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            //guid = Guid.NewGuid().ToString();
-
-
-            //IEnumerable<ReadArtifactDTO> artifacts = null;
-
-            //using (var client = new HttpClient())
-            //{
-            //    client.BaseAddress = new Uri("https://localhost:5001/api/");
-            //    var responseTask = await client.GetAsync("Artifact/GetAllArtifacts");
-
-            //    var readTask = responseTask.Content.ReadAsAsync<IList<ReadArtifactDTO>>();
-
-            //    artifacts = readTask.Result;
-
-            //}
-            return View();
+            IEnumerable<ReadArtifactDTO> artifacts = _artifactService.GetAllArtifacts();
+            return View(artifacts);
         }
         [HttpPost]
-        public async Task<IActionResult> UploadFile(FileInputModel inputModel)
+        public async Task CreateArtifact(CreateArtifactViewModel input)
         {
+            try
+            {
+                string url = await _blobManager.UploadImageAsBlob(input.File);
 
-            if (inputModel == null)
-                return Content("Argument null");
-            if (inputModel.File == null || inputModel.File.Length == 0)
-                return Content("file not selected");
+                using (var client = new HttpClient())
+                {
+                    CreateArtifactDTO data = new CreateArtifactDTO()
+                    {
+                        Name = input.Name,
+                        MainImageURL = url,
+                        RoomId = input.RoomId
+                    };
+                    _artifactService.CreateArtifact(data);                 
 
-            var blobName = inputModel.File.GetFilename();
-            var fileStream = await inputModel.File.GetFileStream();
+                }
+               
+            }
+            catch (Exception e)
+            {
 
+                throw e;
+            }
 
-            if (!string.IsNullOrEmpty(inputModel.Folder))
-                blobName = string.Format(@"{0}\{1}", inputModel.Folder, blobName);
-
-            await _blobStorage.UploadAsync(blobName, fileStream);
-
-            
-            return ViewBag.Mesaj = "Mesaj";
         }
 
     }
