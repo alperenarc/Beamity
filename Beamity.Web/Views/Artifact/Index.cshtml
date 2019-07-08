@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="row justify-content-end">
+<div class="row justify-content-start m-1">
     <button id="btnShowModal" type="button" class="btn btn-outline-success">
         Create New
     </button>
@@ -15,7 +15,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title align-content-lg-start">Create Building</h4>
+                <h4 class="modal-title align-content-lg-start">Create Artifact</h4>
                 <button type="button" class="close text-lg-right" data-dismiss="modal">
                     ×
                 </button>
@@ -44,9 +44,61 @@
         </div>
     </div>
 </div>
+<div class="modal fade" tabindex="-1" id="deleteModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title align-content-lg-start">Delete Artifact</h4>
+                <button type="button" class="close text-lg-right" data-dismiss="modal">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body">
+                <h4>Are you sure you want to delete this?</h4>
+                <p id="deleteModalText"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="delete" class="btn btn-primary button button4">Delete</button>
+                <button type="button" id="deleteHideModal" class="btn btn-primary button button4">
+                    Hide
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
+<div class="modal fade" tabindex="-1" id="detailModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title align-content-lg-start">Artifact Details</h4>
+                <button type="button" class="close text-lg-right" data-dismiss="modal">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="put" enctype="multipart/form-data">
+                    <p id="detailModalText"></p>
+                    <div class="form-group">
+                        <input class="form-control" type="text"
+                               placeholder="Name" id="editName" />
+                    </div>
+                    <input type="file" id="editfiles" name="files" />
 
-
+                    <select class="form-control" id="EditRoom"></select>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="update" class="btn btn-primary button button4">Update</button>
+                <button type="button" id="detailHideModal" class="btn btn-primary button button4">
+                    Hide
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -72,7 +124,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.CreatedTime)
             </th>
-          
+
             <th></th>
         </tr>
     </thead>
@@ -99,9 +151,9 @@
                     @Html.DisplayFor(modelItem => item.CreatedTime)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    <input type="button" class="btn btn-primary" data-id="@item.Id" data-name="@item.Name"
+                           data-ctime="@item.CreatedTime" value="Details" id="detailShowModal" /> |
+                    <input type="button" class="btn btn-primary" id="deleteShowModal" data-name="@item.Name" data-id="@item.Id" value="Delete" />
                 </td>
             </tr>
         }
@@ -128,28 +180,18 @@
             $("#loginModal").modal('hide');
         });
     });
-   
-
     $("#create").click(function () {
         var options = {};
         options.url = '/Artifact/CreateArtifact';
         options.type = "POST";
-
         var obj = new FormData();
         obj.append('Name', $("#inputName").val());
         obj.append('RoomId', $("#rooms").val());
         obj.append('File', $("#file")[0].files[0]);
-
         debugger
         options.data = obj;
-
-        
-
         options.contentType = false;
         options.processData = false;
-
-        
-
         console.log($("#rooms").val());
         options.success = function (msg) {
             $("#msg").html(msg);
@@ -169,21 +211,138 @@
         $.ajax(options);
         $("#loginModal").modal('hide');
     });
+    $(document).ready(function () {
+        var options = {};
+        options.url = "https://localhost:5001/api/Room/GetAllRooms";
+        options.type = "GET";
+        options.dataType = "json";
+        options.success = function (data) {
+            data.forEach(function (v) {
+                $("#rooms").append('<option value="' + v.id + '">' + v.name + '</option>');
+            });
+        };
+        options.error = function () {
+            alert("error");
+        };
+        $.ajax(options);
+    });
 
-        $(document).ready(function () {
-            var options = {};
-            options.url = "https://localhost:5001/api/Room/GetAllRooms";
-            options.type = "GET";
-            options.dataType = "json";
-            options.success = function (data) {
-                data.forEach(function (v) {
-                    $("#rooms").append('<option value="' + v.id + '">' + v.name + '</option>');
-                });
-            };
-            options.error = function () {
-                alert("error");
-            };
-            $.ajax(options);
+    $(document).ready(function () {
+        $('[id="deleteShowModal"]').click(function () {
+            $("#deleteModal").modal('show');
+            var id = $(this).data('id');
+            var name = $(this).data('name');
+            $("#deleteModalText").empty();
+            $("#deleteModalText").append(name).append('<input type="hidden" id="deleteModalId"/>');
+            $('#deleteModalId').val(id);
         });
-    
+
+        $("#deleteHideModal").click(function () {
+            $("#deleteModal").modal('hide');
+        });
+    });
+    $("#delete").click(function () {
+        var options = {};
+        options.url = "https://localhost:5001/api/Artifact/DeleteArtifact";
+        options.type = "DELETE";
+        var obj = {};
+        obj.Id = $("#deleteModalId").val();
+        options.data = JSON.stringify(obj);
+        options.contentType = "application/json";
+        options.dataType = "html";
+        debugger
+        options.success = function () {
+            Swal({
+                type: 'success',
+                title: 'Thanks',
+                text: 'Operation is success',
+            }).then(function () {
+
+                window.location.href = "/Artifact/Index";
+            })
+        };
+        options.error = function () {
+            Swal({
+                type: 'error',
+                title: 'Oppsss...',
+                text: 'Operation is not success. The item you want to delete have a relation.',
+            }).then(function () {
+                window.location.href = "/Artifact/Index";
+            })
+        };
+        $("#deleteModal").modal('hide');
+        $.ajax(options);
+    });
+
+    $(document).ready(function () {
+        var options = {};
+        options.url = "https://localhost:5001/api/Room/GetAllRooms";
+        options.type = "GET";
+        options.dataType = "json";
+        options.success = function (data) {
+            data.forEach(function (v) {
+                $("#EditRoom").append('<option value="' + v.id + '">' + v.name + '</option>');
+            });
+        };
+        options.error = function () {
+            alert("error");
+        };
+        $.ajax(options);
+    });
+
+    $("#update").click(function () {
+        var options = {};
+        options.url = '/Artifact/UpdateArtifact';
+        options.type = "PUT";
+        var obj = new FormData();
+        obj.append('Name', $("#editName").val());
+        obj.append('RoomId', $("#EditRoom").val());
+        obj.append('File', $("#editfiles")[0].files[0]);
+        obj.append('Id', $("#detailModalId").val());
+        debugger
+        options.data = obj;
+        options.contentType = false;
+        options.processData = false;
+        console.log($("#rooms").val());
+        options.success = function (msg) {
+            Swal({
+                type: 'success',
+                title: 'Thanks',
+                text: 'Operation is success',
+            }).then(function () {
+
+                window.location.href = "/Artifact/Index";
+            })
+        };
+        options.error = function () {
+            Swal({
+                type: 'error',
+                title: 'Oppsss...',
+                text: 'Operation is not success. The item you want to delete have a relation.',
+            }).then(function () {
+                window.location.href = "/Artifact/Index";
+            })
+        };
+        $("#detailModal").modal('hide');
+        $.ajax(options);
+    });
+    $(document).ready(function () {
+        $('[id="detailShowModal"]').click(function () {
+            $("#detailModal").modal('show');
+
+            var id = $(this).data('id');
+            var name = $(this).data('name');
+            var room = $(this).data('room');
+
+            $("#editName").val(name);
+            $("#EditRoom").val(room);
+
+            $("#detailModalText").append('<input type="hidden" id="detailModalId"/>');
+            $('#detailModalId').val(id);
+        });
+
+        $("#detailHideModal").click(function () {
+            $("#detailModal").modal('hide');
+        });
+    });
 </script>

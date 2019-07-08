@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Beamity.Application.DTOs;
 using Beamity.Application.DTOs.ArtifactDTOs;
 using Beamity.Application.Service.IServices;
 using Beamity.Web.Blob;
@@ -20,7 +21,7 @@ namespace Beamity.Web.Controllers
 
         private readonly IBlobManager _blobManager;
         private readonly IArtifactService _artifactService;
-      
+
 
         public ArtifactController(IBlobManager blobManager, IArtifactService artifactService)
         {
@@ -33,12 +34,11 @@ namespace Beamity.Web.Controllers
             return View(artifacts);
         }
         [HttpPost]
-        public async Task CreateArtifact(CreateArtifactViewModel input)
+        public async Task<IActionResult> CreateArtifact(CreateArtifactViewModel input)
         {
             try
             {
                 string url = await _blobManager.UploadImageAsBlob(input.File);
-
                 using (var client = new HttpClient())
                 {
                     CreateArtifactDTO data = new CreateArtifactDTO()
@@ -47,18 +47,41 @@ namespace Beamity.Web.Controllers
                         MainImageURL = url,
                         RoomId = input.RoomId
                     };
-                    _artifactService.CreateArtifact(data);                 
-
+                    _artifactService.CreateArtifact(data);
                 }
-               
+                return Ok();
             }
-            catch (Exception e)
+            catch (Exception)
             {
-
-                throw e;
+                return BadRequest();
             }
 
         }
+        [HttpPut]
+        public async Task<IActionResult> UpdateArtifact(UpdateArtifactViewModel input)
+        {
+            try
+            {
+                string url = await _blobManager.UploadImageAsBlob(input.File);
+                using (var client = new HttpClient())
+                {
+                    UpdateArtifactDTO data = new UpdateArtifactDTO()
+                    {
+                        Id = input.Id,
+                        Name = input.Name,
+                        MainImageURL = url,
+                        RoomId = input.RoomId
+                    };
 
+                    _artifactService.UpdateArtifact(data);
+                }
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+
+        }
     }
 }
