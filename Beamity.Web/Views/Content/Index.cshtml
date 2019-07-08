@@ -4,11 +4,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<div class="row justify-content-end">
+    <button  type="button" onclick="window.location.href = 'Content/Create'" class="btn btn-outline-success">
+        Create New
+    </button>
+</div>
+
 <table class="table">
     <thead>
         <tr>
@@ -16,12 +18,8 @@
                 @Html.DisplayNameFor(model => model.Name)
             </th>
 
-
             <th>
                 @Html.DisplayNameFor(model => model.CreatedTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsActive)
             </th>
 
             <th></th>
