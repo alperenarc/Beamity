@@ -44,10 +44,11 @@ namespace Beamity.Web.Blob
 
         public async Task<string> UploadImageAsBlob(IFormFile file)
         {
-            if (file != null && file.ContentType.StartsWith("image"))
+            if  (file != null && (file.ContentType.StartsWith("image") || file.ContentType.StartsWith("audio") || file.ContentType.StartsWith("video")))
             {
                 _stream = file.OpenReadStream();
-                _blockBlob = _container.GetBlockBlobReference(FileNameHelper.CreateFileName());
+                string extension = Path.GetExtension(file.FileName);
+                _blockBlob = _container.GetBlockBlobReference(FileNameHelper.CreateFileName(extension));
                 await _blockBlob.UploadFromStreamAsync(_stream);
                 return "/" + _blockBlob.Name;
             }
