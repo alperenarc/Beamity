@@ -5,33 +5,24 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Beamity.Application.DTOs.LocationDTOs;
 using Beamity.Application.DTOs.ProjectDTOs;
+using Beamity.Application.Service.IServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Beamity.Web.Controllers
 {
     public class ProjectController : Controller
     {
-        public async Task<IActionResult> Index()
+        private readonly IProjectService _projectService;
+        public ProjectController(IProjectService projectService)
         {
-            IEnumerable<ReadProjectDTO> projects = null;
-
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri("https://localhost:5001/api/");
-                var responseTask = await client.GetAsync("Project/GetAllProject");
-
-                var readTask = responseTask.Content.ReadAsAsync<List<ReadProjectDTO>>();
-
-                projects = readTask.Result;
-
-            }
+            _projectService = projectService;
+        }
+        public IActionResult Index()
+        {
+            IEnumerable<ReadProjectDTO> projects = _projectService.GetAllProject();
             return View(projects);
             
         }
-        public IActionResult Create()
-        {
-            return View();
-        }
-
+        
     }
 }

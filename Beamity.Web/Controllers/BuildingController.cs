@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Beamity.Application.DTOs.BuildingDTOs;
+using Beamity.Application.Service.IServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,25 +12,18 @@ namespace Beamity.Web.Controllers
 {
     public class BuildingController : Controller
     {
-        // GET: Building
-        public async  Task<ActionResult> Index()
+        private readonly IBuildingService _buildingService;
+        public BuildingController(IBuildingService buildingService)
         {
-            IEnumerable<ReadBuildingDTO> buildings = null;
-
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri("https://localhost:5001/api/");
-                var responseTask = await client.GetAsync("Building/GetAllBuildings");
-
-                var readTask = responseTask.Content.ReadAsAsync<List<ReadBuildingDTO>>();
-
-                buildings = readTask.Result;
-
-            }
-            return View(buildings);
+            _buildingService = buildingService;
+        }
+        // GET: Beacon
+        public ActionResult Index()
+        {
+            IEnumerable<ReadBuildingDTO> beacons = _buildingService.GetAllBuildings();
+            return View(beacons);
         }
 
-      
-      
+
     }
 }
