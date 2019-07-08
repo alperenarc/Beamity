@@ -6,9 +6,9 @@ namespace Beamity.Application.Helpers
 {
     public class FileNameHelper
     {
-        public static string CreateFileName()
+        public static string CreateFileName(string extension)
         {
-            return Guid.NewGuid().ToString().Replace("-", "") + ".jpg";
+            return Guid.NewGuid().ToString().Replace("-", "") + extension;
         }
     }
 

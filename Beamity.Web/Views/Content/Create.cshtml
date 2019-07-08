@@ -20,7 +20,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" id="inputTitle" class="form-control" required />
+                <input asp-for="Title" id="inputTitle" class="form-control" />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -32,7 +32,7 @@
 
             @* MainImageUrl  *@
             <label asp-for="MainImage" class="control-label"></label>
-            <input asp-for="MainImage" type="file" class="file" id="mainImage" name="files" />
+            <input asp-for="MainImage" type="file" class="file" id="mainImage" required name="files" />
 
             @* SlideImageUrl  *@
             <label asp-for="SlideImage" class="control-label"></label>
