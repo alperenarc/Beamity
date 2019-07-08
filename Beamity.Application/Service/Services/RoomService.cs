@@ -73,6 +73,7 @@ namespace Beamity.Application.Service.Services
         public void UpdateRoom(UpdateRoomDTO input)
         {
             var room = _mapper.Map<Room>(input);
+            room.Floor = _floorRepository.GetById(input.FloorId);
             _roomRepository.Update(room);
         }
     }

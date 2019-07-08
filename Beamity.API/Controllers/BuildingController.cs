@@ -87,8 +87,7 @@ namespace Beamity.API.Controllers
             }
             catch (Exception)
             {
-
-                throw;
+                return BadRequest();
             }
         }
     }
