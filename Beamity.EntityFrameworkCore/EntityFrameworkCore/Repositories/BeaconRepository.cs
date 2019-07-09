@@ -15,10 +15,10 @@ namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories
         {
         }
         
-        public Beacon GetBeaconWithName(string name)
+        public Beacon GetBeaconWithName(string UUID,int minor,int major)
 
         {
-            return Table.FirstOrDefault(p => p.Name == name);
-        }
+            return Table.FirstOrDefault(p => p.UUID == UUID & p.Minor == minor & p.Major == major);
+        } 
     }
 }
