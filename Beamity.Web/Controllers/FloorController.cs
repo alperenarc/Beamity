@@ -5,10 +5,12 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Beamity.Application.DTOs.FloorDTOs;
 using Beamity.Application.Service.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Beamity.Web.Controllers
 {
+    [Authorize(Policy ="Common")]
     public class FloorController : Controller
     {
         private readonly IFloorService _floorService;

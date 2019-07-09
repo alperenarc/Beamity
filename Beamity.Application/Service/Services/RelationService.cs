@@ -126,7 +126,7 @@ namespace Beamity.Application.Service.Services
 
         public ReadContentDTO GetContentWithBeacon(GetContentWithBeaconDTO input)
         {
-            var beacon = _beaconRepository.GetBeaconWithIds(input.UUID, input.Major, input.Minor);
+            var beacon = _beaconRepository.GetBeaconWithName(input.Name);
             var relation = _relationRepository.GetRelationWithBeaconId(beacon.Id, input.Proximity);
             return _mapper.Map<ReadContentDTO>(relation.Content);
         }

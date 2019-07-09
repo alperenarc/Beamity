@@ -2,13 +2,20 @@
 using Beamity.Application;
 using Beamity.Application.Service.IServices;
 using Beamity.Application.Service.Services;
+using Beamity.Application.Tokens;
+using Beamity.Core.Models.Tokens;
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Contexts;
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Interfaces;
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories;
 using Beamity.Web.Blob;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using System;
 
 namespace Beamity.Web
 {
@@ -46,6 +53,25 @@ namespace Beamity.Web
 
             Mapper.Initialize(cfg => cfg.AddProfile<MappingProfile>());
             services.AddAutoMapper();
+
+            services.AddSingleton<ITokenHandler, Beamity.Application.Tokens.TokenHandler>();
+
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
+
+            services.Configure<TokenOptions>(Configuration.GetSection("TokenOptions"));
+            var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
+
+            var signingConfigurations = new SigningConfigurations();
+            services.AddSingleton(signingConfigurations);
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
+            options => 
+            {
+                    options.LoginPath = new PathString("/User/Login/");
+                    options.AccessDeniedPath = new PathString("/User/Register/");
+            });
+             
 
         }
     }

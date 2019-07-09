@@ -66,7 +66,7 @@ namespace Beamity.API
                         IssuerSigningKey = signingConfigurations.Key,
                         ClockSkew = TimeSpan.FromMinutes(60)
                     };
-                });
+                }).AddCookie();
         }
     }
 }

@@ -5,12 +5,13 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Beamity.Application.DTOs.BeaconDTOs;
 using Beamity.Application.Service.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Beamity.Web.Controllers
 {
-   public class BeaconController : Controller
+    public class BeaconController : Controller
    {
        private readonly IBeaconService _beaconService;
        public BeaconController(IBeaconService beaconService)

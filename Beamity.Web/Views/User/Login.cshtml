@@ -1,4 +1,4 @@
-﻿@model Beamity.Application.DTOs.UserDTOs.CreateUserDTO
+﻿@model Beamity.Application.DTOs.UserDTOs.LoginUserDTO
 
 @{
     Layout = null;
@@ -33,7 +33,7 @@
                             <label for="inputPassword">Password</label>
                         </div>
                     </div>
-                    <input id="Submit" onclick="myClickEvent()" type="button" value="Giriş" class="btn btn-primary btn-block" />
+                    <input id="login" type="submit" value="Giriş" class="btn btn-primary btn-block" />
                 </form>
                 <div class="text-center">
                     <a class="d-block small mt-3" href="/User/Register">Register an Account</a>
@@ -51,40 +51,39 @@
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
     </script>
     <script src="~/js/bootstrap.bundle.min.js"></script>
-    <script>
-        var fileButton = document.getElementById('Submit');
+    @*<script>
+        
+        $("#login").click(function () {
+            $('#login').prop('disabled', true);
 
-        function myClickEvent(e) {
+            var options = {};
+            options.url = '/User/Login';
+            options.type = "POST";
 
+            var obj = {};
+            obj.Email = $("#inputEmail").val();
+            obj.Password = $("#inputPassword").val();
 
+            debugger
 
-            $('#Submit').prop('disabled', true);
-            var myData = {};
-            myData.email = document.getElementById('inputEmail').value;
-            myData.password = document.getElementById('inputPassword').value;
+            options.data = JSON.stringify(obj);
+            options.contentType = "application/json";
+            options.dataType = "html";
 
-            $.ajax({
-                type: "POST",
-                url: 'https://localhost:5001/api/user/login',
-                data: JSON.stringify(myData),
-                dataType: 'json',
-                contentType: "application/json",
-                success: function (returndata) {
-                    if (returndata) {
-                        window.location.href = "/Home/Index";
-                    }
-                    else {
-                        alert("wrong password or email");
-                    }
-                },
-                error: function () {
-                    alert("wrong password or email");
-                }
-            });
+            options.success = function () {
+                $('#login').prop('disabled', false);
+                indow.location.href = "/Home/Index";
+            };
+            options.error = function (error) {
+                $('#login').prop('disabled', false);
+                alert(error.msg);
+            };
+            $.ajax(options);
+            $('#login').prop('disabled', false);
 
-        }
+        });
+       
 
-
-    </script>
+    </script>*@
 </body>
 </html>
