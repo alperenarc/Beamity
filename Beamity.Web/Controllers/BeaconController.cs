@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Beamity.Web.Controllers
 {
+    [Authorize(Policy ="Common")]
     public class BeaconController : Controller
    {
        private readonly IBeaconService _beaconService;
