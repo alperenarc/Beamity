@@ -18,7 +18,7 @@ namespace Beamity.Application.Helpers
             {
                 // This are for the content
                 Text = "Hesabınızı onaylamak için aşağıdaki linke tıklayınız... <br/>" +
-                "<a href='https://nootelib.com/Confirmation/Verification/?guidcode=" + guidkey + "'>Onaylama Linki<a/>"
+                "<a href='https://localhost:4001/confirmation/verification/?guidcode=" + guidkey + "'>Onaylama Linki<a/>"
                 //Confirmation / Verification /
             };
             
