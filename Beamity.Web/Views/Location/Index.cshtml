@@ -188,7 +188,7 @@
                 <td>
                     <input type="button" class="btn btn-primary" data-id="@item.Id" data-name="@item.Name"
                            data-ctime="@item.CreatedTime" data-lat="@item.Latitude" data-long="@item.Longitude" value="Details" id="detailShowModal" />
-                    <input type="button" class="btn btn-primary" id="deleteShowModal" data-name="@item.Name" data-id="@item.Id" value="Delete" />
+                   | <input type="button" class="btn btn-primary" id="deleteShowModal" data-name="@item.Name" data-id="@item.Id" value="Delete" />
                 </td>
             </tr>
             }
@@ -382,8 +382,8 @@
         var obj = {};
         obj.Id = $("#detailModalId").val();
         obj.Name = $("#editName").val();
-        obj.Longitude = $("#editLat").val();
-        obj.Latitude = $("#editLong").val();
+        obj.Longitude = $("#editLong").val();
+        obj.Latitude = $("#editLat").val(); 
         obj.CreatedTime = $.now();
         obj.ProjectId = $("#editprojects").val();
 

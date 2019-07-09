@@ -109,7 +109,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.CreatedTime)
             </th>
-            <th></th>
+            <th>Operations</th>
         </tr>
     </thead>
     <tbody>
@@ -127,7 +127,7 @@
                 </td>
                 <td>
                     <input type="button" class="btn btn-primary" data-id="@item.Id" data-name="@item.Name"
-                           data-ctime="@item.CreatedTime" value="Details" id="detailShowModal" />
+                           data-ctime="@item.CreatedTime" value="Details" id="detailShowModal" /> |
                     <input type="button" class="btn btn-primary" id="deleteShowModal" data-name="@item.Name" data-id="@item.Id" value="Delete" />
                 </td>
             </tr>
