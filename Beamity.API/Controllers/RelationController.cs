@@ -23,6 +23,7 @@ namespace Beamity.API.Controllers
             _relationService = relationService;
         }
         [HttpGet]
+        [AllowAnonymous]
         public List<ReadRelationDTO> GetAllRelations()
         {
 
