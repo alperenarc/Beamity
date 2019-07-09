@@ -14,9 +14,9 @@ namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories
             : base(context)
         {
         }
-        public Beacon GetBeaconWithIds(string uUID,int major,int minor)
+        public Beacon GetBeaconWithIds(string name)
         {
-            return Table.FirstOrDefault(p => p.Major == major && p.Minor == minor && p.UUID == uUID);
+            return Table.FirstOrDefault(p => p.Name == name);
         }
     }
 }

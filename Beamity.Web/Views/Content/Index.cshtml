@@ -5,8 +5,8 @@
 }
 
 
-<div class="row justify-content-end">
-    <button type="button" onclick="window.location.href = 'Content/Create'" class="btn btn-outline-success">
+<div class="row justify-content-start m-1">
+    <button type="button" onclick="window.location.href = '/Content/Create'" class="btn btn-outline-success">
         Create New
     </button>
 </div>
@@ -47,29 +47,34 @@
             <th>
                 @Html.DisplayNameFor(model => model.CreatedTime)
             </th>
-
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsHomePage)
+            </th>
+            <th>Operations</th>
         </tr>
     </thead>
     <tbody>
 
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
 
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedTime)
-                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsHomePage)
+            </td>
 
-                <td>
-                    <a asp-controller="Content" asp-action="Update"asp-route-id="@item.Id">Edit  </a>
-                    <input type="button" class="btn btn-primary" id="deleteShowModal" data-name="@item.Name" data-id="@item.Id" value="Delete" />
-                </td>
-            </tr>
+            <td>
+                <a asp-controller="Content"class="btn btn-primary" asp-action="Update" asp-route-id="@item.Id">Edit  </a> |
+                <input type="button" class="btn btn-primary" id="deleteShowModal" data-name="@item.Name" data-id="@item.Id" value="Delete" />
+            </td>
+        </tr>
         }
     </tbody>
 </table>
