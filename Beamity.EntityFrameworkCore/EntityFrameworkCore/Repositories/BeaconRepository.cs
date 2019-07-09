@@ -14,7 +14,9 @@ namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories
             : base(context)
         {
         }
+        
         public Beacon GetBeaconWithName(string name)
+
         {
             return Table.FirstOrDefault(p => p.Name == name);
         }
