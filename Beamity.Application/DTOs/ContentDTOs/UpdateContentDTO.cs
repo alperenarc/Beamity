@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Beamity.Application.DTOs.ContentDTOs
 {
-    public class UpdateContentDTO
+    public class UpdateContentDTO : BaseDTO<Guid>
     {
         public DateTime CreatedTime { get; set; }
 

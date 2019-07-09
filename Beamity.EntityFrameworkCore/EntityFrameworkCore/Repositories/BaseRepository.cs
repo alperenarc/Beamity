@@ -55,7 +55,7 @@ namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories
         public virtual void Update(TModel model)
         {
             Table.Update(model);
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
     }
 }

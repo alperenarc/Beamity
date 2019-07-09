@@ -11,8 +11,9 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Update" method="post">
+        <form method="put" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden"value="@Model.Id" id="id"/>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" id="inputName" class="form-control" />
@@ -31,7 +32,7 @@
             <div class="form-group">
                 @* MainImageUrl  *@
                 <label asp-for="MainImage" class="control-label"></label>
-                <input asp-for="MainImage" type="file" class="file" id="mainImage"  name="files" />
+                <input asp-for="MainImage" type="file" class="file" id="mainImage" name="files" />
             </div>
 
             <div class="form-group">
@@ -62,14 +63,15 @@
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" id="isHome" asp-for="IsHomePage" /> @Html.DisplayNameFor(model => model.IsHomePage)
+                    <input class="form-check-input" data-id="@Model.Id" id="isHome" asp-for="IsHomePage" /> @Html.DisplayNameFor(model => model.IsHomePage)
                 </label>
             </div>
-            <div class="form-group">
-                <input type="submit" id="update" value="Save" class="btn btn-primary" />
-            </div>
+            
         </form>
-        
+        <div class="form-group">
+            <input type="button" id="update" value="Save" class="btn btn-primary" />
+        </div>
+
     </div>
 </div>
 
@@ -83,46 +85,47 @@
 
 <script type="text/javascript">
 
-    //$("#update").click(function () {
-    //    var options = {};
-    //    options.url = '/Content/Update';
-    //    options.type = "PUT";
+    $("#update").click(function () {
+        var options = {};
+        options.url = '/Content/Update';
+        options.type = "PUT";
 
-    //    var obj = new FormData();
-    //    obj.append('Name', $("#inputName").val());
-    //    obj.append('Title', $("#inputTitle").val());
-    //    obj.append('Description', $("#inputDescription").val());
+        var obj = new FormData();
+        obj.append('Id', $("#id").val());
+        obj.append('Name', $("#inputName").val());
+        obj.append('Title', $("#inputTitle").val());
+        obj.append('Description', $("#inputDescription").val());
 
-    //    obj.append('MainImage', $("#mainImage")[0].files[0]);
-    //    obj.append('SlideImage', $("#slideImage")[0].files[0]);
-    //    obj.append('Video', $("#video")[0].files[0]);
-    //    obj.append('Audio', $("#audio")[0].files[0]);
+        obj.append('MainImage', $("#mainImage")[0].files[0]);
+        obj.append('SlideImage', $("#slideImage")[0].files[0]);
+        obj.append('Video', $("#video")[0].files[0]);
+        obj.append('Audio', $("#audio")[0].files[0]);
 
-    //    obj.append('Text', $("#inputText").val());
-    //    obj.append('IsHomePage', $("isHome").val());
+        obj.append('Text', $("#inputText").val());
+        obj.append('IsHomePage', $("isHome").val());
 
-    //    debugger
-    //    options.data = obj;
+        debugger
+        options.data = obj;
 
 
-    //    options.contentType = false;
-    //    options.processData = false;
+        options.contentType = false;
+        options.processData = false;
 
-    //    options.success = function (msg) {
-    //        $("#msg").html(msg);
-    //        Swal({
-    //            type: 'success',
-    //            title: 'Thanks',
-    //            text: 'Operation is success',
-    //        }).then(function () {
+        options.success = function (msg) {
+            $("#msg").html(msg);
+            Swal({
+                type: 'success',
+                title: 'Thanks',
+                text: 'Operation is success',
+            }).then(function () {
 
-    //            window.location.href = "/Content/Index";
-    //        })
-    //    };
-    //    options.error = function (error) {
-    //        alert("error");
-    //        alert(error.msg);
-    //    };
-    //    $.ajax(options);
-    //});
+                window.location.href = "/Content/Index";
+            })
+        };
+        options.error = function (error) {
+            alert("error");
+            alert(error.msg);
+        };
+        $.ajax(options);
+    });
 </script>

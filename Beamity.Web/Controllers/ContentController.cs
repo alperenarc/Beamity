@@ -65,6 +65,7 @@ namespace Beamity.Web.Controllers
             var content = _contentService.GetContent(input);
             UpdateContentViewModel data = new UpdateContentViewModel()
             {
+                Id = input.Id,
                 Name = content.Name,
                 Description = content.Description,
                 Title = content.Title,
@@ -76,7 +77,7 @@ namespace Beamity.Web.Controllers
             return View(data);
         }
 
-        [HttpPost]
+        [HttpPut]
         public async Task<IActionResult> Update(UpdateContentViewModel input)
         {
             try
@@ -87,6 +88,7 @@ namespace Beamity.Web.Controllers
                 string audioUrl = await _blobManager.UploadImageAsBlob(input.Audio);
                 UpdateContentDTO data = new UpdateContentDTO()
                 {
+                    Id = input.Id,
                     Name = input.Name,
                     Description = input.Description,
                     Title = input.Title,

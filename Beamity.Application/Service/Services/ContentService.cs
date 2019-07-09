@@ -63,8 +63,23 @@ namespace Beamity.Application.Service.Services
 
         public void UpdateContent(UpdateContentDTO input)
         {
-            var content = _mapper.Map<Content>(input);
-            _repository.Update(content);
+            var c = _repository.GetById(input.Id);
+
+            c.IsHomePage = input.IsHomePage;
+            if( !string.IsNullOrEmpty(input.MainImageURL)  )
+                c.MainImageURL = input.MainImageURL;
+            if ( !string.IsNullOrEmpty(input.SlideImageURL))
+                c.SlideImageURL = input.SlideImageURL;
+            if ( !string.IsNullOrEmpty(input.VideoURL))
+                c.VideoURL = input.VideoURL;
+            if ( !string.IsNullOrEmpty(input.AudioURL))
+                c.AudioURL = input.AudioURL;
+            c.Name = input.Name;
+            c.Title = input.Title;
+            c.Description = input.Description;
+            c.Text = input.Text;
+            c.CreatedTime = input.CreatedTime;
+            _repository.Update(c);
         }
     }
 }
