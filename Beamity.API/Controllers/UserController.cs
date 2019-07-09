@@ -16,7 +16,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Beamity.API.Controllers
 {
-    [Authorize]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -30,45 +29,19 @@ namespace Beamity.API.Controllers
             _authenticationService = authenticationService;
             _mapper = mapper;
         }
-        [AllowAnonymous]
-        [HttpPost]
-        public IActionResult Login(LoginUserDTO user)
-        {
-            var check = _userService.Login(user);
-            if ( check )
-            {
-                var response = _authenticationService.CreateAccessTokenAsync(user.Email, user.Password);
-                if (!response.Success)
-                {
-                    return BadRequest(response.Message);
-                }
+        //[AllowAnonymous]
+        //[HttpPost]
+        //public IActionResult Login(LoginUserDTO user)
+        //{
+            
+        //}
+        //[AllowAnonymous]
+        //[HttpPost]
+        //public IActionResult Register(CreateUserDTO user)
+        //{
+            
 
-                AccessTokenResource accessTokenResource = new AccessTokenResource();
-                accessTokenResource.AccessToken = response.Token.Token;
-                accessTokenResource.RefreshToken = response.Token.RefreshToken.Token;
-                accessTokenResource.Expiration = 30000/*response.Token.Expiration*/;
-
-
-                return Ok(accessTokenResource);
-
-            }
-            return NotFound("User is not found !");
-        }
-        [AllowAnonymous]
-        [HttpPost]
-        public IActionResult Register(CreateUserDTO user)
-        {
-            try
-            {
-                _userService.Register(user);
-            }
-            catch (Exception e)
-            {
-                return  BadRequest(e.Message);
-            }
-            return Ok("Registration process is success");
-
-        }
+        //}
         [HttpPut]
         public IActionResult UpdateProfile(UpdateUserDTO user)
         {

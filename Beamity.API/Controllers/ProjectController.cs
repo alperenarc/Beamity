@@ -23,7 +23,6 @@ namespace Beamity.API.Controllers
 
         
         [HttpPost]
-        [AllowAnonymous]
         public IActionResult CreateProject(CreateProjectDTO input)
         {
             try
@@ -64,7 +63,6 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpGet]
-        [AllowAnonymous]
         public List<ReadProjectDTO> GetAllProject()
         {
             var list = _projectService.GetAllProject();

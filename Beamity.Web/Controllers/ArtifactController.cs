@@ -9,12 +9,14 @@ using Beamity.Application.DTOs.ArtifactDTOs;
 using Beamity.Application.Service.IServices;
 using Beamity.Web.Blob;
 using Beamity.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace Beamity.Web.Controllers
 {
+    [Authorize]
     public class ArtifactController : Controller
     {
         public string guid;

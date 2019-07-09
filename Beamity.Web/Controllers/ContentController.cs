@@ -8,10 +8,12 @@ using Beamity.Application.DTOs.ContentDTOs;
 using Beamity.Application.Service.IServices;
 using Beamity.Web.Blob;
 using Beamity.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Beamity.Web.Controllers
 {
+    [Authorize]
     public class ContentController : Controller
     {
         private readonly IContentService _contentService;

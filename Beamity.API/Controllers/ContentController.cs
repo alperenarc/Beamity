@@ -21,7 +21,6 @@ namespace Beamity.API.Controllers
             _contentService = contentService;
         }
         [HttpGet("{id}")]
-        [AllowAnonymous]
         public ReadContentDTO GetContent(EntityDTO input)
         {
             try

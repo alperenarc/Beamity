@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 using Beamity.Application.DTOs.LocationDTOs;
 using Beamity.Application.DTOs.ProjectDTOs;
 using Beamity.Application.Service.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Beamity.Web.Controllers
 {
+    [Authorize]
     public class ProjectController : Controller
     {
         private readonly IProjectService _projectService;

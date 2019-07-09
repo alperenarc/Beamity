@@ -5,11 +5,14 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Beamity.Application.DTOs.BuildingDTOs;
 using Beamity.Application.Service.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Beamity.Web.Controllers
 {
+    [Authorize]
+
     public class BuildingController : Controller
     {
         private readonly IBuildingService _buildingService;

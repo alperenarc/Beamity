@@ -64,7 +64,6 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpPost]
-        [AllowAnonymous]
         public IActionResult CreateArtifact(CreateArtifactDTO input)
         {
             try

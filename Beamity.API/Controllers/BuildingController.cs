@@ -35,7 +35,6 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpGet]
-        [AllowAnonymous]
         public List<ReadBuildingDTO> GetAllBuildings()
         {
             var buildings =  _buildingService.GetAllBuildings();
@@ -57,10 +56,10 @@ namespace Beamity.API.Controllers
                 _buildingService.CreateBuilding(input);
                 return Ok();
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                throw;
+                throw e;
             }
         }
         [HttpPut]
@@ -71,10 +70,10 @@ namespace Beamity.API.Controllers
                 _buildingService.UpdateBuilding(input);
                 return Ok();
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                throw;
+                throw e;
             }
         }
         [HttpDelete]

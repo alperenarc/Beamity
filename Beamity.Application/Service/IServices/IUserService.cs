@@ -10,7 +10,7 @@ namespace Beamity.Application.Service.IServices
     public interface IUserService
     {
         void Register(CreateUserDTO input);
-        bool Login(LoginUserDTO input);
+        User Login(LoginUserDTO input);
         void UpdateProfile(UpdateUserDTO input);
         void ConfirmEmail(string confirmCode);
     }
