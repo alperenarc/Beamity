@@ -35,7 +35,6 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpGet]
-        [AllowAnonymous]
         public List<ReadFloorDTO> GetAllFloors()
         {
             try
@@ -64,7 +63,6 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpPost]
-        [AllowAnonymous]
         public IActionResult CreateFloor(CreateFloorDTO input)
         {
                 _floorService.CreateFloor(input);

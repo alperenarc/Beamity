@@ -23,7 +23,7 @@ namespace Beamity.Application.Service.Services
 
 
 
-        public bool Login(LoginUserDTO input)
+        public User Login(LoginUserDTO input)
         {
             try
             {
@@ -38,16 +38,16 @@ namespace Beamity.Application.Service.Services
                 // Login
                 if (confirmPassword.Equals(true) && getUser.IsActive.Equals(true))
                 {
-                    return true;
+                    return getUser;
                 }
                 else
                 {
-                    return false;
+                    return null;
                 }
             }
             catch (Exception)
             {
-                return false;
+                return null;
             }
         }
 

@@ -4,11 +4,14 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace Beamity.Web.Controllers
 {
+    [Authorize]
+
     public class ConfirmationController : Controller
     {
         [HttpGet]
