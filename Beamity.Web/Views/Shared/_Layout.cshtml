@@ -55,7 +55,7 @@
 
         <!-- Navbar -->
         <ul class="navbar-nav ml-auto ml-md-0">
-            <li class="nav-item dropdown no-arrow mx-1">
+            @*<li class="nav-item dropdown no-arrow mx-1">
                 <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-bell fa-fw"></i>
                     <span class="badge badge-danger">9+</span>
@@ -78,7 +78,7 @@
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Something else here</a>
                 </div>
-            </li>
+            </li>*@
             <li class="nav-item dropdown no-arrow">
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-user-circle fa-fw"></i>
@@ -105,40 +105,40 @@
                 </a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="~/Project/Index" role="button" aria-haspopup="true">
-                    <i class="fas fa-fw fa-r-project"></i>
+                <a class="nav-link" href="~/Project/Index" role="button" aria-haspopup="true">
+                    <i class="fas fa-fw fa-project-diagram"></i>
                     <span>Projects</span>
                 </a>
-                <a class="nav-link dropdown-toggle" href="~/Location/Index" role="button" aria-haspopup="true">
+                <a class="nav-link" href="~/Location/Index" role="button" aria-haspopup="true">
                     <i class="fas fa-fw fa-map"></i>
                     <span>Locations</span>
                 </a>
-                <a class="nav-link dropdown-toggle" href="~/Building/Index" role="button" aria-haspopup="true">
+                <a class="nav-link" href="~/Building/Index" role="button" aria-haspopup="true">
                     <i class="fas fa-fw fa-building"></i>
                     <span>Buildings</span>
                 </a>
-                <a class="nav-link dropdown-toggle" href="~/Floor/Index" role="button" aria-haspopup="true">
+                <a class="nav-link" href="~/Floor/Index" role="button" aria-haspopup="true">
                     <i class="fas fa-fw fa-boxes"></i>
                     <span>Floors</span>
                 </a>
-                <a class="nav-link dropdown-toggle" href="~/Room/Index" role="button" aria-haspopup="true">
+                <a class="nav-link" href="~/Room/Index" role="button" aria-haspopup="true">
                     <i class="fas fa-fw fa-box"></i>
                     <span>Rooms</span>
                 </a>
-                <a class="nav-link dropdown-toggle" href="~/Artifact/Index" role="button" aria-haspopup="true">
+                <a class="nav-link" href="~/Artifact/Index" role="button" aria-haspopup="true">
                     <i class="fas fa-fw fa-paint-brush"></i>
                     <span>Artifacts</span>
                 </a>
-                <a class="nav-link dropdown-toggle" href="~/Content/Index" role="button" aria-haspopup="true">
-                    <i class="fas fa-fw fa-paint-brush"></i>
+                <a class="nav-link " href="~/Content/Index" role="button" aria-haspopup="true">
+                    <i class="fas fa-fw fa-paperclip"></i>
                     <span>Contents</span>
                 </a>
-                <a class="nav-link dropdown-toggle" href="~/Beacon/Index" role="button" aria-haspopup="true">
-                    <i class="fas fa-fw fa-paint-brush"></i>
+                <a class="nav-link" href="~/Beacon/Index" role="button" aria-haspopup="true">
+                    <i class="fas fa-fw fa-signal"></i>
                     <span>Beacons</span>
                 </a>
-                <a class="nav-link dropdown-toggle" href="~/Relation/Index" role="button" aria-haspopup="true">
-                    <i class="fas fa-fw fa-paint-brush"></i>
+                <a class="nav-link" href="~/Relation/Index" role="button" aria-haspopup="true">
+                    <i class="fas fa-fw fa-table"></i>
                     <span>Relations</span>
                 </a>
             </li>
@@ -185,8 +185,8 @@
                 </div>
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <button class="btn btn-secondary"  data-dismiss="modal">Cancel</button>
+                    <input class="btn btn-primary" type="button" id="logout" value="Logout"/>
                 </div>
             </div>
         </div>
@@ -211,6 +211,19 @@
     <!-- Demo scripts for this page-->
     <script src="~/js/dataTables.bootstrap4.min.js"></script>
     <script src="~/js/chart-area-demo.js"></script>
+    <script type="text/javascript">
+      
+        $("#logout").click(function () {
+            var options = {};
+            options.url = "/User/Logout";
+            options.type = "POST";
+            options.success = function () {
+                window.location.href = "/User/Login";
+            }
+            $.ajax(options);
+        });
+
+    </script>
 
 </body>
 

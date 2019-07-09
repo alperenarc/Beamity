@@ -35,7 +35,7 @@
         <div class="card card-register mx-auto mt-5">
             <div class="card-header">Register an Account</div>
             <div class="card-body">
-                <form asp-action="Register">
+                <form asp-action="Register" id="createForm">
                     <div class="form-group">
                         <div class="form-row">
                             <div class="col-md-6">
@@ -86,7 +86,7 @@
                             </div>
                         </div>
                     </div>
-                    <input class="btn btn-primary btn-block" type="submit" id="register" value="Register"/>
+                    <input class="btn btn-primary btn-block" type="submit" id="register" onclick="validatePassword();" value="Register"/>
 
                 </form>
                 <div class="text-center">
@@ -102,10 +102,27 @@
     <script src="~/js/jquery.min.js"></script>
     <script src="~/js/bootstrap.bundle.min.js"></script>
 
+
+
+
+
     <!-- Core plugin JavaScript-->
     <script src="~/Scripts/jquery-3.1.1.min.js"></script>
     <script type="text/javascript">
-       
+        function validatePassword() {
+            var validator = $("#createForm").validate({
+                rules: {
+                    password: "required",
+                    confirmpassword: {
+                        equalTo: "#password"
+                    }
+                },
+                messages: {
+                    password: " Enter Password",
+                    confirmpassword: " Enter Confirm Password Same as Password"
+                }
+            });
+        }
     </script>
 
 </body>

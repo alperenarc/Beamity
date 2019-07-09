@@ -37,7 +37,7 @@ namespace Beamity.Web.Controllers
         public async Task<IActionResult> Login(LoginUserDTO user)
         {
             var result = _userService.Login(user);
-            if ( result != null )
+            if (result != null)
             {
                 const string Issuer = "https://localhost:44335/";
                 var claims = new List<Claim>
@@ -98,7 +98,12 @@ namespace Beamity.Web.Controllers
         {
             return View();
         }
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
+            return RedirectToAction("Login", "User");
+        }
 
     }
 }
