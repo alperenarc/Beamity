@@ -13,6 +13,7 @@
     <meta name="author" content="">
     <title>Beamity - Login</title>
     <script src="https://kit.fontawesome.com/9e517a54b5.js"></script>
+    <link href="~/package/dist/sweetalert2.css" rel="stylesheet" />
     <link href="~/css/sb-admin.css" rel="stylesheet" />
 </head>
 <body class="bg-dark">
@@ -51,39 +52,65 @@
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
     </script>
     <script src="~/js/bootstrap.bundle.min.js"></script>
-    @*<script>
-        
+    <script src="~/package/dist/sweetalert2.js"></script>
+    <script>
+        function swalload() {
+            swal.fire({
+                title: 'Loading....',
+                html: 'Please wait during the processing time',
+                timer: 10000,
+                onBeforeOpen: () => {
+                    Swal.showLoading()
+                    timerInterval = setInterval(() => {
+                        Swal.getContent().querySelector('strong')
+                            .textContent = Swal.getTimerLeft()
+                    }, 100)
+                },
+                onClose: () => {
+
+                }
+            });
+        }
         $("#login").click(function () {
-            $('#login').prop('disabled', true);
-
-            var options = {};
-            options.url = '/User/Login';
-            options.type = "POST";
-
-            var obj = {};
-            obj.Email = $("#inputEmail").val();
-            obj.Password = $("#inputPassword").val();
-
-            debugger
-
-            options.data = JSON.stringify(obj);
-            options.contentType = "application/json";
-            options.dataType = "html";
-
-            options.success = function () {
-                $('#login').prop('disabled', false);
-                indow.location.href = "/Home/Index";
-            };
-            options.error = function (error) {
-                $('#login').prop('disabled', false);
-                alert(error.msg);
-            };
-            $.ajax(options);
-            $('#login').prop('disabled', false);
-
+            swalload();
         });
-       
 
-    </script>*@
+
+    </script>
+
+    @*<script>
+
+            $("#login").click(function () {
+                $('#login').prop('disabled', true);
+
+                var options = {};
+                options.url = '/User/Login';
+                options.type = "POST";
+
+                var obj = {};
+                obj.Email = $("#inputEmail").val();
+                obj.Password = $("#inputPassword").val();
+
+                debugger
+
+                options.data = JSON.stringify(obj);
+                options.contentType = "application/json";
+                options.dataType = "html";
+
+                options.success = function () {
+                    $('#login').prop('disabled', false);
+                    indow.location.href = "/Home/Index";
+                };
+                options.error = function (error) {
+                    $('#login').prop('disabled', false);
+                    alert(error.msg);
+                };
+                $.ajax(options);
+                $('#login').prop('disabled', false);
+
+            });
+
+
+        </script>*@
 </body>
 </html>

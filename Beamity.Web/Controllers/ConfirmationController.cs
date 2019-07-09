@@ -10,11 +10,10 @@ using Newtonsoft.Json;
 
 namespace Beamity.Web.Controllers
 {
-    [Authorize]
-
     public class ConfirmationController : Controller
     {
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult >Verification(string guidcode)
         {
             guidcode = HttpContext.Request.Query["guidcode"].ToString();
