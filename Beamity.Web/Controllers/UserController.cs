@@ -89,7 +89,14 @@ namespace Beamity.Web.Controllers
             {
                 return BadRequest(e.Message);
             }
-            return Ok("Registration process is success");
+            return RedirectToAction(nameof(Verificate));
+        }
+
+        [AllowAnonymous]
+        // GET: User/Create
+        public ActionResult Verificate()
+        {
+            return View();
         }
 
 
