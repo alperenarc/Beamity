@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Beamity.Application.DTOs;
+using Beamity.Application.DTOs.ConfirmDTO;
 using Beamity.Application.DTOs.RoomDTOs;
 using Beamity.Application.DTOs.TokenDTOs;
 using Beamity.Application.DTOs.UserDTOs;
@@ -83,12 +84,12 @@ namespace Beamity.API.Controllers
         }
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult ConfirmEmail(string confirmCode)
+        public IActionResult ConfirmEmail(ConfirmationDTO input)
         {
-            confirmCode = HttpContext.Request.Query["guidcode"].ToString();
+            //confirmCode = HttpContext.Request.Query["guidcode"].ToString();
             try
             {
-                _userService.ConfirmEmail(confirmCode);
+                _userService.ConfirmEmail(input.ConfirmCode);
                 return Ok("Success");
             }
             catch (Exception)

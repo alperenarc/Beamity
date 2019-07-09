@@ -16,8 +16,8 @@
         var data = ViewBag.Message;
     }
     @*<h3 id="ConfirmCode">@data</h3>*@
-    <input type="text" id="ConfirmCode" name="name" value="@data" />
-
+    <input type="text" id="ConfirmCode" name="name" hidden value="@data" />
+    <input type="button" id="update" name="name" value="Confirm" />
     <!--Ajax Libraries-->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -28,7 +28,7 @@
             crossorigin="anonymous"
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
     </script>
-
+    <link href="~/package/dist/sweetalert2.css" rel="stylesheet" />
 
     <!-- Bootstrap core JavaScript-->
     @*<script src="~/js/jquery.min.js"></script>*@
@@ -37,30 +37,36 @@
     <!-- Core plugin JavaScript-->
     @*<script src="~/js/jquery.easing.min.js"></script>*@
 
-
+    <script src="~/package/dist/sweetalert2.js"></script>
 
     <script>
-       
-       var code = document.getElementById('ConfirmCode').value;
-        debugger
-        $(document).ready(function () {
 
+        //var code = document.getElementById('#ConfirmCode').value;
+        debugger
+
+        $("#update").click(function () {
             var options = {};
             options.url = "https://localhost:5001/api/User/ConfirmEmail";
             options.type = "POST";
+            var data = {};
+            data.ConfirmCode = $("#ConfirmCode").val();
+            options.data = JSON.stringify(data);
+            options.contentType = "application/json";
+            options.dataType = "html";
             debugger
-
-            options.data = { 'confirmCode': code };
-            //options.contentType = "application/json";
-            //options.dataType = "html";
             options.success = function () {
-                alert("asd");
-            };
-            options.error = function () {
-                alert("error");
+                Swal({
+                    type: 'success',
+                    title: 'Thanks',
+                    text: 'Operation is success',
+                }).then(function () {
+
+                    window.location.href = "/";
+                })
             };
             $.ajax(options);
         });
+
     </script>
 </body>
 </html>
