@@ -80,19 +80,20 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-label-group">
-                                    <input type="password" id="confirmPassword" name ="confirmPassword"class="form-control" placeholder="Confirm password" required="required">
+                                    <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="Confirm password" required="required">
                                     <label for="confirmPassword">Confirm password</label>
                                 </div>
+                                <div id="msg"></div>
                             </div>
                         </div>
                     </div>
-                    <input class="btn btn-primary btn-block" type="submit" id="register"  value="Register"/>
+                    <div id="msg"></div>
+                    <input class="btn btn-primary btn-block" type="submit" id="register" value="Register" />
 
                 </form>
                 <div class="text-center">
                     <a class="d-block small mt-3" href="login.html">Login Page</a>
                     <a class="d-block small" href="forgot-password.html">Forgot Password?</a>
-                    <div id="msg"></div>
                 </div>
             </div>
 
@@ -103,19 +104,17 @@
     <script src="~/js/bootstrap.bundle.min.js"></script>
 
 
-
-
-
     <!-- Core plugin JavaScript-->
-    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
     <script type="text/javascript">
-        $("#createForm").validate({
-            rules: {
-                password: "required",
-                confirmPassword: {
-                    equalTo: "#password"
+        $(document).ready(function () {
+            $("#confirmPassword").keyup(function () {
+                debugger
+                if ($("#inputPassword").val() != $("#confirmPassword").val()) {
+                    $("#msg").html("Password do not match").css("color", "red");
+                } else {
+                    $("#msg").html("Password matched").css("color", "green");
                 }
-            }
+            });
         });
     </script>
 
