@@ -13,12 +13,12 @@ namespace Beamity.Application.Helpers
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress("beamity@nootelib.com")); // This are for from mail
             message.To.Add(new MailboxAddress(email)); // This are for to mail
-            message.Subject = "Hesap Doğrulama"; // This are for the subject
+            message.Subject = "Confirm Your Email"; // This are for the subject
             message.Body = new TextPart("html")
             {
                 // This are for the content
-                Text = "Hesabınızı onaylamak için aşağıdaki linke tıklayınız... <br/>" +
-                "<a href='https://localhost:4001/confirmation/verification/?guidcode=" + guidkey + "'>Onaylama Linki<a/>"
+                Text = "Beamity CMS Application<br/>Please click the link for confirm your account ! <br/>" +
+                "<a href='https://localhost:4001/confirmation/verification/?guidcode=" + guidkey + "'>Confirm Link<a/>"
                 //Confirmation / Verification /
             };
             
