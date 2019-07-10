@@ -5,9 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Beacon</h1>
 
-<div class="row justify-content-end">
+<div class="row justify-content-start m-1">
     <button id="btnShowModal" type="button" class="btn btn-outline-success">
         Create New
     </button>
@@ -134,7 +133,7 @@
                 @Html.DisplayNameFor(model => model.CreatedTime)
             </th>
            
-            <th></th>
+            <th>Operations</th>
         </tr>
     </thead>
     <tbody>
@@ -160,7 +159,7 @@
                 <td>
                     <input type="button" class="btn btn-primary"data-id="@item.Id" data-name="@item.Name" 
                             data-uuid="@item.UUID" data-major="@item.Major" 
-                           data-minor="@item.Minor" data-ctime="@item.CreatedTime" value="Details" id="detailShowModal" /> 
+                           data-minor="@item.Minor" data-ctime="@item.CreatedTime" value="Details" id="detailShowModal" /> | 
                     <input type="button" class="btn btn-primary" id="deleteShowModal" data-name="@item.Name" data-id="@item.Id" value="Delete" />
                 </td>
             </tr>

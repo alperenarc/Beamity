@@ -146,7 +146,23 @@
 <script type="text/javascript">
 
     
+    function swalload() {
+        swal.fire({
+            title: 'Loading....',
+            html: 'Please wait during the processing time',
+            timer: 10000,
+            onBeforeOpen: () => {
+                Swal.showLoading()
+                timerInterval = setInterval(() => {
+                    Swal.getContent().querySelector('strong')
+                        .textContent = Swal.getTimerLeft()
+                }, 100)
+            },
+            onClose: () => {
 
+            }
+        });
+    }
     $(document).ready(function () {
         $("#btnShowModal").click(function () {
             $("#loginModal").modal('show');
@@ -156,7 +172,7 @@
         });
     });
     $("#create").click(function () {
-
+        swalload();
         var options = {};
         options.url = "https://localhost:5001/api/Floor/CreateFloor";
         options.type = "POST";
@@ -191,7 +207,6 @@
             $("#deleteModal").modal('hide');
         });
     });
-
     $(document).ready(function () {
         var options = {};
         options.url = "https://localhost:5001/api/Building/GetAllBuildings";
@@ -207,7 +222,6 @@
         };
         $.ajax(options);
     });
-
     $(document).ready(function () {
         $('[id="deleteShowModal"]').click(function () {
             $("#deleteModal").modal('show');
@@ -224,6 +238,7 @@
         });
     });
     $("#delete").click(function () {
+        swalload();
         var options = {};
         options.url = "https://localhost:5001/api/Floor/DeleteFloor";
         options.type = "DELETE";
@@ -255,8 +270,6 @@
         $("#deleteModal").modal('hide');
         $.ajax(options);
     });
-
-    /*Update Items*/
     $(document).ready(function () {
         var options = {};
         options.url = "https://localhost:5001/api/Building/GetAllBuildings";
@@ -273,6 +286,7 @@
         $.ajax(options);
     });
     $("#update").click(function () {
+        swalload();
         var options = {};
         options.url = "https://localhost:5001/api/Floor/UpdateFloor";
         options.type = "PUT";
