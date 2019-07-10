@@ -139,14 +139,18 @@ namespace Beamity.Application.Service.Services
 
         public void UpdateRelation(UpdateRelationDTO input)
         {
-            Relation result = new Relation()
-            {
-                Id = input.Id,
-                Artifact = _artifactRepository.GetById(input.ArtifactId),
-                Beacon = _beaconRepository.GetById(input.BeaconId),
-                Content = _contentRepository.GetById(input.ContentId),
-                Proximity = (Proximity)Enum.Parse(typeof(Proximity), input.Proximity, true)
-            };
+
+            Relation result = _relationRepository.GetById(input.Id);
+
+            if( input.ArtifactId != Guid.Empty )
+                result.Artifact = _artifactRepository.GetById(input.ArtifactId);
+            if (input.BeaconId != Guid.Empty)
+                result.Beacon = _beaconRepository.GetById(input.BeaconId);
+            if (input.ContentId != Guid.Empty)
+                result.Content = _contentRepository.GetById(input.ContentId);
+            if ( !String.IsNullOrEmpty(input.Proximity) )
+                result.Proximity = (Proximity)Enum.Parse(typeof(Proximity), input.Proximity, true);
+            
 
 
             _relationRepository.Update(result);
