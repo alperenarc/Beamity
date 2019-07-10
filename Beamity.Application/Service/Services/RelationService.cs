@@ -59,6 +59,8 @@ namespace Beamity.Application.Service.Services
             {
                 ReadRelationDTO dto = new ReadRelationDTO
                 {
+                    Id = item.Id,
+                    CreatedTime = item.CreatedTime,
                     ArtifacName = item.Artifact.Name,
                     BeaconName = item.Beacon.Name,
                     ContentName = item.Content.Name
@@ -96,6 +98,8 @@ namespace Beamity.Application.Service.Services
 
             ReadRelationDTO result = new ReadRelationDTO()
             {
+                Id = relation.Id,
+                CreatedTime = relation.CreatedTime,
                 ArtifacName = relation.Artifact.Name,
                 BeaconName = relation.Beacon.Name,
                 ContentName = relation.Content.Name   

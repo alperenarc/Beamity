@@ -249,13 +249,12 @@
     $("#delete").click(function () {
         swalload();
         var options = {};
-        options.url = " /";
+        options.url = "https://localhost:5001/api/Beacon/DeleteBeacon";
         options.type = "DELETE";
         var obj = {};
         obj.Id = $("#deleteModalId").val();
         options.data = JSON.stringify(obj);
         options.contentType = "application/json";
-        options.dataType = "html";
         options.dataType = "html";
         debugger
         options.success = function () {
