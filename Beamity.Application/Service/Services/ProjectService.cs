@@ -3,31 +3,27 @@ using Beamity.Application.DTOs;
 using Beamity.Application.DTOs.ProjectDTOs;
 using Beamity.Application.Service.IServices;
 using Beamity.Core.Models;
-using Beamity.EntityFrameworkCore.EntityFrameworkCore;
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Beamity.Application.Service.Services
 {
     public class ProjectService : IProjectService
     {
-        private readonly GenericRepository<Project> _repository;
+        private readonly ProjectRepository _repository;
         private readonly IMapper _mapper;
-        public ProjectService(GenericRepository<Project> repository, IMapper mapper)
+        public ProjectService(ProjectRepository repository, IMapper mapper)
         {
             _mapper = mapper;
             _repository = repository;
         }
 
-        public async Task CreateProject(CreateProjectDTO input)
+        public void CreateProject(CreateProjectDTO input)
         {
             var project = _mapper.Map<Project>(input);
-            await _repository.Create(project);
+            _repository.Create(project);
         }
 
         public void DeleteProject(DeleteProjectDTO input)
@@ -35,9 +31,9 @@ namespace Beamity.Application.Service.Services
             _repository.Delete(input.Id);
         }
 
-        public async Task<List<ReadProjectDTO>> GetAllProject(string UserId)
+        public List<ReadProjectDTO> GetAllProject()
         {
-            var projects = await _repository.GetAll().Where(x => x.User.Id == Guid.Parse(UserId)).Include(z=>z.User).ToListAsync( );
+            var projects = _repository.GetAll();
             var result = _mapper.Map<List<ReadProjectDTO>>(projects);
             return result;
         }
@@ -51,7 +47,7 @@ namespace Beamity.Application.Service.Services
         public void UpdateProject(UpdateProjectDTO input)
         {
             var project = _mapper.Map<Project>(input);
-            //_repository.Update(project);
+            _repository.Update(project);
         }
     }
 }

@@ -75,7 +75,8 @@ namespace Beamity.Web
             });
 
             services.AddScoped(typeof(IBaseGenericRepository<>), typeof(GenericRepository<>));
-            services.AddScoped(typeof(GenericRepository<Project>), typeof(GenericRepository<Project>));
+            //services.AddScoped(typeof(IBaseGenericRepository<Project>), typeof(IBaseGenericRepository<Project>));
+            services.AddScoped(typeof(IBaseGenericRepository<Project>), typeof(GenericRepository<Project>));
 
         }
     }
