@@ -73,7 +73,7 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpDelete]
-        public void DeleteRelationDTO(DeleteRelationDTO input)
+        public void DeleteRelation(DeleteRelationDTO input)
         {
             try
             {

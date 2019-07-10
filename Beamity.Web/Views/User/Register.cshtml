@@ -74,19 +74,19 @@
                         <div class="form-row">
                             <div class="col-md-6">
                                 <div class="form-label-group">
-                                    <input type="password" asp-for="Password" id="inputPassword" class="form-control" placeholder="Password" required="required">
+                                    <input type="password" asp-for="Password" name="password" id="inputPassword" class="form-control" placeholder="Password" required="required">
                                     <label for="inputPassword">Password</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-label-group">
-                                    <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm password" required="required">
+                                    <input type="password" id="confirmPassword" name ="confirmPassword"class="form-control" placeholder="Confirm password" required="required">
                                     <label for="confirmPassword">Confirm password</label>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <input class="btn btn-primary btn-block" type="submit" id="register" onclick="validatePassword();" value="Register"/>
+                    <input class="btn btn-primary btn-block" type="submit" id="register"  value="Register"/>
 
                 </form>
                 <div class="text-center">
@@ -109,20 +109,14 @@
     <!-- Core plugin JavaScript-->
     <script src="~/Scripts/jquery-3.1.1.min.js"></script>
     <script type="text/javascript">
-        function validatePassword() {
-            var validator = $("#createForm").validate({
-                rules: {
-                    password: "required",
-                    confirmpassword: {
-                        equalTo: "#password"
-                    }
-                },
-                messages: {
-                    password: " Enter Password",
-                    confirmpassword: " Enter Confirm Password Same as Password"
+        $("#createForm").validate({
+            rules: {
+                password: "required",
+                confirmPassword: {
+                    equalTo: "#password"
                 }
-            });
-        }
+            }
+        });
     </script>
 
 </body>
