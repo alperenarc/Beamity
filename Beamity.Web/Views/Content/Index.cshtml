@@ -85,6 +85,23 @@
 <script src="bootstrap/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
+    function swalload() {
+        swal.fire({
+            title: 'Loading....',
+            html: 'Please wait during the processing time',
+            timer: 10000,
+            onBeforeOpen: () => {
+                Swal.showLoading()
+                timerInterval = setInterval(() => {
+                    Swal.getContent().querySelector('strong')
+                        .textContent = Swal.getTimerLeft()
+                }, 100)
+            },
+            onClose: () => {
+
+            }
+        });
+    }
     $(document).ready(function () {
         $('[id="deleteShowModal"]').click(function () {
             $("#deleteModal").modal('show');
@@ -100,6 +117,7 @@
         });
     });
     $("#delete").click(function () {
+        swalload();
         var options = {};
         options.url = "https://localhost:5001/api/Content/DeleteContent";
         options.type = "DELETE";

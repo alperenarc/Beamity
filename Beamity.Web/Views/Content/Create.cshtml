@@ -28,7 +28,7 @@
             <div class="form-row">
                 <div class="form-group col">
                     <label asp-for="Description" class="control-label"></label>
-                    <textarea asp-for="Description" id="inputDescription" style="height:240px;" class="form-control" required></textarea>
+                    <textarea asp-for="Description" id="inputDescription" style="height:240px;" maxlength="100" class="form-control" required></textarea>
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
                 <div class="form-group col">
@@ -88,7 +88,7 @@
         swal.fire({
             title: 'Loading....',
             html: 'Please wait during the processing time',
-            timer: 10000,
+            timer: 100000,
             onBeforeOpen: () => {
                 Swal.showLoading()
                 timerInterval = setInterval(() => {
