@@ -7,6 +7,7 @@ using Beamity.Application.DTOs.LocationDTOs;
 using Beamity.Application.DTOs.ProjectDTOs;
 using Beamity.Application.Service.IServices;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Beamity.Web.Controllers
@@ -19,9 +20,10 @@ namespace Beamity.Web.Controllers
         {
             _projectService = projectService;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            IEnumerable<ReadProjectDTO> projects = _projectService.GetAllProject();
+            var userid = HttpContext.Session.GetString("UserId");
+            IEnumerable<ReadProjectDTO> projects = await _projectService.GetAllProject(userid);
             return View(projects);
             
         }

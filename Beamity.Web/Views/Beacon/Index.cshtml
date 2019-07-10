@@ -277,7 +277,13 @@
             })
         };
         options.error = function () {
-            alert("error");
+            Swal({
+                type: 'error',
+                title: 'Oppsss...',
+                text: 'Operation is not success. The item you want to delete have a relation.',
+            }).then(function () {
+                window.location.href = "/Beacon/Index";
+            })
         };
         $("#deleteModal").modal('hide');
         $.ajax(options);

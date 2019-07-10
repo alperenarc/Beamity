@@ -16,5 +16,6 @@ namespace Beamity.Core.Models
         public int Major { get; set; }
         [Required(ErrorMessage = "Please enter Minor!")]
         public int Minor { get; set; }
+        public Project Project { get; set; }
     }
 }
