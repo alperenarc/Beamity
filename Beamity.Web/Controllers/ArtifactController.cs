@@ -60,28 +60,25 @@ namespace Beamity.Web.Controllers
 
         }
         [HttpPut]
-        public async Task<IActionResult> UpdateArtifact(UpdateArtifactViewModel input)
+        public async Task UpdateArtifact(UpdateArtifactViewModel input)
         {
             try
             {
                 string url = await _blobManager.UploadImageAsBlob(input.File);
-                using (var client = new HttpClient())
+                UpdateArtifactDTO data = new UpdateArtifactDTO()
                 {
-                    UpdateArtifactDTO data = new UpdateArtifactDTO()
-                    {
-                        Id = input.Id,
-                        Name = input.Name,
-                        MainImageURL = url,
-                        RoomId = input.RoomId
-                    };
+                    Id = input.Id,
+                    Name = input.Name,
+                    MainImageURL = url,
+                    RoomId = input.RoomId
+                };
 
-                    _artifactService.UpdateArtifact(data);
-                }
-                return Ok();
+                _artifactService.UpdateArtifact(data);
+
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return BadRequest();
+                throw e;
             }
 
         }

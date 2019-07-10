@@ -93,8 +93,15 @@ namespace Beamity.Application.Service.Services
 
         public void UpdateArtifact(UpdateArtifactDTO input)
         {
-            var artifact = _mapper.Map<Artifact>(input);
-            artifact.Room = _roomRepository.GetById(input.RoomId);
+            var artifact = _repository.GetById(input.Id);
+
+            artifact.Name = input.Name;
+            if( input.RoomId != Guid.Empty )
+                artifact.Room = _roomRepository.GetById(input.RoomId);
+            artifact.CreatedTime = DateTime.Now;
+            if ( !String.IsNullOrEmpty(input.MainImageURL) )
+                artifact.MainImageURL = input.MainImageURL;
+
             _repository.Update(artifact);
         }
     }
