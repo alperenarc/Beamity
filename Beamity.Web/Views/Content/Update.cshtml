@@ -102,6 +102,16 @@
         });
     }
     $("#update").click(function () {
+        var a;
+        if ($('#isHome').is(":checked")) {
+            a = true;
+            debugger
+        } else {
+            a = false;
+            debugger
+        }
+
+        debugger
         swalload();
         var options = {};
         options.url = '/Content/Update';
@@ -116,7 +126,7 @@
         obj.append('Video', $("#video")[0].files[0]);
         obj.append('Audio', $("#audio")[0].files[0]);
         obj.append('Text', $("#inputText").val());
-        obj.append('IsHomePage', $("isHome").val());
+        obj.append('IsHomePage', a);
         options.data = obj;
         options.contentType = false;
         options.processData = false;
