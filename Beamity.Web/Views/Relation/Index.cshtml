@@ -411,12 +411,12 @@
     });
     $("#update").click(function () {
         var options = {};
-        options.url = '/Relation/UpdateRelation';
+        options.url = 'https://localhost:5001/api/Relation/UpdateRelation';
         options.type = "PUT";
         var obj = {};
         obj.Id = $("#detailModalId").val();
         obj.ArtifactId = $("#editArtifact").val();
-        obj.ConTentId = $("#editContent").val();
+        obj.ContentId = $("#editContent").val();
         obj.BeaconId = $("#editBeacon").val();
         obj.Proximity = $("#editProximity").val();
 
@@ -440,8 +440,6 @@
         $("#detailModal").modal('hide');
         $.ajax(options);
     });
-
-
     $(document).ready(function () {
         var options = {};
         options.url = "https://localhost:5001/api/Artifact/GetAllArtifacts";
