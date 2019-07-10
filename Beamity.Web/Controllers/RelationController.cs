@@ -38,5 +38,10 @@ namespace Beamity.Web.Controllers
                 return View();
             }
         }
+        [HttpPut]
+        public void UpdateRelation(UpdateRelationDTO input)
+        {
+            _relationService.UpdateRelation(input);
+        }
     }
 }

@@ -28,6 +28,7 @@
 
                     <div class="form-group">
                         <label class="control-label">Contents</label>
+                        
                         <select id="contents" class="form-control"></select>
                     </div>
 
@@ -82,6 +83,66 @@
 </div>
 
 
+
+<div class="modal fade" tabindex="-1" id="detailModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title align-content-lg-start">Relation Details</h4>
+                <button type="button" class="close text-lg-right" data-dismiss="modal">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="detailModalText"></p>
+                <form>
+
+                    <div class="form-group">
+                        <label class="control-label">Contents</label>
+                        <select id="editContent" class="form-control"></select>
+                        <span class="font-weight-bold">Current: <i id="currentContent"></i></span>
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="control-label">Artifacts</label>
+                        <select id="editArtifact" class="form-control"></select>
+                        <span class="font-weight-bold">Current: <i id="currentArtifact"></i></span>
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="control-label">Beacons</label>
+                        <select id="editBeacon" class="form-control"></select>
+                        <span class="font-weight-bold">Current: <i id="currentBeacon"></i></span>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Proximity</label>
+                        <select id="editProximity" class="form-control"></select>
+                        <span class="font-weight-bold">Current: <i id="currentProximity"></i></span>
+
+                    </div>
+
+                    <input id="editCTime" type="datetime" disabled />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="update" class="btn btn-primary button button4">Update</button>
+                <button type="button" id="detailHideModal" class="btn btn-primary button button4">
+                    Hide
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <table class="table">
     <thead>
         <tr>
@@ -121,9 +182,10 @@
                             @Html.DisplayFor(modelItem => item.Proximity)
                         </td>
                         <td>
-                            <input type="button" class="btn btn-primary" data-id="@item.Id"
+                            <input type="button" class="btn btn-primary"data-artifact="@item.ArtifacName" 
+                                   data-beacon="@item.BeaconName" data-content="@item.ContentName" data-prox="@item.Proximity" data-id="@item.Id" data-ctime="@item.CreatedTime"
                                    value="Details" id="detailShowModal" />
-                            <input type="button" class="btn btn-primary" id="deleteShowModal" data-id="@item.Id" value="Delete" />
+                            <input type="button" class="btn btn-primary" id="deleteShowModal"  data-id="@item.Id" value="Delete" />
                         </td>
                     </tr>
                 }
@@ -190,7 +252,8 @@
         options.success = function (data) {
             debugger
             data.forEach(function (v) {
-                $("#artifacts").append('<option value="' + v.id + '">' + v.name + '</option>');
+               
+                $('[id = "artifacts"]').append('<option value="' + v.id + '">' + v.name + '</option>');
             });
         };
         options.error = function () {
@@ -206,7 +269,7 @@
         options.success = function (data) {
             debugger
             data.forEach(function (v) {
-                $("#contents").append('<option value="' + v.id + '">' + v.name + '</option>');
+                $('[id = "contents"]').append('<option value="' + v.id + '">' + v.name + '</option>');
             });
         };
         options.error = function () {
@@ -222,7 +285,7 @@
         options.success = function (data) {
             debugger
             data.forEach(function (v) {
-                $("#beacons").append('<option value="' + v.id + '">' + v.name + '</option>');
+                $('[id = "beacons"]').append('<option value="' + v.id + '">' + v.name + '</option>');
             });
         };
         options.error = function () {
@@ -244,8 +307,20 @@
             select.options[select.options.length] = new Option(myobject[index], myobject[index]);
         }
     });
+    $(document).ready(function () {
+        var myobject = {
+            ValueA: 'All',
+            ValueB: 'Immediate',
+            ValueC: 'Near',
+            ValueD: 'Far',
+            ValueE: 'UnKnown'
+        };
 
-
+        var select = document.getElementById("editProximity");
+        for (index in myobject) {
+            select.options[select.options.length] = new Option(myobject[index], myobject[index]);
+        }
+    });
     $(document).ready(function () {
         $('[id="deleteShowModal"]').click(function () {
             $("#deleteModal").modal('show');
@@ -284,6 +359,118 @@
             alert("error");
         };
         $("#deleteModal").modal('hide');
+        $.ajax(options);
+    });
+
+
+
+    $(document).ready(function () {
+        $('[id="detailShowModal"]').click(function () {
+            $("#detailModal").modal('show');
+            var id = $(this).data('id');
+            var ctime = $(this).data('ctime');
+            var artifact = $(this).data('artifact');
+            var beacon = $(this).data('beacon');
+            var content = $(this).data('content');
+            var prox= $(this).data('prox');
+           
+
+            $("#currentArtifact").text(artifact);
+            $("#currentBeacon").text(beacon);
+            $("#currentContent").text(content);
+            $("#currentProximity").text(prox);
+            $("#editCTime").val(ctime);
+
+
+
+            $("#detailModalText").append('<input type="hidden" id="detailModalId"/>');
+            $('#detailModalId').val(id);
+        });
+
+        $("#detailHideModal").click(function () {
+            $("#detailModal").modal('hide');
+        });
+    });
+    $("#update").click(function () {
+        var options = {};
+        options.url = '/Relation/UpdateRelation';
+        options.type = "PUT";
+        var obj = {};
+        obj.Id = $("#detailModalId").val();
+        obj.ArtifactId = $("#editArtifact").val();
+        obj.ConTentId = $("#editContent").val();
+        obj.BeaconId = $("#editBeacon").val();
+        obj.Proximity = $("#editProximity").val();
+
+        debugger
+        options.data = JSON.stringify(obj);
+        options.contentType = "application/json";
+        options.dataType = "html";
+        options.success = function () {
+            Swal({
+                type: 'success',
+                title: 'Thanks',
+                text: 'Operation is success',
+            }).then(function () {
+
+                window.location.href = "/Relation/Index";
+            })
+        };
+        options.error = function () {
+            alert("error");
+        };
+        $("#detailModal").modal('hide');
+        $.ajax(options);
+    });
+
+
+    $(document).ready(function () {
+        var options = {};
+        options.url = "https://localhost:5001/api/Artifact/GetAllArtifacts";
+        options.type = "GET";
+        options.dataType = "json";
+        options.success = function (data) {
+            debugger
+            data.forEach(function (v) {
+
+                $('[id = "editArtifact"]').append('<option value="' + v.id + '">' + v.name + '</option>');
+            });
+        };
+        options.error = function () {
+            alert("error");
+        };
+        $.ajax(options);
+    });
+    $(document).ready(function () {
+        var options = {};
+        options.url = "https://localhost:5001/api/Content/GetAllContents";
+        options.type = "GET";
+        options.dataType = "json";
+        options.success = function (data) {
+            debugger
+            data.forEach(function (v) {
+                $('[id = "editContent"]').append('<option value="' + v.id + '">' + v.name + '</option>');
+            });
+        };
+        options.error = function () {
+            alert("error");
+        };
+        $.ajax(options);
+    });
+    $(document).ready(function () {
+        var options = {};
+        options.url = "https://localhost:5001/api/Beacon/GetAllBeacons";
+        options.type = "GET";
+        options.dataType = "json";
+        options.success = function (data) {
+            debugger
+            data.forEach(function (v) {
+                $('[id = "editBeacon"]').append('<option value="' + v.id + '">' + v.name + '</option>');
+            });
+        };
+        options.error = function () {
+            alert("error");
+        };
         $.ajax(options);
     });
 </script>
