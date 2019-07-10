@@ -94,8 +94,6 @@
         </div>
     </div>
 </div>
-
-
 <div class="w-100">
     <table class="table">
         <thead>
@@ -130,6 +128,32 @@
 </div>
 
 
+
+<div class="modal fade" tabindex="-1" id="SelectProject"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title align-content-lg-start">Create Project</h4>
+                <button type="button" class="close text-lg-right" data-dismiss="modal">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <input class="form-control" type="text"
+                               placeholder="Project Name" id="inputName" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="Select" class="btn btn-primary button button4">Select</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div>
     <p id="Deneme"></p>
 
@@ -139,6 +163,15 @@
 <script src="bootstrap/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#SelectProject").modal('show');
+        $("#Select").click(function () {
+            $("#SelectProject").modal('hide');
+        });
+    });
+
+
     function swalload() {
         swal.fire({
             title: 'Loading....',
