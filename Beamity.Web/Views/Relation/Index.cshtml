@@ -5,9 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
-
-<div class="row justify-content-end">
+<div class="row justify-content-start m-1">
     <button id="btnShowModal" type="button" class="btn btn-outline-success">
         Create New
     </button>
@@ -158,7 +156,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Proximity)
             </th>
-            <th></th>
+            <th>Operations</th>
         </tr>
     </thead>
     <tbody>
@@ -182,10 +180,12 @@
                             @Html.DisplayFor(modelItem => item.Proximity)
                         </td>
                         <td>
+
                             <input type="button" class="btn btn-primary"data-artifact="@item.ArtifacName" 
                                    data-beacon="@item.BeaconName" data-content="@item.ContentName" data-prox="@item.Proximity" data-id="@item.Id" data-ctime="@item.CreatedTime"
                                    value="Details" id="detailShowModal" />
                             <input type="button" class="btn btn-primary" id="deleteShowModal"  data-id="@item.Id" value="Delete" />
+
                         </td>
                     </tr>
                 }
@@ -199,7 +199,23 @@
 <script src="bootstrap/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
+    function swalload() {
+        swal.fire({
+            title: 'Loading....',
+            html: 'Please wait during the processing time',
+            timer: 10000,
+            onBeforeOpen: () => {
+                Swal.showLoading()
+                timerInterval = setInterval(() => {
+                    Swal.getContent().querySelector('strong')
+                        .textContent = Swal.getTimerLeft()
+                }, 100)
+            },
+            onClose: () => {
 
+            }
+        });
+    }
     $(document).ready(function () {
         debugger
         $("#btnShowModal").click(function () {
@@ -212,6 +228,7 @@
         });
     });
     $("#create").click(function () {
+        swalload();
         var options = {};
         options.url = "https://localhost:5001/api/Relation/CreateRelation/";
         options.type = "POST";
@@ -335,6 +352,7 @@
         });
     });
     $("#delete").click(function () {
+        swalload();
         var options = {};
         options.url = "https://localhost:5001/api/Relation/DeleteRelation";
         options.type = "DELETE";

@@ -67,7 +67,7 @@
             </div>
 
             <pre id='info'></pre>
-            
+
 
 
         </div>
@@ -172,25 +172,25 @@
         <tbody>
             @foreach (var item in Model)
             {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Longitude)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Latitude)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ProjectName)
-                </td>
-                <td>
-                    <input type="button" class="btn btn-primary" data-id="@item.Id" data-name="@item.Name"
-                           data-ctime="@item.CreatedTime" data-lat="@item.Latitude" data-long="@item.Longitude" value="Details" id="detailShowModal" />
-                   | <input type="button" class="btn btn-primary" id="deleteShowModal" data-name="@item.Name" data-id="@item.Id" value="Delete" />
-                </td>
-            </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Longitude)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Latitude)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProjectName)
+                    </td>
+                    <td>
+                        <input type="button" class="btn btn-primary" data-id="@item.Id" data-name="@item.Name"
+                               data-ctime="@item.CreatedTime" data-lat="@item.Latitude" data-long="@item.Longitude" value="Details" id="detailShowModal" />
+                        | <input type="button" class="btn btn-primary" id="deleteShowModal" data-name="@item.Name" data-id="@item.Id" value="Delete" />
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
@@ -230,7 +230,7 @@
     var marker = new mapboxgl.Marker();
     map.on('click', function (e) {
 
-        
+
         marker.remove();
         Lat = e.lngLat.lat;
         Lng = e.lngLat.lng;
@@ -240,7 +240,7 @@
         marker.setLngLat([Lng, Lat])
         marker.addTo(map);
     });
-    
+
 
 
     var layerList = document.getElementById('menu');
@@ -255,8 +255,23 @@
         inputs[i].onclick = switchLayer;
     }
 
+    function swalload() {
+        swal.fire({
+            title: 'Loading....',
+            html: 'Please wait during the processing time',
+            timer: 10000,
+            onBeforeOpen: () => {
+                Swal.showLoading()
+                timerInterval = setInterval(() => {
+                    Swal.getContent().querySelector('strong')
+                        .textContent = Swal.getTimerLeft()
+                }, 100)
+            },
+            onClose: () => {
 
-
+            }
+        });
+    }
     $(document).ready(function () {
         $("#btnShowModal").click(function () {
             $("#loginModal").modal('show');
@@ -268,15 +283,13 @@
             $("#loginModal").modal('hide');
         });
     });
-    
-
     $("#create").click(function () {
-        
+        swalload();
         var options = {};
         options.url = "https://localhost:5001/api/Location/CreateLocation";
         options.type = "POST";
         var obj = {};
-        obj.Name = $("#inputName").val(); 
+        obj.Name = $("#inputName").val();
         obj.Latitude = Lat.toString();
         obj.Longitude = Lng.toString();
         obj.ProjectId = $("#projects").val();
@@ -312,9 +325,8 @@
             $("#deleteModal").modal('hide');
         });
     });
-
-
     $("#delete").click(function () {
+        swalload();
         var options = {};
         options.url = "https://localhost:5001/api/Location/DeleteLocation/";
         options.type = "DELETE";
@@ -346,7 +358,6 @@
         $("#deleteModal").modal('hide');
         $.ajax(options);
     });
-
     $(document).ready(function () {
         $('[id="detailShowModal"]').click(function () {
             $("#detailModal").modal('show');
@@ -375,6 +386,7 @@
         });
     });
     $("#update").click(function () {
+        swalload();
         var options = {};
         options.url = "https://localhost:5001/api/Location/UpdateLocation";
         options.type = "PUT";
@@ -383,7 +395,7 @@
         obj.Id = $("#detailModalId").val();
         obj.Name = $("#editName").val();
         obj.Longitude = $("#editLong").val();
-        obj.Latitude = $("#editLat").val(); 
+        obj.Latitude = $("#editLat").val();
         obj.CreatedTime = $.now();
         obj.ProjectId = $("#editprojects").val();
 
@@ -414,14 +426,13 @@
         $("#detailModal").modal('hide');
         $.ajax(options);
     });
-
     $(document).ready(function () {
         var options = {};
         options.url = "https://localhost:5001/api/Project/GetAllProject";
         options.type = "GET";
         options.dataType = "json";
         options.success = function (data) {
-            
+
             data.forEach(function (v) {
                 $('[id = "editprojects"]').append('<option value="' + v.id + '">' + v.name + '</option>');
             });

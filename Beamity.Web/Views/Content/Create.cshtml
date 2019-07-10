@@ -28,7 +28,7 @@
             <div class="form-row">
                 <div class="form-group col">
                     <label asp-for="Description" class="control-label"></label>
-                    <textarea asp-for="Description" id="inputDescription" style="height:240px;" class="form-control" required></textarea>
+                    <textarea asp-for="Description" id="inputDescription" style="height:240px;" maxlength="100" class="form-control" required></textarea>
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
                 <div class="form-group col">
@@ -84,32 +84,52 @@
 <script type="text/javascript">
 
 
+    function swalload() {
+        swal.fire({
+            title: 'Loading....',
+            html: 'Please wait during the processing time',
+            timer: 100000,
+            onBeforeOpen: () => {
+                Swal.showLoading()
+                timerInterval = setInterval(() => {
+                    Swal.getContent().querySelector('strong')
+                        .textContent = Swal.getTimerLeft()
+                }, 100)
+            },
+            onClose: () => {
 
+            }
+        });
+    }
     $("#create").click(function () {
+        var a;
+        if ($('#isHome').is(":checked")) {
+            a = true;
+            debugger
+        } else {
+            a = false;
+            debugger
+        }
+        var b =$("#isHome").val();
+        var a =$("input[type='checkbox']").val();
+        debugger
+        swalload();
         var options = {};
         options.url = '/Content/Create';
         options.type = "POST";
-
         var obj = new FormData();
         obj.append('Name', $("#inputName").val());
         obj.append('Title', $("#inputTitle").val());
         obj.append('Description', $("#inputDescription").val());
-
         obj.append('MainImage', $("#mainImage")[0].files[0]);
         obj.append('SlideImage', $("#slideImage")[0].files[0]);
         obj.append('Video', $("#video")[0].files[0]);
         obj.append('Audio', $("#audio")[0].files[0]);
-
         obj.append('Text', $("#inputText").val());
-        obj.append('IsHomePage', $("isHome").val());
-
-        debugger
+        obj.append('IsHomePage', a);
         options.data = obj;
-
-
         options.contentType = false;
         options.processData = false;
-
         options.success = function (msg) {
             $("#msg").html(msg);
             Swal({
