@@ -7,11 +7,11 @@ namespace Beamity.Application.Service.IServices
 {
     public interface IArtifactService
     {
-        List<ReadArtifactDTO> GetAllArtifacts();
-        void CreateArtifact(CreateArtifactDTO input);
-        void UpdateArtifact(UpdateArtifactDTO input);
-        void DeleteArtifact(DeleteArtifactDTO input);
-        ReadArtifactDTO GetArtifact(EntityDTO input);
+        Task<List<ReadArtifactDTO>> GetAllArtifacts(EntityDTO input);
+        Task CreateArtifact(CreateArtifactDTO input);
+        Task UpdateArtifact(UpdateArtifactDTO input);
+        Task DeleteArtifact(DeleteArtifactDTO input);
+        Task<ReadArtifactDTO> GetArtifact(EntityDTO input);
         Task<List<ReadArtifactDTO>> GetArtifactsInRoom(EntityDTO input);
     }
 }

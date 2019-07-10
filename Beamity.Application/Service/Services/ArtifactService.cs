@@ -5,8 +5,10 @@ using Beamity.Application.Service.IServices;
 using Beamity.Core.Models;
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Interfaces;
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,32 +25,40 @@ namespace Beamity.Application.Service.Services
          *  4.GetArtifact
          *  5.UpdateArtifact methods
          */
-        private readonly ArtifactRepository _repository;
-        private readonly RoomRepository _roomRepository;
+        private readonly IBaseGenericRepository<Artifact> _artifactRepository;
+        private readonly IBaseGenericRepository<Room> _roomRepository;
 
         private readonly IMapper _mapper;
-        public ArtifactService(ArtifactRepository repository, RoomRepository roomRepository, IMapper mapper)
+        public ArtifactService(IBaseGenericRepository<Artifact> repository, IBaseGenericRepository<Room> roomRepository, IMapper mapper)
         {
-            _repository = repository;
+            _artifactRepository = repository;
             _roomRepository = roomRepository;
             _mapper = mapper;
         }
 
-        public void CreateArtifact(CreateArtifactDTO input)
+        public async Task CreateArtifact(CreateArtifactDTO input)
         {
             var artifact = _mapper.Map<Artifact>(input);
-            artifact.Room = _roomRepository.GetById(input.RoomId);
-            _repository.Create(artifact);
+            artifact.Room = await _roomRepository.GetById(input.RoomId);
+            await _artifactRepository.Create(artifact);
         }
 
-        public void DeleteArtifact(DeleteArtifactDTO input)
+        public async Task DeleteArtifact(DeleteArtifactDTO input)
         {
-            _repository.Delete(input.Id);
+            await _artifactRepository.Delete(input.Id);
         }
 
-        public List<ReadArtifactDTO> GetAllArtifacts()
+        //ProjectID
+        public async Task<List<ReadArtifactDTO>> GetAllArtifacts(EntityDTO input)
         {
-            var artifacts = _repository.GetAll();
+            var artifacts = await _artifactRepository
+                .GetAll()
+                .Include(x => x.Room)
+                .ThenInclude(x => x.Floor)
+                .ThenInclude(x => x.Building)
+                .Where(x => x.Project.Id == input.Id)
+                .ToListAsync();
+
             List<ReadArtifactDTO> result = new List<ReadArtifactDTO>();
             foreach (var item in artifacts)
             {
@@ -63,19 +73,29 @@ namespace Beamity.Application.Service.Services
             return result;
         }
 
-        public ReadArtifactDTO GetArtifact(EntityDTO input)
+        public async Task<ReadArtifactDTO> GetArtifact(EntityDTO input)
         {
-            var artifact = _repository.GetById(input.Id);
+            var artifact = await _artifactRepository
+                .GetAll()
+                .Include(x => x.Room)
+                .ThenInclude(x => x.Floor)
+                .ThenInclude(x => x.Building)
+                .FirstOrDefaultAsync(x => x.Id == input.Id);
             var result = _mapper.Map<ReadArtifactDTO>(artifact);
             result.RoomName = artifact.Room.Name;
             result.FloorName = artifact.Room.Floor.Name;
             result.BuildingName = artifact.Room.Floor.Building.Name;
             return result;
         }
-
+        //roomID
         public async Task<List<ReadArtifactDTO>> GetArtifactsInRoom(EntityDTO input)
         {
-            var artifacts = await _repository.GetArtifactsWithRoomId(input.Id);
+            var artifacts = await _artifactRepository.GetAll()
+                .Include(x => x.Room)
+                .ThenInclude(x => x.Floor)
+                .ThenInclude(x => x.Building)
+                .Where(x => x.Room.Id == input.Id)
+                .ToListAsync();
             List<ReadArtifactDTO> result = new List<ReadArtifactDTO>();
             foreach (var item in artifacts)
             {
@@ -91,18 +111,18 @@ namespace Beamity.Application.Service.Services
             return result;
         }
 
-        public void UpdateArtifact(UpdateArtifactDTO input)
+        public async Task UpdateArtifact(UpdateArtifactDTO input)
         {
-            var artifact = _repository.GetById(input.Id);
+            var artifact = await _artifactRepository.GetById(input.Id);
 
             artifact.Name = input.Name;
-            if( input.RoomId != Guid.Empty )
-                artifact.Room = _roomRepository.GetById(input.RoomId);
+            if (input.RoomId != Guid.Empty)
+                artifact.Room = await _roomRepository.GetById(input.RoomId);
             artifact.CreatedTime = DateTime.Now;
-            if ( !String.IsNullOrEmpty(input.MainImageURL) )
+            if (!String.IsNullOrEmpty(input.MainImageURL))
                 artifact.MainImageURL = input.MainImageURL;
 
-            _repository.Update(artifact);
+            await _artifactRepository.Update(artifact.Id,artifact);
         }
     }
 }

@@ -15,5 +15,6 @@ namespace Beamity.Core.Models
 
         /*Foreign Keys*/
         public virtual Room Room { get; set; }
+        public Project Project { get; set; }
     }
 }

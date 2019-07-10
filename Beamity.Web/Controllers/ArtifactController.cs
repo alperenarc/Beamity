@@ -30,9 +30,11 @@ namespace Beamity.Web.Controllers
             _blobManager = blobManager;
             _artifactService = artifactService;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            IEnumerable<ReadArtifactDTO> artifacts = _artifactService.GetAllArtifacts();
+            ///Project Id
+            EntityDTO dto = new EntityDTO();
+            IEnumerable<ReadArtifactDTO> artifacts = await _artifactService.GetAllArtifacts(dto);
             return View(artifacts);
         }
         [HttpPost]
@@ -49,7 +51,7 @@ namespace Beamity.Web.Controllers
                         MainImageURL = url,
                         RoomId = input.RoomId
                     };
-                    _artifactService.CreateArtifact(data);
+                    await _artifactService.CreateArtifact(data);
                 }
                 return Ok();
             }
@@ -73,7 +75,7 @@ namespace Beamity.Web.Controllers
                     RoomId = input.RoomId
                 };
 
-                _artifactService.UpdateArtifact(data);
+                await _artifactService.UpdateArtifact(data);
 
             }
             catch (Exception e)
