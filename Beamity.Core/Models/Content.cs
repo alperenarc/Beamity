@@ -33,7 +33,7 @@ namespace Beamity.Core.Models
 
         [Display(Name = "Is HomePage Content")]
         public bool IsHomePage { get; set; }
+        public Project Project { get; set; }
 
-        
     }
 }

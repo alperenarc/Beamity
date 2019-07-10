@@ -60,7 +60,9 @@ namespace Beamity.Web.Controllers
                         IsPersistent = false,
                         AllowRefresh = false
                     });
-                return RedirectToAction("Index", "Home");
+                // Store User Id on session
+                HttpContext.Session.SetString("UserId",result.Id.ToString());
+                return RedirectToAction("Index", "Project");
             }
             else
             {

@@ -3,7 +3,9 @@ using Beamity.Application;
 using Beamity.Application.Service.IServices;
 using Beamity.Application.Service.Services;
 using Beamity.Application.Tokens;
+using Beamity.Core.Models;
 using Beamity.Core.Models.Tokens;
+using Beamity.EntityFrameworkCore.EntityFrameworkCore;
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Contexts;
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Interfaces;
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories;
@@ -71,7 +73,9 @@ namespace Beamity.Web
                     options.LoginPath = new PathString("/User/Login/");
                     options.AccessDeniedPath = new PathString("/User/Register/");
             });
-             
+
+            services.AddScoped(typeof(IBaseGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped(typeof(GenericRepository<Project>), typeof(GenericRepository<Project>));
 
         }
     }

@@ -9,10 +9,10 @@ namespace Beamity.Application.Service.IServices
 {
     public interface IProjectService
     {
-        void CreateProject(CreateProjectDTO input);
+        Task CreateProject(CreateProjectDTO input);
         void UpdateProject(UpdateProjectDTO input);
         void DeleteProject(DeleteProjectDTO input);
-        List<ReadProjectDTO> GetAllProject();
+        Task<List<ReadProjectDTO>> GetAllProject(string UserId);
         ReadProjectDTO GetProject(EntityDTO input);
     }
 }

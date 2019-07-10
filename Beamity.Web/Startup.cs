@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System;
 
 namespace Beamity.Web
 {
@@ -34,7 +35,10 @@ namespace Beamity.Web
                 options.AddPolicy("Common", policy => policy.RequireRole("Common"));
                 //options.AddPolicy("Id", policy => policy.RequireClaim("Id", "123", "456"));
             });
-
+            services.AddSession(opts =>
+            {
+                opts.IdleTimeout = TimeSpan.FromHours(1);
+            });
             DependencyInjection DI = new DependencyInjection(services,Configuration);
             services.AddMvc(config =>
             {
@@ -59,7 +63,7 @@ namespace Beamity.Web
                 app.UseHsts();
             }
 
-
+            app.UseSession();
             app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseStaticFiles();

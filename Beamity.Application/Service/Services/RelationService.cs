@@ -134,7 +134,13 @@ namespace Beamity.Application.Service.Services
             var beacon = _beaconRepository.GetBeaconWithName(input.UUID,input.Minor,input.Major);
 
             var relation = _relationRepository.GetRelationWithBeaconId(beacon.Id, input.Proximity);
-            return _mapper.Map<ReadContentDTO>(relation.Content);
+            ReadContentDTO da = new ReadContentDTO();
+            if( relation != null )
+                return _mapper.Map<ReadContentDTO>(relation.Content);
+            else
+            {
+                return da;
+            }
         }
 
         public void UpdateRelation(UpdateRelationDTO input)
