@@ -84,33 +84,42 @@
 <script src="bootstrap/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
+    function swalload() {
+        swal.fire({
+            title: 'Loading....',
+            html: 'Please wait during the processing time',
+            timer: 10000,
+            onBeforeOpen: () => {
+                Swal.showLoading()
+                timerInterval = setInterval(() => {
+                    Swal.getContent().querySelector('strong')
+                        .textContent = Swal.getTimerLeft()
+                }, 100)
+            },
+            onClose: () => {
 
+            }
+        });
+    }
     $("#update").click(function () {
+        swalload();
         var options = {};
         options.url = '/Content/Update';
         options.type = "PUT";
-
         var obj = new FormData();
         obj.append('Id', $("#id").val());
         obj.append('Name', $("#inputName").val());
         obj.append('Title', $("#inputTitle").val());
         obj.append('Description', $("#inputDescription").val());
-
         obj.append('MainImage', $("#mainImage")[0].files[0]);
         obj.append('SlideImage', $("#slideImage")[0].files[0]);
         obj.append('Video', $("#video")[0].files[0]);
         obj.append('Audio', $("#audio")[0].files[0]);
-
         obj.append('Text', $("#inputText").val());
         obj.append('IsHomePage', $("isHome").val());
-
-        debugger
         options.data = obj;
-
-
         options.contentType = false;
         options.processData = false;
-
         options.success = function (msg) {
             $("#msg").html(msg);
             Swal({
