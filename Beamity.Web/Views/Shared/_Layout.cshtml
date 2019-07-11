@@ -37,9 +37,7 @@
             <img src="~/image/Beaconproject.png" style="width:180px; height:35px" />
         </a>
 
-        <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
-            <i class="fas fa-bars"></i>
-        </button>
+        
 
         <!-- Navbar Search -->
         <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
@@ -96,13 +94,16 @@
 
         <!-- Sidebar -->
         <ul class="sidebar navbar-nav">
-            <li class="nav-item active">
+                
+            <li class="nav-item dropdown">
+                <a class="nav-link" id="sidebarToggle" href="">
+                    <i class="fas fa-fw fa-bars"></i>
+                    <span> Menu</span>
+                </a>
                 <a class="nav-link" href="/Home/Index">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
-            </li>
-            <li class="nav-item dropdown">
                 <a class="nav-link" href="~/Project/Index" role="button" aria-haspopup="true">
                     <i class="fas fa-fw fa-project-diagram"></i>
                     <span>Projects</span>

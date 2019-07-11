@@ -9,6 +9,5 @@ namespace Beamity.Core.Models
     {
         [Required(ErrorMessage = "Please enter your project name!")]
         public string Name { get; set; }
-        public User User { get; set; }
     }
 }
