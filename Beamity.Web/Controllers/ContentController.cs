@@ -23,9 +23,12 @@ namespace Beamity.Web.Controllers
             _blobManager = blobManager;
             _contentService = contentService;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            IEnumerable<ReadContentDTO> buildings = _contentService.GetAllContents();
+            //it's temporary 
+            //get project ID
+            EntityDTO dto = new EntityDTO();
+            IEnumerable<ReadContentDTO> buildings = await _contentService.GetAllContents( dto );
             return View(buildings);
         }
         public IActionResult Create()
@@ -54,7 +57,7 @@ namespace Beamity.Web.Controllers
                     IsHomePage = input.IsHomePage,
                     Text = input.Text
                 };
-                _contentService.CrateContent(data);
+                await _contentService.CrateContent(data);
             }
             catch (Exception e)
             {
@@ -62,9 +65,9 @@ namespace Beamity.Web.Controllers
                 throw e;
             }
         }
-        public IActionResult Update(EntityDTO input)
+        public async Task<IActionResult> Update(EntityDTO input)
         {
-            var content = _contentService.GetContent(input);
+            var content = await _contentService.GetContent(input);
             UpdateContentViewModel data = new UpdateContentViewModel()
             {
                 Id = input.Id,
@@ -102,7 +105,7 @@ namespace Beamity.Web.Controllers
                     Text = input.Text,
                     CreatedTime = DateTime.Now
                 };
-                _contentService.UpdateContent(data);
+                await _contentService.UpdateContent(data);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception e)

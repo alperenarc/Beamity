@@ -21,11 +21,11 @@ namespace Beamity.API.Controllers
             _buildingService = buildingService;
         }
         [HttpGet("{id}")]
-        public ReadBuildingDTO GetBuilding(EntityDTO input)
+        public async Task<ReadBuildingDTO> GetBuilding(EntityDTO input)
         {
             try
             {
-                var building =  _buildingService.GetBuilding(input);
+                var building =  await _buildingService.GetBuilding(input);
                 return building;
             }
             catch (Exception)
@@ -35,25 +35,27 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpGet]
-        public List<ReadBuildingDTO> GetAllBuildings()
+        public async Task<List<ReadBuildingDTO>> GetAllBuildings()
         {
-            var buildings =  _buildingService.GetAllBuildings();
+            //bu yanlı hatayı engellemke için yaptım
+            EntityDTO dto = new EntityDTO();
+            var buildings = await  _buildingService.GetAllBuildings( dto );
             return buildings;
 
         }
         [HttpGet("{id}")]
-        public List<ReadBuildingDTO> GetBuildingsAtLocation(EntityDTO input)
+        public async Task<List<ReadBuildingDTO>> GetBuildingsAtLocation(EntityDTO input)
         {
-            var buildings =  _buildingService.GetBuildingsAtLocation(input);
+            var buildings = await _buildingService.GetBuildingsAtLocation(input);
             return buildings;
 
         }
         [HttpPost]
-        public IActionResult CreateBuilding(CreateBuildingDTO input)
+        public async Task<IActionResult> CreateBuilding(CreateBuildingDTO input)
         {
             try
             {
-                _buildingService.CreateBuilding(input);
+                await _buildingService.CreateBuilding(input);
                 return Ok();
             }
             catch (Exception e)
@@ -63,11 +65,11 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpPut]
-        public IActionResult UpdateBuilding(UpdateBuildingDTO input)
+        public async Task<IActionResult> UpdateBuilding(UpdateBuildingDTO input)
         {
             try
             {
-                _buildingService.UpdateBuilding(input);
+                await _buildingService.UpdateBuilding(input);
                 return Ok();
             }
             catch (Exception e)
@@ -77,11 +79,11 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpDelete]
-        public IActionResult DeleteBuilding(DeleteBuildingDTO input)
+        public async Task<IActionResult> DeleteBuilding(DeleteBuildingDTO input)
         {
             try
             {
-                _buildingService.DeleteBuilding(input);
+                await _buildingService.DeleteBuilding(input);
                 return Ok();
             }
             catch (Exception)

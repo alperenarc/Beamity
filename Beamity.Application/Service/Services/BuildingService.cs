@@ -25,50 +25,40 @@ namespace Beamity.Application.Service.Services
          *  4.GetBuilding
          *  5.UpdateBuilding methods
          */
-      
-        private readonly IMapper _mapper;
-        //private readonly IBaseGenericRepository<Building> _buildingRepository;
-        //private readonly IBaseGenericRepository<Location> _locationRepository;
-        private readonly LocationRepository _locationRepository;
-        private readonly BuildingRepository _buildingRepository;
 
-        public BuildingService( IMapper mapper, BuildingRepository buildingRepository,
-             LocationRepository 
-            locationRepository)
+        private readonly IMapper _mapper;
+        private readonly IBaseGenericRepository<Building> _buildingRepository;
+        private readonly IBaseGenericRepository<Location> _locationRepository;
+        public BuildingService(IMapper mapper, IBaseGenericRepository<Building> buildingRepository,
+            IBaseGenericRepository<Location> locationRepository)
         {
             _mapper = mapper;
             _buildingRepository = buildingRepository;
             _locationRepository = locationRepository;
         }
 
-        public void CreateBuilding(CreateBuildingDTO input)
+        public async Task CreateBuilding(CreateBuildingDTO input)
         {
-            
-            try
-            {
-                var building = _mapper.Map<Building>(input);
-                building.Location = _locationRepository.GetById(input.LocationId);
-                _buildingRepository.Create(building);
-            }
-            catch (Exception e) 
-            {
+            var building = _mapper.Map<Building>(input);
+            building.Location = await _locationRepository.GetById(input.LocationId);
 
-                throw e;
-            }
-            
-           
+            await _buildingRepository.Create(building);
         }
 
-        public void DeleteBuilding(DeleteBuildingDTO input)
+        public async Task DeleteBuilding(DeleteBuildingDTO input)
         {
-            _buildingRepository.Delete(input.Id);
+            await _buildingRepository.Delete(input.Id);
         }
 
-        public List<ReadBuildingDTO> GetAllBuildings()
+        public async Task<List<ReadBuildingDTO>> GetAllBuildings(EntityDTO input)
         {
-            var query = _buildingRepository.GetAll();
+            //Locationunun sahip olduğu projeye göre buildingleri çek.
+            var query = _buildingRepository.GetAll()
+                .Include(x => x.Location)
+                .ThenInclude(x => x.Project)
+                .Where(x => x.IsActive && x.Location.Project.Id == input.Id);
 
-            var buildings = query.ToList();
+            var buildings = await query.ToListAsync();
 
             List<ReadBuildingDTO> result = new List<ReadBuildingDTO>();
             foreach (var item in buildings)
@@ -83,24 +73,28 @@ namespace Beamity.Application.Service.Services
             return result;
         }
 
-        public ReadBuildingDTO GetBuilding(EntityDTO input)
+        public async Task<ReadBuildingDTO> GetBuilding(EntityDTO input)
         {
-            var building = _buildingRepository.GetById(input.Id);
+            var building = await _buildingRepository.GetAll()
+                .Include(x => x.Location)
+                .FirstOrDefaultAsync(x => x.Id == input.Id);
             var result = _mapper.Map<ReadBuildingDTO>(input);
             result.LocationName = building.Location.Name;
             return result;
         }
 
-        
 
-        public List<ReadBuildingDTO> GetBuildingsAtLocation(EntityDTO input)
+        public async Task<List<ReadBuildingDTO>> GetBuildingsAtLocation(EntityDTO input)
         {
-            var buildings = _buildingRepository
-                .GetAll();
-   
+            var buildings = await _buildingRepository
+                .GetAll()
+                .Include(x => x.Location)
+                .Where(x => x.Location.Id == input.Id)
+                .ToListAsync();
+
 
             List<ReadBuildingDTO> result = new List<ReadBuildingDTO>();
-            
+
             foreach (var item in buildings)
             {
                 ReadBuildingDTO dto = new ReadBuildingDTO();
@@ -113,12 +107,13 @@ namespace Beamity.Application.Service.Services
             return result;
         }
 
-        public void UpdateBuilding(UpdateBuildingDTO input)
+        public async Task UpdateBuilding(UpdateBuildingDTO input)
         {
             var building = _mapper.Map<Building>(input);
-            building.Location = _locationRepository.GetById(input.LocationId);
-            _buildingRepository.Update(building);
+            await _buildingRepository.Update(input.Id, building);
         }
 
+      
+       
     }
 }
