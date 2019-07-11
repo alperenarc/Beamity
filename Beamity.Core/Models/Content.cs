@@ -31,9 +31,13 @@ namespace Beamity.Core.Models
 
         public string Text { get; set; }
 
+        public Location Location { get; set; }
+
         [Display(Name = "Is HomePage Content")]
         public bool IsHomePage { get; set; }
-        public Project Project { get; set; }
+        [Display(Name = "Is Campaign")]
+        public bool IsCampaign { get; set; }
+
 
     }
 }

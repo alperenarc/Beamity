@@ -22,7 +22,7 @@ namespace Beamity.Core.Models
         public string Token { get; set; }
         public string Hash { get; set; }
         public string RoleName { get; set; }
-        public virtual IEnumerable<Project> Projects { get; set; }
+        public virtual IEnumerable<Location> Locations { get; set; }
 
 
     }
