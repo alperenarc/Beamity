@@ -9,10 +9,10 @@ namespace Beamity.Application.Service.IServices
 {
     public interface IBeaconService
     {
-        void CreateBeacon(CreateBeaconDTO input);
-        void UpdateBeacon(UpdateBeaconDTO input);
-        void DeleteBeacon(DeleteBeaconDTO input);
-        List<ReadBeaconDTO> GetAllBeacons();
-        ReadBeaconDTO GetBeacon(EntityDTO input);
+        Task CreateBeacon(CreateBeaconDTO input);
+        Task UpdateBeacon(UpdateBeaconDTO input);
+        Task DeleteBeacon(DeleteBeaconDTO input);
+        Task<List<ReadBeaconDTO>> GetAllBeacons(EntityDTO input);
+        Task<ReadBeaconDTO> GetBeacon(EntityDTO input);
     }
 }

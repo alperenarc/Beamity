@@ -21,11 +21,11 @@ namespace Beamity.API.Controllers
             _beaconService = beaconService;
         }
         [HttpGet("{id}")]
-        public ReadBeaconDTO GetBeacon(EntityDTO input)
+        public async Task<ReadBeaconDTO> GetBeacon(EntityDTO input)
         {
             try
             {
-                var beacon = _beaconService.GetBeacon(input);
+                var beacon = await _beaconService.GetBeacon(input);
                 return beacon;
             }
             catch (Exception)
@@ -36,11 +36,13 @@ namespace Beamity.API.Controllers
         }
         [HttpGet]
         [AllowAnonymous]
-        public List<ReadBeaconDTO> GetAllBeacons()
+        public async Task<List<ReadBeaconDTO>> GetAllBeacons()
         {
             try
             {
-                var beacons = _beaconService.GetAllBeacons();
+                //ProjectID
+                EntityDTO dto = new EntityDTO();
+                var beacons = await _beaconService.GetAllBeacons(dto);
                 return beacons;
             }
             catch (Exception)
@@ -50,11 +52,11 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpPost]
-        public IActionResult CreateBeacon(CreateBeaconDTO input)
+        public async Task<IActionResult> CreateBeacon(CreateBeaconDTO input)
         {
             try
             {
-                _beaconService.CreateBeacon(input);
+                await _beaconService.CreateBeacon(input);
                 return Ok();
             }
             catch (Exception e)
@@ -64,11 +66,11 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpPut]
-        public IActionResult UpdateBeacon(UpdateBeaconDTO input)
+        public async Task<IActionResult> UpdateBeacon(UpdateBeaconDTO input)
         {
             try
             {
-                _beaconService.UpdateBeacon(input);
+                await _beaconService.UpdateBeacon(input);
                 return Ok();
 
             }
@@ -79,11 +81,11 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpDelete]
-        public IActionResult DeleteBeacon(DeleteBeaconDTO input)
+        public async Task<IActionResult> DeleteBeacon(DeleteBeaconDTO input)
         {
             try
             {
-                _beaconService.DeleteBeacon(input);
+               await  _beaconService.DeleteBeacon(input);
                 return Ok();
             }
             catch (Exception)
