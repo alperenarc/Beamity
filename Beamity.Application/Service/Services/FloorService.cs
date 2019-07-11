@@ -3,9 +3,12 @@ using Beamity.Application.DTOs;
 using Beamity.Application.DTOs.FloorDTOs;
 using Beamity.Application.Service.IServices;
 using Beamity.Core.Models;
+using Beamity.EntityFrameworkCore.EntityFrameworkCore.Interfaces;
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,32 +25,38 @@ namespace Beamity.Application.Service.Services
          *  4.Get Floor
          *  5.Update Floor methods
          */
-        private readonly FloorRepository _repository;
-        private readonly BuildingRepository  _buildingRepository;
+        private readonly IBaseGenericRepository<Floor> _repository;
+        private readonly IBaseGenericRepository<Building> _buildingRepository;
         private readonly IMapper _mapper;
 
-        public FloorService(FloorRepository repository, BuildingRepository buildingRepository, IMapper mapper)
+        public FloorService(IBaseGenericRepository<Floor> repository, IBaseGenericRepository<Building> buildingRepository, IMapper mapper)
         {
             _mapper = mapper; // define class of mapper library
             _buildingRepository = buildingRepository;
             _repository = repository;
         }
 
-        public void CreateFloor(CreateFloorDTO input)
+        public async Task CreateFloor(CreateFloorDTO input)
         {
             var floor = _mapper.Map<Floor>(input);
-            floor.Building = _buildingRepository.GetById(input.BuildingId); //firstly you must get building with building ID
-            _repository.Create(floor); // and then you can push on create method
+            floor.Building = await _buildingRepository.GetById(input.BuildingId); //firstly you must get building with building ID
+            await _repository.Create(floor); // and then you can push on create method
         }
 
-        public void DeleteFloor(DeleteFloorDTO input)
+        public async Task DeleteFloor(DeleteFloorDTO input)
         {
-            _repository.Delete(input.Id);
+            await _repository.Delete(input.Id);
         }
 
-        public List<ReadFloorDTO> GetAllFloor()
+        public async Task<List<ReadFloorDTO>> GetAllFloor(EntityDTO input)
         {
-            var floors = _repository.GetAll();
+            var floors = await _repository
+                .GetAll()
+                .Include( x => x.Building)
+                .ThenInclude( x => x.Location)
+                .ThenInclude( x => x.Project )
+                .Where( x => x.Building.Location.Project.Id == input.Id )
+                .ToListAsync();
             List<ReadFloorDTO> result = new List<ReadFloorDTO>();
             foreach (var item in floors)
             {
@@ -61,9 +70,9 @@ namespace Beamity.Application.Service.Services
             return result;
         }
 
-        public ReadFloorDTO GetFloor(EntityDTO input)
+        public async Task<ReadFloorDTO> GetFloor(EntityDTO input)
         {
-            var floor = _repository.GetById(input.Id);
+            var floor = await _repository.GetById(input.Id);
             var result = _mapper.Map<ReadFloorDTO>(floor);
             result.BuildingName = floor.Building.Name;
             return result;
@@ -71,7 +80,11 @@ namespace Beamity.Application.Service.Services
 
         public async Task<List<ReadFloorDTO>> GetFloorsOnBuilding(EntityDTO input)
         {
-            var floors = await _repository.GetFloorsWithBuildingId(input.Id);
+            var floors = await _repository
+                .GetAll()
+                .Include(x => x.Building)
+                .Where(x => x.Building.Id == input.Id)
+                .ToListAsync();
             List<ReadFloorDTO> result = new List<ReadFloorDTO>();
             foreach (var item in floors)
             {
@@ -84,11 +97,11 @@ namespace Beamity.Application.Service.Services
             return result;
         }
 
-        public void UpdateFloor(UpdateFloorDTO input)
+        public async Task UpdateFloor(UpdateFloorDTO input)
         {
             var floor = _mapper.Map<Floor>(input);
-            floor.Building = _buildingRepository.GetById(input.BuildingId);
-            _repository.Update(floor);
+            floor.Building = await _buildingRepository.GetById(input.BuildingId);
+            await _repository.Update(floor.Id,floor);
         }
     }
 }
