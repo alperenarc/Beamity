@@ -71,6 +71,7 @@ namespace Beamity.Application.Service.Services
             var locations = await _repository
                 .GetAll()
                 .Include(a => a.User)
+                .Include( x => x .Project)
                 .Where(x => x.IsActive && x.User.Id == input.Id)
                 .ToListAsync();
             List<ReadLocationDTO> result = new List<ReadLocationDTO>();
