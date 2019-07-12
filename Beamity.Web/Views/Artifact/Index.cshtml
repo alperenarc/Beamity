@@ -175,33 +175,18 @@
                 key: "LocationId"
             },
             cache: false,
-            type: "Post",
+            type: "POST",
             success: function (response) {
-
+                locationId = response.d;
             },
-            error: function (xhr) {
-
+            error: function () {
+                alert("couldnt get Session! ");
             }
         });
 
     });
-    function swalload() {
-        swal.fire({
-            title: 'Loading....',
-            html: 'Please wait during the processing time',
-            timer: 10000,
-            onBeforeOpen: () => {
-                Swal.showLoading()
-                timerInterval = setInterval(() => {
-                    Swal.getContent().querySelector('strong')
-                        .textContent = Swal.getTimerLeft()
-                }, 100)
-            },
-            onClose: () => {
 
-            }
-        });
-    }
+   
     $(document).ready(function () {
         $("#btnShowModal").click(function () {
             $("#loginModal").modal('show');
