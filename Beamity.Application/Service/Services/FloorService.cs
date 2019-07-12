@@ -99,7 +99,8 @@ namespace Beamity.Application.Service.Services
         public async Task UpdateFloor(UpdateFloorDTO input)
         {
             var floor = _mapper.Map<Floor>(input);
-            floor.Building = await _buildingRepository.GetById(input.BuildingId);
+            if(Guid.Empty != input.BuildingId)
+                floor.Building = await _buildingRepository.GetById(input.BuildingId);
             await _repository.Update(floor.Id,floor);
         }
     }

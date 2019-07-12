@@ -43,13 +43,13 @@ namespace Beamity.API.Controllers
             return buildings;
 
         }
-        [HttpGet("{id}")]
-        public async Task<List<ReadBuildingDTO>> GetBuildingsAtLocation(EntityDTO input)
-        {
-            var buildings = await _buildingService.GetBuildingsAtLocation(input);
-            return buildings;
+        //[HttpGet("{id}")]
+        //public async Task<List<ReadBuildingDTO>> GetBuildingsAtLocation(EntityDTO input)
+        //{
+        //    var buildings = await _buildingService.GetBuildingsAtLocation(input);
+        //    return buildings;
 
-        }
+        //}
         [HttpPost]
         public async Task<IActionResult> CreateBuilding(CreateBuildingDTO input)
         {

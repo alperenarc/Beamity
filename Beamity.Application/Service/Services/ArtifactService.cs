@@ -27,19 +27,35 @@ namespace Beamity.Application.Service.Services
          */
         private readonly IBaseGenericRepository<Artifact> _artifactRepository;
         private readonly IBaseGenericRepository<Room> _roomRepository;
+        private readonly IBaseGenericRepository<Location> _locationRepository;
+
 
         private readonly IMapper _mapper;
-        public ArtifactService(IBaseGenericRepository<Artifact> repository, IBaseGenericRepository<Room> roomRepository, IMapper mapper)
+        public ArtifactService(IBaseGenericRepository<Artifact> repository, IBaseGenericRepository<Location> locationRepository, IBaseGenericRepository<Room> roomRepository, IMapper mapper)
         {
             _artifactRepository = repository;
             _roomRepository = roomRepository;
+            _locationRepository = locationRepository;
             _mapper = mapper;
         }
 
         public async Task CreateArtifact(CreateArtifactDTO input)
         {
             var artifact = _mapper.Map<Artifact>(input);
-            artifact.Room = await _roomRepository.GetById(input.RoomId);
+            if (Guid.Empty != input.RoomId)
+            {
+                artifact.Room =await _roomRepository
+                    .GetAll()
+                    .Include(x => x.Floor)
+                    .ThenInclude(x => x.Building)
+                    .ThenInclude(x => x.Location)
+                    .FirstOrDefaultAsync(x => x.Id == input.RoomId);
+                artifact.Location = artifact.Room.Floor.Building.Location;
+            }
+            else
+            {
+                artifact.Location = await _locationRepository.GetById(input.LocationId);
+            }
             await _artifactRepository.Create(artifact);
         }
 
@@ -48,15 +64,16 @@ namespace Beamity.Application.Service.Services
             await _artifactRepository.Delete(input.Id);
         }
 
-        //ProjectID
+        //LocationId
         public async Task<List<ReadArtifactDTO>> GetAllArtifacts(EntityDTO input)
         {
             var artifacts = await _artifactRepository
                 .GetAll()
+                .Include( x => x.Location )
                 .Include(x => x.Room)
                 .ThenInclude(x => x.Floor)
                 .ThenInclude(x => x.Building)
-                .Where(x => x.Project.Id == input.Id)
+                .Where(x => x.IsActive && x.Location.Id == input.Id)
                 .ToListAsync();
 
             List<ReadArtifactDTO> result = new List<ReadArtifactDTO>();
@@ -80,7 +97,7 @@ namespace Beamity.Application.Service.Services
                 .Include(x => x.Room)
                 .ThenInclude(x => x.Floor)
                 .ThenInclude(x => x.Building)
-                .FirstOrDefaultAsync(x => x.Id == input.Id);
+                .FirstOrDefaultAsync(x => x.IsActive && x.Id == input.Id);
             var result = _mapper.Map<ReadArtifactDTO>(artifact);
             result.RoomName = artifact.Room.Name;
             result.FloorName = artifact.Room.Floor.Name;
@@ -94,7 +111,7 @@ namespace Beamity.Application.Service.Services
                 .Include(x => x.Room)
                 .ThenInclude(x => x.Floor)
                 .ThenInclude(x => x.Building)
-                .Where(x => x.Room.Id == input.Id)
+                .Where(x => x.IsActive && x.Room.Id == input.Id)
                 .ToListAsync();
             List<ReadArtifactDTO> result = new List<ReadArtifactDTO>();
             foreach (var item in artifacts)

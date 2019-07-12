@@ -26,16 +26,19 @@ namespace Beamity.Application.Service.Services
          *  5.UpdateContent methods
          */
         private readonly IBaseGenericRepository<Content> _repository;
+        private readonly IBaseGenericRepository<Location> _locationRepository;
         private readonly IMapper _mapper;
-        public ContentService(IBaseGenericRepository<Content> repository, IMapper mapper)
+        public ContentService(IBaseGenericRepository<Content> repository, IBaseGenericRepository<Location> locationRepository, IMapper mapper)
         {
             _repository = repository;
+            _locationRepository = locationRepository;
             _mapper = mapper;
         }
 
         public async Task CrateContent(CreateContentDTO input)
         {
             var content = _mapper.Map<Content>(input);
+            content.Location = await _locationRepository.GetById(input.LocationId);
             await _repository.Create(content);
         }
 
@@ -44,12 +47,13 @@ namespace Beamity.Application.Service.Services
             await _repository.Delete(input.Id);
         }
 
+        //LocationID
         public async Task<List<ReadContentDTO>> GetAllContents(EntityDTO input)
         {
             var contents = await _repository
                 .GetAll()
-                .Include( x=> x.Project)
-                .Where(x => x.IsActive && x.Project.Id == input.Id)
+                .Include( x=> x.Location)
+                .Where(x => x.IsActive && x.Location.Id == input.Id)
                 .ToListAsync();
 
             var result = _mapper.Map<List<ReadContentDTO>>(contents);
@@ -62,13 +66,13 @@ namespace Beamity.Application.Service.Services
             var result = _mapper.Map<ReadContentDTO>(content);
             return result;
         }
-
+        //Location ID
         public async Task<List<ReadContentDTO>> GetHomePageContents( EntityDTO input)
         {
             var contents = await _repository
                 .GetAll()
-                .Include( x=> x.Project)
-                .Where(x => x.IsHomePage && x.IsActive && x.Project.Id == input.Id)
+                .Include( x=> x.Location)
+                .Where(x => x.IsHomePage && x.IsActive && x.Location.Id == input.Id)
                 .ToListAsync();
             var result = _mapper.Map<List<ReadContentDTO>>(contents);
             return result;

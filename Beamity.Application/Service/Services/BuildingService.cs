@@ -49,16 +49,14 @@ namespace Beamity.Application.Service.Services
         {
             await _buildingRepository.Delete(input.Id);
         }
-
+        //Location ID
         public async Task<List<ReadBuildingDTO>> GetAllBuildings(EntityDTO input)
         {
-            //Locationunun sahip olduğu projeye göre buildingleri çek.
-            var query = _buildingRepository.GetAll()
+            var buildings = await _buildingRepository
+                .GetAll()
                 .Include(x => x.Location)
-                .ThenInclude(x => x.Project)
-                .Where(x => x.IsActive && x.Location.Project.Id == input.Id);
-
-            var buildings = await query.ToListAsync();
+                .Where(x => x.IsActive && x.Location.Id == input.Id)
+                .ToListAsync();
 
             List<ReadBuildingDTO> result = new List<ReadBuildingDTO>();
             foreach (var item in buildings)
@@ -84,28 +82,28 @@ namespace Beamity.Application.Service.Services
         }
 
 
-        public async Task<List<ReadBuildingDTO>> GetBuildingsAtLocation(EntityDTO input)
-        {
-            var buildings = await _buildingRepository
-                .GetAll()
-                .Include(x => x.Location)
-                .Where(x => x.Location.Id == input.Id)
-                .ToListAsync();
+        //public async Task<List<ReadBuildingDTO>> GetBuildingsAtLocation(EntityDTO input)
+        //{
+        //    var buildings = await _buildingRepository
+        //        .GetAll()
+        //        .Include(x => x.Location)
+        //        .Where(x => x.Location.Id == input.Id)
+        //        .ToListAsync();
 
 
-            List<ReadBuildingDTO> result = new List<ReadBuildingDTO>();
+        //    List<ReadBuildingDTO> result = new List<ReadBuildingDTO>();
 
-            foreach (var item in buildings)
-            {
-                ReadBuildingDTO dto = new ReadBuildingDTO();
+        //    foreach (var item in buildings)
+        //    {
+        //        ReadBuildingDTO dto = new ReadBuildingDTO();
 
-                dto = _mapper.Map<ReadBuildingDTO>(item);
-                dto.LocationName = item.Location.Name;
+        //        dto = _mapper.Map<ReadBuildingDTO>(item);
+        //        dto.LocationName = item.Location.Name;
 
-                result.Add(dto);
-            }
-            return result;
-        }
+        //        result.Add(dto);
+        //    }
+        //    return result;
+        //}
 
         public async Task UpdateBuilding(UpdateBuildingDTO input)
         {

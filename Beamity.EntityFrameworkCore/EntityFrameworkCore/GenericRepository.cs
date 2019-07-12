@@ -43,7 +43,7 @@ namespace Beamity.EntityFrameworkCore.EntityFrameworkCore
         {
             return await _dbContext.Set<TEntity>()
                         
-                        .FirstOrDefaultAsync(e => e.Id == id);
+                        .FirstOrDefaultAsync(e => e.IsActive && e.Id == id);
         }
 
         public IQueryable<TEntity> GetAll()
