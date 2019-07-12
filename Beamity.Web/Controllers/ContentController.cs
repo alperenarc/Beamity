@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Beamity.Application.DTOs;
+﻿using Beamity.Application.DTOs;
 using Beamity.Application.DTOs.ContentDTOs;
 using Beamity.Application.Service.IServices;
 using Beamity.Web.Blob;
 using Beamity.Web.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Beamity.Web.Controllers
 {
@@ -27,7 +26,10 @@ namespace Beamity.Web.Controllers
         {
             //it's temporary 
             //get project ID
-            EntityDTO dto = new EntityDTO();
+            EntityDTO dto = new EntityDTO()
+            {
+                Id = Guid.Parse(HttpContext.Session.GetString("LocationId"))
+            };
             IEnumerable<ReadContentDTO> buildings = await _contentService.GetAllContents( dto );
             return View(buildings);
         }

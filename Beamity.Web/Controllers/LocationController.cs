@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Beamity.API.Controllers;
-using Beamity.Application.DTOs;
+﻿using Beamity.Application.DTOs;
 using Beamity.Application.DTOs.LocationDTOs;
 using Beamity.Application.Service.IServices;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 namespace Beamity.Web.Controllers
 {
     [Authorize]
@@ -23,7 +20,10 @@ namespace Beamity.Web.Controllers
         public async Task<IActionResult> Index()
         {
             //get user with Session
-            EntityDTO dto = new EntityDTO();
+            EntityDTO dto = new EntityDTO()
+            {
+                Id = Guid.Parse(HttpContext.Session.GetString("UserId"))
+            };
             IEnumerable<ReadLocationDTO> locations = await _locationService.GetAllLocationWithUser(dto);
             return View(locations);
         }

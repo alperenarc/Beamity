@@ -7,6 +7,7 @@ using Beamity.Application.DTOs;
 using Beamity.Application.DTOs.FloorDTOs;
 using Beamity.Application.Service.IServices;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Beamity.Web.Controllers
@@ -21,9 +22,10 @@ namespace Beamity.Web.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            //it's temporary 
-            //get project ID
-            EntityDTO dto = new EntityDTO();
+            EntityDTO dto = new EntityDTO()
+            {
+                Id = Guid.Parse(HttpContext.Session.GetString("LocationId"))
+            };
             IEnumerable<ReadFloorDTO> floors = await _floorService.GetAllFloor( dto );
             return View(floors);
         }
