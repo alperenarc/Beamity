@@ -165,7 +165,7 @@
         swalload()
         var Id = $(this).data("id");
         debugger
-        $.post('/Location/SetVariable',
+        $.post('/Session/SetVariable',
             {
                 value: Id
             }, function (data) {
