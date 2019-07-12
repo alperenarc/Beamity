@@ -38,10 +38,5 @@ namespace Beamity.Web.Controllers
             return View(locations);
         }
 
-        public ActionResult SetVariable( string value)
-        {
-            HttpContext.Session.SetString("LocationId", value);
-            return this.Json(new { success = true });
-        }
     }
 }
