@@ -15,11 +15,12 @@ namespace Beamity.Web.Controllers
 
             return this.Json(new { success = true });
         }
-        public string GetVariable(string key)
+        
+        public ActionResult GetVariable(string key)
         {
             string  r = HttpContext.Session.GetString(key);
 
-            return r;
+            return this.Json(new { d = r });
         }
     }
 }
