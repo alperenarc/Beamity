@@ -167,6 +167,7 @@
         debugger
         $.post('/Session/SetVariable',
             {
+                key: "LocationId",
                 value: Id
             }, function (data) {
                 window.location.href = "/Home/Index";
