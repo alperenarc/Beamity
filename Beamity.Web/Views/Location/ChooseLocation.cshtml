@@ -124,6 +124,7 @@
                             <div class="col">
                                 <input type="text" class="form-control" id="longitude" placeholder="Longitude">
                             </div>
+                            <input type="file" id="createFile" name="files" />
                         </div>
                         <select class="form-control" id="projects"></select>
                     </form>
@@ -257,17 +258,22 @@
         $("#CreateLocation").click(function () {
             swalload();
             var options = {};
-            options.url = "https://localhost:5001/api/Location/CreateLocation";
+            options.url = "/Location/Create";
             options.type = "POST";
-            var obj = {};
-            obj.Name = $("#inputName").val();
-            obj.Latitude = Lat.toString();
-            obj.Longitude = Lng.toString();
-            obj.ProjectId = $("#projects").val();
-            obj.userId = userId;
-            options.data = JSON.stringify(obj);
-            options.contentType = "application/json";
-            options.dataType = "html";
+            debugger
+            var obj = new FormData();
+            obj.append('Name', $("#inputName").val());
+            obj.append('Latitude', Lat.toString());
+            obj.append('Longitude', Lng.toString());
+            obj.append('UserId', userId);
+            obj.append('Photo', $("#createFile")[0].files[0]);
+            obj.append('ProjectId', $("#projects").val());
+            projects
+
+
+            options.data = obj;
+            options.contentType = false;
+            options.processData = false;
             options.success = function (msg) {
                 $("#msg").html(msg);
                 Swal({
