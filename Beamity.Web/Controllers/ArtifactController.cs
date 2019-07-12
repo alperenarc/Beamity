@@ -32,8 +32,11 @@ namespace Beamity.Web.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            ///Project Id
-            EntityDTO dto = new EntityDTO();
+            //Locatiion Id
+            EntityDTO dto = new EntityDTO()
+            {
+                Id = Guid.Parse(HttpContext.Session.GetString("LocationId"))
+            };
             IEnumerable<ReadArtifactDTO> artifacts = await _artifactService.GetAllArtifacts(dto);
             return View(artifacts);
         }
@@ -43,16 +46,15 @@ namespace Beamity.Web.Controllers
             try
             {
                 string url = await _blobManager.UploadImageAsBlob(input.File);
-                using (var client = new HttpClient())
+
+                CreateArtifactDTO data = new CreateArtifactDTO()
                 {
-                    CreateArtifactDTO data = new CreateArtifactDTO()
-                    {
-                        Name = input.Name,
-                        MainImageURL = url,
-                        RoomId = input.RoomId
-                    };
-                    await _artifactService.CreateArtifact(data);
-                }
+                    Name = input.Name,
+                    MainImageURL = url,
+                    RoomId = input.RoomId
+                };
+                await _artifactService.CreateArtifact(data);
+
                 return Ok();
             }
             catch (Exception)

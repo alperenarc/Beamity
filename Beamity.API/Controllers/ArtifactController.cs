@@ -34,14 +34,13 @@ namespace Beamity.API.Controllers
 
         }
         [HttpGet]
-        [AllowAnonymous]
-        public async Task<List<ReadArtifactDTO>> GetAllArtifacts()
+        [AllowAnonymous]/*LocationId*/
+        public async Task<List<ReadArtifactDTO>> GetAllArtifacts( EntityDTO input)
         {
             try
             {
-                ///Project Id
-                EntityDTO dto = new EntityDTO();
-                var artifacts = await _artifactService.GetAllArtifacts(dto/*Project ID*/);
+               
+                var artifacts = await _artifactService.GetAllArtifacts(input);
                 return artifacts;
             }
             catch (System.Exception e)
