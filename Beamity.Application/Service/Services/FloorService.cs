@@ -47,15 +47,14 @@ namespace Beamity.Application.Service.Services
         {
             await _repository.Delete(input.Id);
         }
-
+        //LocationID
         public async Task<List<ReadFloorDTO>> GetAllFloor(EntityDTO input)
         {
             var floors = await _repository
                 .GetAll()
-                .Include( x => x.Building)
-                .ThenInclude( x => x.Location)
-                .ThenInclude( x => x.Project )
-                .Where( x => x.Building.Location.Project.Id == input.Id )
+                .Include(x => x.Building)
+                .ThenInclude(a => a.Location)
+                .Where(x => x.Building.Location.Id == input.Id)
                 .ToListAsync();
             List<ReadFloorDTO> result = new List<ReadFloorDTO>();
             foreach (var item in floors)
@@ -69,7 +68,7 @@ namespace Beamity.Application.Service.Services
             }
             return result;
         }
-
+        //FloorID
         public async Task<ReadFloorDTO> GetFloor(EntityDTO input)
         {
             var floor = await _repository.GetById(input.Id);
@@ -77,7 +76,7 @@ namespace Beamity.Application.Service.Services
             result.BuildingName = floor.Building.Name;
             return result;
         }
-
+        //BuildingID
         public async Task<List<ReadFloorDTO>> GetFloorsOnBuilding(EntityDTO input)
         {
             var floors = await _repository
