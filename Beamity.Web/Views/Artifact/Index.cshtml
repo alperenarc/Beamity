@@ -164,6 +164,27 @@
 <script src="bootstrap/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
+    var locationId;
+
+    $(document).ready(function () {
+        debugger
+        $.ajax({
+            
+            url: "/Session/GetVariable",
+            data: {
+                "LocationId": locationId
+            },
+            cache: false,
+            type: "Get",
+            success: function (response) {
+
+            },
+            error: function (xhr) {
+
+            }
+        });
+
+    });
     function swalload() {
         swal.fire({
             title: 'Loading....',
@@ -231,6 +252,7 @@
         options.success = function (data) {
             data.forEach(function (v) {
                 $("#rooms").append('<option value="' + v.id + '">' + v.name + '</option>');
+                $("#EditRoom").append('<option value="' + v.id + '">' + v.name + '</option>');
             });
         };
         options.error = function () {
@@ -285,21 +307,7 @@
         $("#deleteModal").modal('hide');
         $.ajax(options);
     });
-    $(document).ready(function () {
-        var options = {};
-        options.url = "https://localhost:5001/api/Room/GetAllRooms";
-        options.type = "GET";
-        options.dataType = "json";
-        options.success = function (data) {
-            data.forEach(function (v) {
-                $("#EditRoom").append('<option value="' + v.id + '">' + v.name + '</option>');
-            });
-        };
-        options.error = function () {
-            alert("error");
-        };
-        $.ajax(options);
-    });
+
     $("#update").click(function () {
         swalload();
         var options = {};

@@ -15,7 +15,7 @@ namespace Beamity.Web.Controllers
 
             return this.Json(new { success = true });
         }
-        public string GetVariable(string key, string value)
+        public string GetVariable(string key)
         {
             string  r = HttpContext.Session.GetString(key);
 

@@ -209,6 +209,7 @@
             debugger
             data.forEach(function (v) {
                 $("#locations").append('<option value="' + v.id + '">' + v.name + '</option>');
+                $("#Editlocations").append('<option value="' + v.id + '">' + v.name + '</option>');
             });
         };
         options.error = function () {
@@ -264,21 +265,7 @@
         $("#deleteModal").modal('hide');
         $.ajax(options);
     });
-    $(document).ready(function () {
-        var options = {};
-        options.url = "https://localhost:5001/api/Location/GetAllLocation";
-        options.type = "GET";
-        options.dataType = "json";
-        options.success = function (data) {
-            data.forEach(function (v) {
-                $("#Editlocations").append('<option value="' + v.id + '">' + v.name + '</option>');
-            });
-        };
-        options.error = function () {
-            alert("error");
-        };
-        $.ajax(options);
-    });
+   
     $("#update").click(function () {
         swalload();
         var options = {};
