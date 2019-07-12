@@ -27,5 +27,21 @@ namespace Beamity.Web.Controllers
             IEnumerable<ReadLocationDTO> locations = await _locationService.GetAllLocationWithUser(dto);
             return View(locations);
         }
+        public async Task<IActionResult> ChooseLocation()
+        {
+            //get user with Session
+            EntityDTO dto = new EntityDTO()
+            {
+                Id = Guid.Parse(HttpContext.Session.GetString("UserId"))
+            };
+            IEnumerable<ReadLocationDTO> locations = await _locationService.GetAllLocationWithUser(dto);
+            return View(locations);
+        }
+
+        public ActionResult SetVariable(string key, string value)
+        {
+            HttpContext.Session.SetString(key, value);
+            return this.Json(new { success = true });
+        }
     }
 }
