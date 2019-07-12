@@ -101,8 +101,6 @@
 </div>
 
 
-
-
 <table class="table">
     <thead>
         <tr>
@@ -183,7 +181,7 @@
                 alert("couldnt get Session! ");
             }
         });
-
+        
     });
 
    
@@ -205,6 +203,7 @@
         var obj = new FormData();
         obj.append('Name', $("#inputName").val());
         obj.append('RoomId', $("#rooms").val());
+        obj.append('LocationId', locationId);
         obj.append('File', $("#file")[0].files[0]);
         debugger
         options.data = obj;
@@ -232,8 +231,13 @@
     $(document).ready(function () {
         var options = {};
         options.url = "https://localhost:5001/api/Room/GetAllRooms";
+        var obj = {};
+        obj.LocationId = locationId;
+        debugger
         options.type = "GET";
+        Option.data = Json.stringify(obj);
         options.dataType = "json";
+        options.contentType = "application/json";
         options.success = function (data) {
             data.forEach(function (v) {
                 $("#rooms").append('<option value="' + v.id + '">' + v.name + '</option>');
@@ -301,6 +305,7 @@
         var obj = new FormData();
         obj.append('Name', $("#editName").val());
         obj.append('RoomId', $("#EditRoom").val());
+        obj.append('LocationId', locationId);
         obj.append('File', $("#editfiles")[0].files[0]);
         obj.append('Id', $("#detailModalId").val());
         debugger

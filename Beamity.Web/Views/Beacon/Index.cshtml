@@ -183,6 +183,30 @@
 <script src="bootstrap/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
+
+    var locationId;
+
+    $(document).ready(function () {
+        debugger
+        $.ajax({
+
+            url: "/Session/GetVariable",
+            data: {
+                key: "LocationId"
+            },
+            cache: false,
+            type: "POST",
+            success: function (response) {
+                locationId = response.d;
+            },
+            error: function () {
+                alert("couldnt get Session! ");
+            }
+        });
+
+    });
+
+
     function swalload() {
         swal.fire({
             title: 'Loading....',
@@ -218,6 +242,7 @@
         var obj = {};
         obj.Name = $("#inputName").val();
         obj.UUID = $("#inputUUID").val();
+        obj.LocationId = locationId;
         obj.Major = $("#inputMajor").val();
         obj.Minor = $("#inputMinor").val();
 
