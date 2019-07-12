@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Beamity.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(BeamityDbContext))]
-    [Migration("20190627125912_sss")]
-    partial class sss
+    [Migration("20190712081714_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,6 +30,8 @@ namespace Beamity.EntityFrameworkCore.Migrations
 
                     b.Property<bool>("IsActive");
 
+                    b.Property<Guid?>("LocationId");
+
                     b.Property<string>("MainImageURL")
                         .IsRequired();
 
@@ -40,6 +42,8 @@ namespace Beamity.EntityFrameworkCore.Migrations
                     b.Property<Guid?>("RoomId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
 
                     b.HasIndex("RoomId");
 
@@ -55,6 +59,8 @@ namespace Beamity.EntityFrameworkCore.Migrations
 
                     b.Property<bool>("IsActive");
 
+                    b.Property<Guid?>("LocationId");
+
                     b.Property<int>("Major");
 
                     b.Property<int>("Minor");
@@ -66,6 +72,8 @@ namespace Beamity.EntityFrameworkCore.Migrations
                         .IsRequired();
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
 
                     b.ToTable("Beacons");
                 });
@@ -105,7 +113,11 @@ namespace Beamity.EntityFrameworkCore.Migrations
 
                     b.Property<bool>("IsActive");
 
+                    b.Property<bool>("IsCampaign");
+
                     b.Property<bool>("IsHomePage");
+
+                    b.Property<Guid?>("LocationId");
 
                     b.Property<string>("MainImageURL")
                         .IsRequired();
@@ -125,6 +137,8 @@ namespace Beamity.EntityFrameworkCore.Migrations
                     b.Property<string>("VideoURL");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
 
                     b.ToTable("Contents");
                 });
@@ -168,11 +182,17 @@ namespace Beamity.EntityFrameworkCore.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
+                    b.Property<string>("PhotoURL");
+
                     b.Property<Guid?>("ProjectId");
+
+                    b.Property<Guid?>("UserId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProjectId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Locations");
                 });
@@ -209,6 +229,10 @@ namespace Beamity.EntityFrameworkCore.Migrations
 
                     b.Property<bool>("IsActive");
 
+                    b.Property<Guid?>("LocationId");
+
+                    b.Property<int>("Proximity");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ArtifactId");
@@ -217,13 +241,35 @@ namespace Beamity.EntityFrameworkCore.Migrations
 
                     b.HasIndex("ContentId");
 
+                    b.HasIndex("LocationId");
+
                     b.ToTable("Relations");
+                });
+
+            modelBuilder.Entity("Beamity.Core.Models.Role", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatedTime");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("Beamity.Core.Models.Room", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("BeaconId");
 
                     b.Property<DateTime>("CreatedTime");
 
@@ -237,9 +283,29 @@ namespace Beamity.EntityFrameworkCore.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BeaconId");
+
                     b.HasIndex("FloorId");
 
                     b.ToTable("Rooms");
+                });
+
+            modelBuilder.Entity("Beamity.Core.Models.Statistics", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("BeaconId");
+
+                    b.Property<DateTime>("CreatedTime");
+
+                    b.Property<bool>("IsActive");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BeaconId");
+
+                    b.ToTable("Statistics");
                 });
 
             modelBuilder.Entity("Beamity.Core.Models.User", b =>
@@ -261,6 +327,8 @@ namespace Beamity.EntityFrameworkCore.Migrations
 
                     b.Property<string>("Phone");
 
+                    b.Property<string>("RoleName");
+
                     b.Property<string>("Surname")
                         .IsRequired();
 
@@ -273,15 +341,33 @@ namespace Beamity.EntityFrameworkCore.Migrations
 
             modelBuilder.Entity("Beamity.Core.Models.Artifact", b =>
                 {
+                    b.HasOne("Beamity.Core.Models.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId");
+
                     b.HasOne("Beamity.Core.Models.Room", "Room")
                         .WithMany("Artifacts")
                         .HasForeignKey("RoomId");
+                });
+
+            modelBuilder.Entity("Beamity.Core.Models.Beacon", b =>
+                {
+                    b.HasOne("Beamity.Core.Models.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId");
                 });
 
             modelBuilder.Entity("Beamity.Core.Models.Building", b =>
                 {
                     b.HasOne("Beamity.Core.Models.Location", "Location")
                         .WithMany("Buildings")
+                        .HasForeignKey("LocationId");
+                });
+
+            modelBuilder.Entity("Beamity.Core.Models.Content", b =>
+                {
+                    b.HasOne("Beamity.Core.Models.Location", "Location")
+                        .WithMany()
                         .HasForeignKey("LocationId");
                 });
 
@@ -297,6 +383,10 @@ namespace Beamity.EntityFrameworkCore.Migrations
                     b.HasOne("Beamity.Core.Models.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId");
+
+                    b.HasOne("Beamity.Core.Models.User", "User")
+                        .WithMany("Locations")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Beamity.Core.Models.Relation", b =>
@@ -312,13 +402,28 @@ namespace Beamity.EntityFrameworkCore.Migrations
                     b.HasOne("Beamity.Core.Models.Content", "Content")
                         .WithMany()
                         .HasForeignKey("ContentId");
+
+                    b.HasOne("Beamity.Core.Models.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationId");
                 });
 
             modelBuilder.Entity("Beamity.Core.Models.Room", b =>
                 {
+                    b.HasOne("Beamity.Core.Models.Beacon", "Beacon")
+                        .WithMany()
+                        .HasForeignKey("BeaconId");
+
                     b.HasOne("Beamity.Core.Models.Floor", "Floor")
                         .WithMany("Rooms")
                         .HasForeignKey("FloorId");
+                });
+
+            modelBuilder.Entity("Beamity.Core.Models.Statistics", b =>
+                {
+                    b.HasOne("Beamity.Core.Models.Beacon", "Beacon")
+                        .WithMany()
+                        .HasForeignKey("BeaconId");
                 });
 #pragma warning restore 612, 618
         }

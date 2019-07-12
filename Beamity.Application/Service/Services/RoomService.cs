@@ -45,10 +45,13 @@ namespace Beamity.Application.Service.Services
             await _roomRepository.Delete(input.Id);
         }
 
-        public async Task<List<ReadRoomDTO>> GetAllRooms()
+        public async Task<List<ReadRoomDTO>> GetAllRooms(EntityDTO input)
         {
             var rooms = await _roomRepository.GetAll()
-                .Where(x=>x.IsActive == true)
+                .Include(x=>x.Floor)
+                .ThenInclude(x=>x.Building)
+                .ThenInclude(x=>x.Location)
+                .Where(x=>x.IsActive == true && x.Floor.Building.Location.Id == input.Id)
                 .ToListAsync();
 
             List<ReadRoomDTO> result = _mapper.Map<List<ReadRoomDTO>>(rooms);

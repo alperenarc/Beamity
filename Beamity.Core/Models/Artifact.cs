@@ -13,7 +13,7 @@ namespace Beamity.Core.Models
         [Display(Name = "Main Image")]
         public string MainImageURL { get; set; }
 
-        /*Foreign Keys*/
+        public Guid? RoomId { get; set; }
         public virtual Room Room { get; set; }
 
         public Location Location { get; set; }
