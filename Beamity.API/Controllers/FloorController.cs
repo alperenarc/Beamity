@@ -21,11 +21,11 @@ namespace Beamity.API.Controllers
             _floorService = floorService;
         }
         [HttpGet("{id}")]
-        public ReadFloorDTO GetFloor(EntityDTO input)
+        public async Task<ReadFloorDTO> GetFloor(EntityDTO input)
         {
             try
             {
-                var floor = _floorService.GetFloor(input);
+                var floor = await _floorService.GetFloor(input);
                 return floor;
             }
             catch (Exception)
@@ -35,11 +35,14 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpGet]
-        public List<ReadFloorDTO> GetAllFloors()
+        public async Task<List<ReadFloorDTO>> GetAllFloors()
         {
             try
             {
-                var floors =  _floorService.GetAllFloor();
+                //it wrong it must be deleted from API 
+                //Or App send ProjectID
+                EntityDTO dto = new EntityDTO();
+                var floors = await _floorService.GetAllFloor(dto);
                 return floors;
             }
             catch (Exception)
@@ -53,6 +56,7 @@ namespace Beamity.API.Controllers
         {
             try
             {
+                ///Takes floor ID
                 var floors = await _floorService.GetFloorsOnBuilding(input);
                 return floors;
             }
@@ -63,18 +67,17 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpPost]
-        public IActionResult CreateFloor(CreateFloorDTO input)
+        public async Task<IActionResult> CreateFloor(CreateFloorDTO input)
         {
-                _floorService.CreateFloor(input);
-                return Ok();
-            
+            await _floorService.CreateFloor(input);
+            return Ok();
         }
         [HttpPut]
-        public IActionResult UpdateFloor(UpdateFloorDTO input)
+        public async Task<IActionResult> UpdateFloor(UpdateFloorDTO input)
         {
             try
             {
-                _floorService.UpdateFloor(input);
+               await _floorService.UpdateFloor(input);
                 return Ok();
             }
             catch (Exception)
@@ -84,11 +87,11 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpDelete]
-        public IActionResult DeleteFloor(DeleteFloorDTO input)
+        public async Task<IActionResult> DeleteFloor(DeleteFloorDTO input)
         {
             try
             {
-                _floorService.DeleteFloor(input);
+                await _floorService.DeleteFloor(input);
                 return Ok();
             }
             catch (Exception)

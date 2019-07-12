@@ -3,27 +3,29 @@ using Beamity.Application.DTOs;
 using Beamity.Application.DTOs.LocationDTOs;
 using Beamity.Application.Service.IServices;
 using Beamity.Core.Models;
+using Beamity.EntityFrameworkCore.EntityFrameworkCore.Interfaces;
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Beamity.Application.Service.Services
 {
     public class LocationService : ILocationService
     {
-        private readonly LocationRepository _repository;
-        private readonly ProjectRepository _projectRepository;
+        private readonly IBaseGenericRepository<Location> _repository;
+        private readonly IBaseGenericRepository<Project> _projectRepository;
 
         private readonly IMapper _mapper;
-        public LocationService(LocationRepository repository, ProjectRepository projectRepository, IMapper mapper)
+        public LocationService(IBaseGenericRepository<Location> repository, IBaseGenericRepository<Project> projectRepository, IMapper mapper)
         {
             _mapper = mapper;
             _projectRepository = projectRepository;
             _repository = repository;
         }
 
-        public void CreateLocation(CreateLocationDTO input)
+        public async Task CreateLocation(CreateLocationDTO input)
         {
             var location = _mapper.Map<Location>(input);
             location.Project = _projectRepository.GetById(input.ProjectId);

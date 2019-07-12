@@ -4,14 +4,16 @@ using Beamity.EntityFrameworkCore.EntityFrameworkCore.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Beamity.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(BeamityDbContext))]
-    partial class BeamityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190710142957_Artifact_Project")]
+    partial class Artifact_Project
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,8 +30,6 @@ namespace Beamity.EntityFrameworkCore.Migrations
 
                     b.Property<bool>("IsActive");
 
-                    b.Property<Guid?>("LocationId");
-
                     b.Property<string>("MainImageURL")
                         .IsRequired();
 
@@ -43,7 +43,7 @@ namespace Beamity.EntityFrameworkCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LocationId");
+                    b.HasIndex("ProjectId");
 
                     b.HasIndex("RoomId");
 
@@ -59,8 +59,6 @@ namespace Beamity.EntityFrameworkCore.Migrations
 
                     b.Property<bool>("IsActive");
 
-                    b.Property<Guid?>("LocationId");
-
                     b.Property<int>("Major");
 
                     b.Property<int>("Minor");
@@ -68,12 +66,14 @@ namespace Beamity.EntityFrameworkCore.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
+                    b.Property<Guid?>("ProjectId");
+
                     b.Property<string>("UUID")
                         .IsRequired();
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LocationId");
+                    b.HasIndex("ProjectId");
 
                     b.ToTable("Beacons");
                 });
@@ -113,11 +113,7 @@ namespace Beamity.EntityFrameworkCore.Migrations
 
                     b.Property<bool>("IsActive");
 
-                    b.Property<bool>("IsCampaign");
-
                     b.Property<bool>("IsHomePage");
-
-                    b.Property<Guid?>("LocationId");
 
                     b.Property<string>("MainImageURL")
                         .IsRequired();
@@ -125,6 +121,8 @@ namespace Beamity.EntityFrameworkCore.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(47);
+
+                    b.Property<Guid?>("ProjectId");
 
                     b.Property<string>("SlideImageURL");
 
@@ -138,7 +136,7 @@ namespace Beamity.EntityFrameworkCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LocationId");
+                    b.HasIndex("ProjectId");
 
                     b.ToTable("Contents");
                 });
@@ -182,17 +180,11 @@ namespace Beamity.EntityFrameworkCore.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<string>("PhotoURL");
-
                     b.Property<Guid?>("ProjectId");
-
-                    b.Property<Guid?>("UserId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProjectId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Locations");
                 });
@@ -209,7 +201,11 @@ namespace Beamity.EntityFrameworkCore.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
+                    b.Property<Guid?>("UserId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Projects");
                 });
@@ -269,8 +265,6 @@ namespace Beamity.EntityFrameworkCore.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid?>("BeaconId");
-
                     b.Property<DateTime>("CreatedTime");
 
                     b.Property<Guid?>("FloorId");
@@ -282,8 +276,6 @@ namespace Beamity.EntityFrameworkCore.Migrations
                         .HasMaxLength(47);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BeaconId");
 
                     b.HasIndex("FloorId");
 
@@ -323,10 +315,9 @@ namespace Beamity.EntityFrameworkCore.Migrations
 
             modelBuilder.Entity("Beamity.Core.Models.Artifact", b =>
                 {
-
-                    b.HasOne("Beamity.Core.Models.Location", "Location")
+                    b.HasOne("Beamity.Core.Models.Project", "Project")
                         .WithMany()
-                        .HasForeignKey("LocationId");
+                        .HasForeignKey("ProjectId");
 
                     b.HasOne("Beamity.Core.Models.Room", "Room")
                         .WithMany("Artifacts")
@@ -335,9 +326,9 @@ namespace Beamity.EntityFrameworkCore.Migrations
 
             modelBuilder.Entity("Beamity.Core.Models.Beacon", b =>
                 {
-                    b.HasOne("Beamity.Core.Models.Location", "Location")
+                    b.HasOne("Beamity.Core.Models.Project", "Project")
                         .WithMany()
-                        .HasForeignKey("LocationId");
+                        .HasForeignKey("ProjectId");
                 });
 
             modelBuilder.Entity("Beamity.Core.Models.Building", b =>
@@ -349,9 +340,9 @@ namespace Beamity.EntityFrameworkCore.Migrations
 
             modelBuilder.Entity("Beamity.Core.Models.Content", b =>
                 {
-                    b.HasOne("Beamity.Core.Models.Location", "Location")
+                    b.HasOne("Beamity.Core.Models.Project", "Project")
                         .WithMany()
-                        .HasForeignKey("LocationId");
+                        .HasForeignKey("ProjectId");
                 });
 
             modelBuilder.Entity("Beamity.Core.Models.Floor", b =>
@@ -366,9 +357,12 @@ namespace Beamity.EntityFrameworkCore.Migrations
                     b.HasOne("Beamity.Core.Models.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId");
+                });
 
+            modelBuilder.Entity("Beamity.Core.Models.Project", b =>
+                {
                     b.HasOne("Beamity.Core.Models.User", "User")
-                        .WithMany("Locations")
+                        .WithMany("Projects")
                         .HasForeignKey("UserId");
                 });
 
@@ -393,10 +387,6 @@ namespace Beamity.EntityFrameworkCore.Migrations
 
             modelBuilder.Entity("Beamity.Core.Models.Room", b =>
                 {
-                    b.HasOne("Beamity.Core.Models.Beacon", "Beacon")
-                        .WithMany()
-                        .HasForeignKey("BeaconId");
-
                     b.HasOne("Beamity.Core.Models.Floor", "Floor")
                         .WithMany("Rooms")
                         .HasForeignKey("FloorId");

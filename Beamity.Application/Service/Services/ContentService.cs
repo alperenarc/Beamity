@@ -3,10 +3,14 @@ using Beamity.Application.DTOs;
 using Beamity.Application.DTOs.ContentDTOs;
 using Beamity.Application.Service.IServices;
 using Beamity.Core.Models;
+using Beamity.EntityFrameworkCore.EntityFrameworkCore.Interfaces;
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Beamity.Application.Service.Services
 {
@@ -21,49 +25,58 @@ namespace Beamity.Application.Service.Services
          *  4.GetHomePageContents
          *  5.UpdateContent methods
          */
-        private readonly ContentRepository _repository;
+        private readonly IBaseGenericRepository<Content> _repository;
         private readonly IMapper _mapper;
-        public ContentService(ContentRepository repository, IMapper mapper)
+        public ContentService(IBaseGenericRepository<Content> repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
         }
 
-        public void CrateContent(CreateContentDTO input)
+        public async Task CrateContent(CreateContentDTO input)
         {
             var content = _mapper.Map<Content>(input);
-            _repository.Create(content);
+            await _repository.Create(content);
         }
 
-        public void DeleteContent(DeleteContentDTO input)
+        public async Task DeleteContent(DeleteContentDTO input)
         {
-            _repository.Delete(input.Id);
+            await _repository.Delete(input.Id);
         }
 
-        public List<ReadContentDTO> GetAllContents()
+        public async Task<List<ReadContentDTO>> GetAllContents(EntityDTO input)
         {
-            var contents = _repository.GetAll();
+            var contents = await _repository
+                .GetAll()
+                .Include( x=> x.Project)
+                .Where(x => x.IsActive && x.Project.Id == input.Id)
+                .ToListAsync();
+
             var result = _mapper.Map<List<ReadContentDTO>>(contents);
             return result;
         }
 
-        public ReadContentDTO GetContent(EntityDTO input)
+        public async Task<ReadContentDTO> GetContent(EntityDTO input)
         {
-            var content = _repository.GetById(input.Id);
+            var content = await _repository.GetById(input.Id);
             var result = _mapper.Map<ReadContentDTO>(content);
             return result;
         }
 
-        public List<ReadContentDTO> GetHomePageContents()
+        public async Task<List<ReadContentDTO>> GetHomePageContents( EntityDTO input)
         {
-            var contents = _repository.GetHomeContent();
+            var contents = await _repository
+                .GetAll()
+                .Include( x=> x.Project)
+                .Where(x => x.IsHomePage && x.IsActive && x.Project.Id == input.Id)
+                .ToListAsync();
             var result = _mapper.Map<List<ReadContentDTO>>(contents);
             return result;
         }
 
-        public void UpdateContent(UpdateContentDTO input)
+        public async Task UpdateContent(UpdateContentDTO input)
         {
-            var c = _repository.GetById(input.Id);
+            var c = await _repository.GetById(input.Id);
 
             c.IsHomePage = input.IsHomePage;
             if( !string.IsNullOrEmpty(input.MainImageURL)  )
@@ -79,7 +92,7 @@ namespace Beamity.Application.Service.Services
             c.Description = input.Description;
             c.Text = input.Text;
             c.CreatedTime = input.CreatedTime;
-            _repository.Update(c);
+            await _repository.Update(c.Id,c);
         }
     }
 }

@@ -9,12 +9,12 @@ namespace Beamity.Application.Service.IServices
 {
     public interface IContentService
     {
-        List<ReadContentDTO> GetHomePageContents();
-        List<ReadContentDTO> GetAllContents();
-        ReadContentDTO GetContent(EntityDTO input);
-        void CrateContent(CreateContentDTO input);
-        void UpdateContent(UpdateContentDTO input);
-        void DeleteContent(DeleteContentDTO input);
+        Task<List<ReadContentDTO>> GetHomePageContents(EntityDTO input);
+        Task<List<ReadContentDTO>> GetAllContents(EntityDTO input);
+        Task<ReadContentDTO> GetContent(EntityDTO input);
+        Task CrateContent(CreateContentDTO input);
+        Task UpdateContent(UpdateContentDTO input);
+        Task DeleteContent(DeleteContentDTO input);
 
     }
 }

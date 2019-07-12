@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Beamity.Application.DTOs;
 using Beamity.Application.DTOs.BeaconDTOs;
 using Beamity.Application.Service.IServices;
 using Microsoft.AspNetCore.Authorization;
@@ -20,9 +21,11 @@ namespace Beamity.Web.Controllers
            _beaconService = beaconService;
        }
        // GET: Beacon
-       public ActionResult Index()
+       public async Task<ActionResult> Index()
        {
-           IEnumerable<ReadBeaconDTO> beacons = _beaconService.GetAllBeacons();
+            //ProjectID
+            EntityDTO dto = new EntityDTO();
+            IEnumerable<ReadBeaconDTO> beacons = await _beaconService.GetAllBeacons(dto);
            return View(beacons);
        }
 

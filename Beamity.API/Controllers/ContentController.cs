@@ -21,11 +21,11 @@ namespace Beamity.API.Controllers
             _contentService = contentService;
         }
         [HttpGet("{id}")]
-        public ReadContentDTO GetContent(EntityDTO input)
+        public async Task<ReadContentDTO> GetContent(EntityDTO input)
         {
             try
             {
-                var content = _contentService.GetContent(input);
+                var content = await _contentService.GetContent(input);
                 return content;
             }
             catch (Exception)
@@ -36,11 +36,14 @@ namespace Beamity.API.Controllers
         }
         [HttpGet]
         [AllowAnonymous]
-        public List<ReadContentDTO> GetAllContents()
+        public async Task<List<ReadContentDTO>> GetAllContents()
         {
             try
             {
-                var contents = _contentService.GetAllContents();
+                //it wrong it must be deleted from API 
+                //Or App send ProjectID
+                EntityDTO dto = new EntityDTO();
+                var contents = await _contentService.GetAllContents( dto );
                 return contents;
             }
             catch (Exception)
@@ -51,11 +54,15 @@ namespace Beamity.API.Controllers
         }
         [HttpGet]
         [AllowAnonymous]
-        public List<ReadContentDTO> GetHomeContents()
+        public async Task<List<ReadContentDTO>> GetHomeContents()
         {
             try
             {
-                var contents = _contentService.GetHomePageContents();
+
+                //it wrong it must be deleted from API 
+                //Or App send ProjectID ++
+                EntityDTO dto = new EntityDTO();
+                var contents = await _contentService.GetHomePageContents( dto );
                 return contents;
             }
             catch (Exception)
@@ -65,11 +72,11 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpPost]
-        public IActionResult CreateContent(CreateContentDTO input)
+        public async Task<IActionResult> CreateContent(CreateContentDTO input)
         {
             try
             {
-                _contentService.CrateContent(input);
+                await _contentService.CrateContent(input);
                 return Ok();
             }
             catch (Exception)
@@ -79,11 +86,11 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpPut]
-        public IActionResult UpdateContent(UpdateContentDTO input)
+        public async Task<IActionResult> UpdateContent(UpdateContentDTO input)
         {
             try
             {
-                _contentService.UpdateContent(input);
+               await _contentService.UpdateContent(input);
                 return Ok();
             }
             catch (Exception)
@@ -93,11 +100,11 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpDelete]
-        public IActionResult DeleteContent(DeleteContentDTO input)
+        public async Task<IActionResult> DeleteContent(DeleteContentDTO input)
         {
             try
             {
-                _contentService.DeleteContent(input);
+                await _contentService.DeleteContent(input);
                 return Ok();
             }
             catch (Exception)

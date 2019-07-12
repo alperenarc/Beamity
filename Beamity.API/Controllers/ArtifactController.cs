@@ -19,11 +19,11 @@ namespace Beamity.API.Controllers
             _artifactService = artifactService;
         }
         [HttpGet("{id}")]
-        public ReadArtifactDTO GetArtifact(EntityDTO input)
+        public async Task<ReadArtifactDTO> GetArtifact(EntityDTO input)
         {
             try
             {
-                var artifact = _artifactService.GetArtifact(input);
+                var artifact = await _artifactService.GetArtifact(input);
                 return artifact;
             }
             catch (System.Exception)
@@ -35,11 +35,13 @@ namespace Beamity.API.Controllers
         }
         [HttpGet]
         [AllowAnonymous]
-        public List<ReadArtifactDTO> GetAllArtifacts()
+        public async Task<List<ReadArtifactDTO>> GetAllArtifacts()
         {
             try
             {
-                var artifacts = _artifactService.GetAllArtifacts();
+                ///Project Id
+                EntityDTO dto = new EntityDTO();
+                var artifacts = await _artifactService.GetAllArtifacts(dto/*Project ID*/);
                 return artifacts;
             }
             catch (System.Exception e)
@@ -64,11 +66,11 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpPost]
-        public IActionResult CreateArtifact(CreateArtifactDTO input)
+        public async Task<IActionResult> CreateArtifact(CreateArtifactDTO input)
         {
             try
             {
-                _artifactService.CreateArtifact(input);
+                await _artifactService.CreateArtifact(input);
                 return Ok();
             }
             catch (System.Exception e)
@@ -78,11 +80,11 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpPut]
-        public IActionResult UpdateArtifact(UpdateArtifactDTO input)
+        public async Task<IActionResult> UpdateArtifact(UpdateArtifactDTO input)
         {
             try
             {
-                _artifactService.UpdateArtifact(input);
+                await _artifactService.UpdateArtifact(input);
                 return Ok();
             }
             catch (System.Exception)
@@ -92,11 +94,11 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpDelete]
-        public IActionResult DeleteArtifact(DeleteArtifactDTO input)
+        public async Task<IActionResult> DeleteArtifact(DeleteArtifactDTO input)
         {
             try
             {
-                _artifactService.DeleteArtifact(input);
+                await _artifactService.DeleteArtifact(input);
                 return Ok();
             }
             catch (System.Exception)

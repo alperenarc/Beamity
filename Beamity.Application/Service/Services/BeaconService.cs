@@ -3,7 +3,9 @@ using Beamity.Application.DTOs;
 using Beamity.Application.DTOs.BeaconDTOs;
 using Beamity.Application.Service.IServices;
 using Beamity.Core.Models;
+using Beamity.EntityFrameworkCore.EntityFrameworkCore.Interfaces;
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,44 +24,43 @@ namespace Beamity.Application.Service.Services
          *  4.GetBeacon
          *  5.UpdateBeacon methods
          */
-        private readonly BeaconRepository _repository;
+        private readonly IBaseGenericRepository<Beacon> _repository;
         private readonly IMapper _mapper;
 
-        public BeaconService(BeaconRepository repository, IMapper mapper)
+        public BeaconService(IBaseGenericRepository<Beacon> repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
         }
 
-        public void CreateBeacon(CreateBeaconDTO input)
+        public async Task CreateBeacon(CreateBeaconDTO input)
         {
             var beacon = _mapper.Map<Beacon>(input);
-            _repository.Create(beacon);
+            await _repository.Create(beacon);
         }
 
-        public void DeleteBeacon(DeleteBeaconDTO input)
+        public async Task DeleteBeacon(DeleteBeaconDTO input)
         {
-           _repository.Delete(input.Id);
+           await _repository.Delete(input.Id);
         }
-
-        public List<ReadBeaconDTO> GetAllBeacons()
+        public async Task<List<ReadBeaconDTO>> GetAllBeacons( EntityDTO input )
         {
-            var beacons = _repository.GetAll();
+            var beacons = await _repository.GetAll().ToListAsync();
             var result = _mapper.Map<List<ReadBeaconDTO>>(beacons);
             return result;
         }
 
-        public ReadBeaconDTO GetBeacon(EntityDTO input)
+        public async Task<ReadBeaconDTO> GetBeacon(EntityDTO input)
         {
-            var beacon = _repository.GetById(input.Id);
+            var beacon = await _repository.GetById(input.Id);
             var result = _mapper.Map<ReadBeaconDTO>(beacon);
             return result;
         }
 
-        public void UpdateBeacon(UpdateBeaconDTO input)
+        public async Task UpdateBeacon(UpdateBeaconDTO input)
         {
             var beacon = _mapper.Map<Beacon>(input);
-            _repository.Update(beacon);
+            await _repository.Update(input.Id, beacon);
         }
     }
 }
