@@ -105,12 +105,9 @@
         var a;
         if ($('#isHome').is(":checked")) {
             a = true;
-            debugger
         } else {
             a = false;
-            debugger
         }
-        var b =$("#isHome").val();
         var a =$("input[type='checkbox']").val();
         debugger
         swalload();
@@ -118,6 +115,7 @@
         options.url = '/Content/Create';
         options.type = "POST";
         var obj = new FormData();
+        obj.append('LocationId', locationId);
         obj.append('Name', $("#inputName").val());
         obj.append('Title', $("#inputTitle").val());
         obj.append('Description', $("#inputDescription").val());

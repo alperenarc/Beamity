@@ -17,5 +17,6 @@ namespace Beamity.Web.Models
         public IFormFile Audio { get; set; }
         public string Text { get; set; }
         public bool IsHomePage { get; set; }
+        public Guid LocationId { get; set; }
     }
 }
