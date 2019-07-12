@@ -5,9 +5,12 @@ using Beamity.Application.DTOs.ContentDTOs;
 using Beamity.Application.DTOs.RelationDTO;
 using Beamity.Application.Service.IServices;
 using Beamity.Core.Models;
+using Beamity.EntityFrameworkCore.EntityFrameworkCore.Interfaces;
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,17 +18,17 @@ namespace Beamity.Application.Service.Services
 {
     public class RelationService : IRelationService
     {
-        private readonly RelationRepository _relationRepository;
-        private readonly BeaconRepository _beaconRepository;
-        private readonly ArtifactRepository _artifactRepository;
-        private readonly ContentRepository _contentRepository;
+        private readonly IBaseGenericRepository<Relation> _relationRepository;
+        private readonly IBaseGenericRepository<Beacon> _beaconRepository;
+        private readonly IBaseGenericRepository<Artifact> _artifactRepository;
+        private readonly IBaseGenericRepository<Content> _contentRepository;
 
         private readonly IMapper _mapper;
 
-        public RelationService(RelationRepository relationRepository,
-                                BeaconRepository beaconRepository,
-                                ArtifactRepository artifactRepository,
-                                ContentRepository contentRepository, IMapper mapper)
+        public RelationService(IBaseGenericRepository<Relation> relationRepository,
+                                IBaseGenericRepository<Beacon> beaconRepository,
+                                IBaseGenericRepository<Artifact> artifactRepository,
+                                IBaseGenericRepository<Content> contentRepository, IMapper mapper)
         {
             _relationRepository = relationRepository;
             _beaconRepository = beaconRepository;
@@ -34,26 +37,32 @@ namespace Beamity.Application.Service.Services
             _mapper = mapper;
         }
 
-        public void CreateRelation(CreateRelationDTO input)
+        public async Task CreateRelation(CreateRelationDTO input)
         {
             Relation relation = new Relation()
             {
-                Artifact = _artifactRepository.GetById(input.ArtifactId),
-                Content = _contentRepository.GetById(input.ContentId),
-                Beacon = _beaconRepository.GetById(input.BeaconId),
-                Proximity = (Proximity)Enum.Parse(typeof(Proximity), input.Proximity, true)
+                Artifact = await _artifactRepository.GetAll()
+                .Include(x => x.Location).FirstOrDefaultAsync(x => x.Id == input.ArtifactId),
+                Content = await _contentRepository.GetById(input.ContentId),
+                Beacon = await _beaconRepository.GetById(input.BeaconId),
+                Proximity = (Proximity)Enum.Parse(typeof(Proximity), input.Proximity, true),
+
             };
-            _relationRepository.Create(relation);
+            relation.Location = relation.Artifact.Location;
+            await _relationRepository.Create(relation);
         }
 
-        public void DeleteRelationDTO(DeleteRelationDTO input)
+        public async Task DeleteRelationDTO(DeleteRelationDTO input)
         {
-            _relationRepository.Delete(input.Id);
+            await _relationRepository.Delete(input.Id);
         }
 
-        public List<ReadRelationDTO> GetAllRelations()
+        public async Task<List<ReadRelationDTO>> GetAllRelations(EntityDTO input)
         {
-            List<Relation> relations = _relationRepository.GetAll();
+            List<Relation> relations = await _relationRepository.GetAll()
+                .Include(z => z.Location)
+                .Where(z => z.IsActive == true && z.Location.Id == input.Id)
+                .ToListAsync();
             List<ReadRelationDTO> result = new List<ReadRelationDTO>();
             foreach (Relation item in relations)
             {
@@ -92,9 +101,9 @@ namespace Beamity.Application.Service.Services
             return result;
         }
 
-        public ReadRelationDTO GetRelation(EntityDTO input)
+        public async Task<ReadRelationDTO> GetRelation(EntityDTO input)
         {
-            Relation relation = _relationRepository.GetById(input.Id);
+            Relation relation = await _relationRepository.GetById(input.Id);
 
             ReadRelationDTO result = new ReadRelationDTO()
             {
@@ -102,7 +111,7 @@ namespace Beamity.Application.Service.Services
                 CreatedTime = relation.CreatedTime,
                 ArtifacName = relation.Artifact.Name,
                 BeaconName = relation.Beacon.Name,
-                ContentName = relation.Content.Name   
+                ContentName = relation.Content.Name
             };
             switch (relation.Proximity)
             {
@@ -128,14 +137,19 @@ namespace Beamity.Application.Service.Services
             return result;
         }
 
-        public ReadContentDTO GetContentWithBeacon(GetContentWithBeaconDTO input)
+        public async Task<ReadContentDTO> GetContentWithBeacon(GetContentWithBeaconDTO input)
         {
+            //Get Beacon for Major Minor and UUID.
+            var beacon = await _beaconRepository.GetAll()
+                .FirstOrDefaultAsync(x => x.UUID == input.UUID && x.Major == input.Major && x.Minor == input.Minor);
 
-            var beacon = _beaconRepository.GetBeaconWithName(input.UUID,input.Minor,input.Major);
+            //Get Relation for beacon ID
+            var relation = await _relationRepository.GetAll()
+                .Include(x => x.Beacon)
+                .Where(x => x.Beacon.Id == beacon.Id).FirstOrDefaultAsync();
 
-            var relation = _relationRepository.GetRelationWithBeaconId(beacon.Id, input.Proximity);
             ReadContentDTO da = new ReadContentDTO();
-            if( relation != null )
+            if (relation != null)
                 return _mapper.Map<ReadContentDTO>(relation.Content);
             else
             {
@@ -143,23 +157,30 @@ namespace Beamity.Application.Service.Services
             }
         }
 
-        public void UpdateRelation(UpdateRelationDTO input)
+        public async Task UpdateRelation(UpdateRelationDTO input)
         {
 
-            Relation result = _relationRepository.GetById(input.Id);
+            Relation result = await _relationRepository.GetById(input.Id);
 
-            if( input.ArtifactId != Guid.Empty )
-                result.Artifact = _artifactRepository.GetById(input.ArtifactId);
+            if (input.ArtifactId != Guid.Empty)
+            {
+                result.Artifact = await _artifactRepository.GetById(input.ArtifactId);
+                result.Location = result.Artifact.Location;
+            }
             if (input.BeaconId != Guid.Empty)
-                result.Beacon = _beaconRepository.GetById(input.BeaconId);
+                result.Beacon = await _beaconRepository.GetById(input.BeaconId);
             if (input.ContentId != Guid.Empty)
-                result.Content = _contentRepository.GetById(input.ContentId);
-            if ( !String.IsNullOrEmpty(input.Proximity) )
+                result.Content = await _contentRepository.GetById(input.ContentId);
+            if (!String.IsNullOrEmpty(input.Proximity))
                 result.Proximity = (Proximity)Enum.Parse(typeof(Proximity), input.Proximity, true);
-            
 
+            var artifact = await _artifactRepository.GetAll()
+                .Include(x => x.Location)
+                .Where(x => x.Id == input.Id)
+                .FirstOrDefaultAsync();
+            result.Location = artifact.Location;
 
-            _relationRepository.Update(result);
+            await _relationRepository.Update(input.Id, result);
         }
     }
 }

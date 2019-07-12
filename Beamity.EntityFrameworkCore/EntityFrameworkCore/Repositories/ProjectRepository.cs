@@ -7,9 +7,9 @@ using System.Text;
 
 namespace Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories
 {
-    public class ProjectRepository : BaseRepository<Project>
+    public class IBaseGenericRepostiory : BaseRepository<Project>
     {
-        public ProjectRepository(BeamityDbContext context)
+        public IBaseGenericRepostiory(BeamityDbContext context)
             : base(context)
         {
         }

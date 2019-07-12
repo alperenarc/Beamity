@@ -34,7 +34,7 @@ namespace Beamity.API
             services.AddScoped<ArtifactRepository, ArtifactRepository>();
             services.AddScoped<ContentRepository, ContentRepository>();
             services.AddScoped<BeaconRepository, BeaconRepository>();
-            services.AddScoped<ProjectRepository, ProjectRepository>();
+            services.AddScoped<IBaseGenericRepostiory, IBaseGenericRepostiory>();
             services.AddScoped<RelationRepository, RelationRepository>();
             services.AddScoped<LocationRepository, LocationRepository>();
             services.AddScoped<BuildingRepository, BuildingRepository>();
