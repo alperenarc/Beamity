@@ -20,9 +20,11 @@ namespace Beamity.Web.Controllers
         {
             _locationService = locationService;
         }
-        public async Task<IActionResult> Index(UserEntitiesDTO input)
+        public async Task<IActionResult> Index()
         {
-            IEnumerable<ReadLocationDTO> locations = await _locationService.GetAllLocation(input);
+            //get user with Session
+            EntityDTO dto = new EntityDTO();
+            IEnumerable<ReadLocationDTO> locations = await _locationService.GetAllLocationWithUser(dto);
             return View(locations);
         }
     }

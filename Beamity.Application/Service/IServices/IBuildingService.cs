@@ -14,7 +14,7 @@ namespace Beamity.Application.Service.IServices
         Task CreateBuilding(CreateBuildingDTO input);
         Task DeleteBuilding(DeleteBuildingDTO input);
         Task UpdateBuilding (UpdateBuildingDTO input);
-        Task<List<ReadBuildingDTO>> GetBuildingsAtLocation(EntityDTO input);
+        //Task<List<ReadBuildingDTO>> GetBuildingsAtLocation(EntityDTO input);
 
     }
 }

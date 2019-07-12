@@ -14,5 +14,6 @@ namespace Beamity.Application.Service.IServices
         Task DeleteLocation(DeleteLocationDTO input);
         Task <List<ReadLocationDTO>> GetAllLocation(EntityDTO input);
         Task<ReadLocationDTO> GetLocation(EntityDTO input);
+        Task<List<ReadLocationDTO>> GetAllLocationWithUser(EntityDTO input);
     }
 }

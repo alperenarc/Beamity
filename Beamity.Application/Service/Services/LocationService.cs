@@ -60,13 +60,12 @@ namespace Beamity.Application.Service.Services
             return result;
         }
         //Get all users Location
-        public async Task<List<ReadLocationDTO>> GetAllLocation(UserEntitiesDTO input)
+        public async Task<List<ReadLocationDTO>> GetAllLocationWithUser(EntityDTO input)
         {
             var locations = await _repository
                 .GetAll()
-                .Include(a => a.Project)
                 .Include(a => a.User)
-                .Where(x => x.IsActive && x.Project.Id == input.ProjectId && x.User.Id == input.UserId)
+                .Where(x => x.IsActive && x.User.Id == input.Id)
                 .ToListAsync();
             List<ReadLocationDTO> result = new List<ReadLocationDTO>();
             foreach (var item in locations)
@@ -86,7 +85,7 @@ namespace Beamity.Application.Service.Services
             var location = await _repository
                 .GetAll()
                 .Include(x => x.Project)
-                .FirstOrDefaultAsync(a => a.Project.Id == input.Id);
+                .FirstOrDefaultAsync(a => a.IsActive && a.Project.Id == input.Id);
             var result = _mapper.Map<ReadLocationDTO>(location);
             result.ProjectName = location.Project.Name;
             return result;
