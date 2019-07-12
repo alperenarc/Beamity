@@ -18,12 +18,17 @@ namespace Beamity.Application.Service.Services
     {
         private readonly IBaseGenericRepository<Location> _repository;
         private readonly IBaseGenericRepository<Project> _projectRepository;
+        private readonly IBaseGenericRepository<User> _userRepository;
 
         private readonly IMapper _mapper;
-        public LocationService(IBaseGenericRepository<Location> repository, IBaseGenericRepository<Project> projectRepository, IMapper mapper)
+        public LocationService(IBaseGenericRepository<Location> repository,
+                                IBaseGenericRepository<Project> projectRepository,
+                                IBaseGenericRepository<User> userRepository,
+                                IMapper mapper)
         {
             _mapper = mapper;
             _projectRepository = projectRepository;
+            _userRepository = userRepository;
             _repository = repository;
         }
 
@@ -31,6 +36,7 @@ namespace Beamity.Application.Service.Services
         {
             var location = _mapper.Map<Location>(input);
             location.Project = await _projectRepository.GetById(input.ProjectId);
+            location.User = await _userRepository.GetById(input.UserId);
             await _repository.Create(location);
         }
 

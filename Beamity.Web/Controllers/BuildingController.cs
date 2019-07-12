@@ -24,8 +24,10 @@ namespace Beamity.Web.Controllers
         // GET: Beacon
         public async Task<ActionResult> Index()
         {
-            //ProjectID
-            EntityDTO dto = new EntityDTO();
+            EntityDTO dto = new EntityDTO()
+            {
+                Id = Guid.Parse(HttpContext.Session.GetString("LocationId"))
+            };
             IEnumerable<ReadBuildingDTO> beacons = await _buildingService.GetAllBuildings( dto );
             return View(beacons);
         }

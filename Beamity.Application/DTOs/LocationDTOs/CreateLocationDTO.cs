@@ -10,5 +10,6 @@ namespace Beamity.Application.DTOs.LocationDTOs
         public string Latitude { get; set; }
         public string Longitude { get; set; }
         public Guid ProjectId { get; set; }
+        public Guid UserId{ get; set; }
     }
 }
