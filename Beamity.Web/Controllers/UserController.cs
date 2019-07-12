@@ -62,7 +62,7 @@ namespace Beamity.Web.Controllers
                     });
                 // Store User Id on session
                 HttpContext.Session.SetString("UserId",result.Id.ToString());
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("ChooseLocation", "Location");
             }
             else
             {
