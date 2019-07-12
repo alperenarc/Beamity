@@ -19,9 +19,9 @@ namespace Beamity.Web.Controllers
         {
             _projectService = projectService;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            IEnumerable<ReadProjectDTO> projects = _projectService.GetAllProject();
+            IEnumerable<ReadProjectDTO> projects = await _projectService.GetAllProject();
             return View(projects);
 
         }

@@ -9,7 +9,7 @@ namespace Beamity.Application.Service.IServices
 {
     public interface IRoomService
     {
-        Task<List<ReadRoomDTO>> GetAllRooms();
+        Task<List<ReadRoomDTO>> GetAllRooms(EntityDTO input);
         Task<ReadRoomDTO> GetRoom(EntityDTO input);
         Task CreateRoom(CreateRoomDTO input);
         Task UpdateRoom(UpdateRoomDTO input);

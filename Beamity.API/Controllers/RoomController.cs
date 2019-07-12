@@ -60,16 +60,22 @@ namespace Beamity.API.Controllers
             return Ok("The process is success");
         }
         [HttpGet]
-        public ReadRoomDTO GetRoom(EntityDTO id)
+        public async Task<ReadRoomDTO> GetRoom(EntityDTO id)
         {
-            var room = _roomService.GetRoom(id);
+            var room = await _roomService.GetRoom(id);
             return room;
         }
         [HttpGet]
         [AllowAnonymous]
-        public List<ReadRoomDTO> GetAllRooms()
+        public async Task<List<ReadRoomDTO>> GetAllRooms()
         {
-            return _roomService.GetAllRooms();
+            var location = HttpContext.Session.GetString("LocationId");
+
+            EntityDTO dto = new EntityDTO
+            {
+                Id = Guid.Parse(location)
+            };
+            return await _roomService.GetAllRooms(dto);
         }
         [HttpGet("{id}")]
         public async Task<List<ReadRoomDTO>> GetRoomsOnFloor(EntityDTO room)

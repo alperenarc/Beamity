@@ -24,12 +24,15 @@ namespace Beamity.API.Controllers
         }
         [HttpGet]
         [AllowAnonymous]
-        public List<ReadRelationDTO> GetAllRelations()
+        public async Task<List<ReadRelationDTO>> GetAllRelations()
         {
-
+            var location = HttpContext.Session.GetString("LocationId");
+            EntityDTO dto = new EntityDTO();
+            dto.Id = Guid.Parse(location);
+            
             try
             {
-                var relations = _relationService.GetAllRelations();
+                var relations = await _relationService.GetAllRelations(dto);
                 if(relations.Count > 0)
                 {
                     return relations;
@@ -46,19 +49,19 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpGet("{id}")]
-        public ReadRelationDTO GetRelation(EntityDTO Relation)
+        public async Task<ReadRelationDTO> GetRelation(EntityDTO Relation)
         {
 
-            var relation = _relationService.GetRelation(Relation);
+            var relation = await _relationService.GetRelation(Relation);
             return relation;
 
         }
         [HttpPost]
         [AllowAnonymous]
-        public ReadContentDTO GetContentWithBeacon(GetContentWithBeaconDTO input)
+        public async Task<ReadContentDTO> GetContentWithBeacon(GetContentWithBeaconDTO input)
         {
             
-            var content = _relationService.GetContentWithBeacon(input);
+            var content = await _relationService.GetContentWithBeacon(input);
             if (content == null)
             {
                 return null;
