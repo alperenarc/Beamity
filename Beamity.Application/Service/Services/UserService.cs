@@ -2,10 +2,13 @@ using AutoMapper;
 using Beamity.Application.DTOs.UserDTOs;
 using Beamity.Application.Service.IServices;
 using Beamity.Core.Models;
+using Beamity.EntityFrameworkCore.EntityFrameworkCore.Interfaces;
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories;
+using Microsoft.EntityFrameworkCore;
 using MimeKit;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,22 +16,23 @@ namespace Beamity.Application.Service.Services
 {
     public class UserService : IUserService
     {
-        private readonly UserRepository _userRepository;
+        private readonly IBaseGenericRepository<User> _userRepository;
         private readonly IMapper _mapper;
-        public UserService(UserRepository userRepository, IMapper mapper)
+        public UserService(IBaseGenericRepository<User> userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
             _mapper = mapper;
         }
 
-
-
-        public User Login(LoginUserDTO input)
+        public async Task<User> Login(LoginUserDTO input)
         {
             try
             {
                 // get user for Login
-                var getUser = _userRepository.GetUserForLogin(input.Email);
+                
+                var getUser = await _userRepository.GetAll()
+                    .Where(x => x.Email == input.Email)
+                    .FirstOrDefaultAsync();
 
                 // take user s hash
                 string correctHash = getUser.Hash;
@@ -51,54 +55,52 @@ namespace Beamity.Application.Service.Services
             }
         }
 
-        public void Register(CreateUserDTO input)
+        public async Task Register(CreateUserDTO input)
         {
             // Password Hashing
             string hashedPassword = Helpers.PasswordHelper.HashPassword(input.Password);
             input.Password = hashedPassword;
-
             // IsActive of new user is default false
             input.IsActive = false;
-
             // Create a new GuidKey (Confirmation Key)
             string GuidKey = Guid.NewGuid().ToString();
-
             // Define GuidKey to Token
             input.Token = GuidKey;
-
-            // Send an email for account confirmation
-
-
-
             try
             {
+                // Send an email for account confirmation
                 Helpers.EmailHelper.SendMail(input.Email, GuidKey);
                 var user = _mapper.Map<User>(input);
                 user.Hash = input.Password;
-                _userRepository.Create(user, ERole.Common);
+                user.RoleName = ERole.Common.ToString();
+                await _userRepository.Create(user);
             }
             catch (Exception e)
             {
 
                 throw e;
             }
-
-
         }
 
-        public void UpdateProfile(UpdateUserDTO input)
+        public async Task UpdateProfile(UpdateUserDTO input)
         {
             var user = _mapper.Map<User>(input);
-            _userRepository.Update(user);
+            await _userRepository.Update(input.Id,user);
         }
 
-
-        public void ConfirmEmail(string confirmCode)
+        public async Task<User> ConfirmEmail(string ConfirmCode)
         {
-            var a = _userRepository.ConfirmEmail(confirmCode);
-            var user = _mapper.Map<User>(a);
+            var user = await _userRepository
+                .GetAll()
+                .Where(x => x.Token == Convert.ToString(ConfirmCode))
+                .FirstOrDefaultAsync();
+            
+            user.IsActive = true;
+            
+            var confirmuser = _mapper.Map<User>(user);
+            await _userRepository.Update(user.Id, user);
 
-
+            return user;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Beamity.Core.Models
         public Beacon Beacon { get; set; }
 
         public Proximity Proximity { get; set; } = Proximity.Unknown;
-        public Project Project { get; set; }
+        public Location Location { get; set; }
     }
     public enum Proximity
     {

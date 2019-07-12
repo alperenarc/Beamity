@@ -3,9 +3,12 @@ using Beamity.Application.DTOs;
 using Beamity.Application.DTOs.RoomDTOs;
 using Beamity.Application.Service.IServices;
 using Beamity.Core.Models;
+using Beamity.EntityFrameworkCore.EntityFrameworkCore.Interfaces;
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,33 +16,42 @@ namespace Beamity.Application.Service.Services
 {
     public class RoomService : IRoomService
     {
-        private readonly RoomRepository _roomRepository;
-        private readonly FloorRepository _floorRepository;
-
+        private readonly IBaseGenericRepository<Room> _roomRepository;
+        private readonly IBaseGenericRepository<Floor> _floorRepository;
+        private readonly IBaseGenericRepository<Beacon> _beaconRepository;
         private readonly IMapper _mapper;
-        public RoomService(RoomRepository roomRepository, FloorRepository floorRepository, IMapper mapper)
+        public RoomService(IBaseGenericRepository<Beacon> beaconRepository, IBaseGenericRepository<Room> roomRepository, IBaseGenericRepository<Floor> floorRepository, IMapper mapper)
         {
+            _beaconRepository = beaconRepository;
             _roomRepository = roomRepository;
             _floorRepository = floorRepository;
             _mapper = mapper;
         }
 
-        public void CreateRoom(CreateRoomDTO input)
+        public async Task CreateRoom(CreateRoomDTO input)
         {
             var room = _mapper.Map<Room>(input);
-            room.Floor = _floorRepository.GetById(input.FloorId);
-            _roomRepository.Create(room);
+            room.Floor = await _floorRepository.GetById(input.FloorId);
+
+            if (input.BeaconId != Guid.Empty)
+            {
+                room.Beacon = await _beaconRepository.GetById(input.BeaconId);
+            }
+            await _roomRepository.Create(room);
         }
 
-        public void DeleteRoom(DeleteRoomDTO input)
+        public async Task DeleteRoom(DeleteRoomDTO input)
         {
-            _roomRepository.Delete(input.Id);
+            await _roomRepository.Delete(input.Id);
         }
 
-        public List<ReadRoomDTO> GetAllRooms()
+        public async Task<List<ReadRoomDTO>> GetAllRooms()
         {
-            var rooms = _roomRepository.GetAll();
-            List<ReadRoomDTO> result = _mapper.Map <List<ReadRoomDTO>>(rooms);
+            var rooms = await _roomRepository.GetAll()
+                .Where(x=>x.IsActive == true)
+                .ToListAsync();
+
+            List<ReadRoomDTO> result = _mapper.Map<List<ReadRoomDTO>>(rooms);
             for (int i = 0; i < rooms.Count; i++)
             {
                 result[i].FloorName = rooms[i].Floor.Name;
@@ -47,17 +59,23 @@ namespace Beamity.Application.Service.Services
             return result;
         }
 
-        public ReadRoomDTO GetRoom(EntityDTO input)
+        public async Task<ReadRoomDTO> GetRoom(EntityDTO input)
         {
-            var room = _roomRepository.GetById(input.Id);
-            var result = _mapper.Map<ReadRoomDTO>(room);
+            var room = await _roomRepository.GetById(input.Id);
+            var result =_mapper.Map<ReadRoomDTO>(room);
             result.FloorName = room.Floor.Name;
             return result;
         }
 
         public async Task<List<ReadRoomDTO>> GetRoomsOnFloor(EntityDTO input)
         {
-            var rooms = await _roomRepository.GetRoomsWithFloorId(input.Id);
+            // Input.Id = EntityDTO is a floor ID
+            
+            var rooms = await _roomRepository.GetAll()
+                .Include(x=>x.Floor)
+                .Where(x=>x.Floor.Id == input.Id)
+                .ToListAsync();
+            
             List<ReadRoomDTO> result = new List<ReadRoomDTO>();
             foreach (var item in rooms)
             {
@@ -70,11 +88,11 @@ namespace Beamity.Application.Service.Services
             return result;
         }
 
-        public void UpdateRoom(UpdateRoomDTO input)
+        public async Task UpdateRoom(UpdateRoomDTO input)
         {
             var room = _mapper.Map<Room>(input);
-            room.Floor = _floorRepository.GetById(input.FloorId);
-            _roomRepository.Update(room);
+            room.Floor = await _floorRepository.GetById(input.FloorId);
+            await _roomRepository.Update(input.Id,room);
         }
     }
 }

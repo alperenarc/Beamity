@@ -9,11 +9,11 @@ namespace Beamity.Application.Service.IServices
 {
     public interface IRoomService
     {
-        List<ReadRoomDTO> GetAllRooms();
-        ReadRoomDTO GetRoom(EntityDTO input);
-        void CreateRoom(CreateRoomDTO input);
-        void UpdateRoom(UpdateRoomDTO input);
-        void DeleteRoom(DeleteRoomDTO input);
+        Task<List<ReadRoomDTO>> GetAllRooms();
+        Task<ReadRoomDTO> GetRoom(EntityDTO input);
+        Task CreateRoom(CreateRoomDTO input);
+        Task UpdateRoom(UpdateRoomDTO input);
+        Task DeleteRoom(DeleteRoomDTO input);
         Task<List<ReadRoomDTO>> GetRoomsOnFloor(EntityDTO input);
     }
 }

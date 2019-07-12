@@ -36,7 +36,7 @@ namespace Beamity.Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginUserDTO user)
         {
-            var result = _userService.Login(user);
+            var result = await _userService.Login(user);
             if (result != null)
             {
                 const string Issuer = "https://localhost:44335/";
@@ -81,11 +81,11 @@ namespace Beamity.Web.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult Register(CreateUserDTO user)
+        public async Task<ActionResult> Register(CreateUserDTO user)
         {
             try
             {
-                _userService.Register(user);
+                await _userService.Register(user);
             }
             catch (Exception e)
             {
