@@ -6,12 +6,28 @@
 
 
 <!--Create A New Item-->
-<div class="row justify-content-start m-1">
-    <button id="btnShowModal" type="button" class="btn btn-outline-success">
-        Create New
-    </button>
-    <div class="col-md-1"></div>
+<div class="row justify-content-start m-2">
+
 </div>
+
+
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-6">
+        <h3>
+            <i class="far fa-list-alt"></i> Project List Page
+        </h3>
+        </div>
+        <div class="col-md-6 text-right">
+            <button id="btnShowModal" type="button" class="btn btn-success m-1">
+              Create <i class="far fa-plus-square"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+
+
 
 
 <div class="modal fade" tabindex="-1" id="loginModal"
@@ -94,11 +110,9 @@
         </div>
     </div>
 </div>
-
-
 <div class="w-100">
-    <table class="table">
-        <thead>
+    <table class="table table-bordered table-hover text-center">
+        <thead class="thead-light ">
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.Name)
@@ -120,14 +134,20 @@
                         @Html.DisplayFor(modelItem => item.CreatedTime)
                     </td>
                     <td>
-                        <input type="button" class="btn btn-primary" data-id="@item.Id" data-name="@item.Name" data-ctime="@item.CreatedTime" value="Details" id="detailShowModal" />
-                        | <input type="button" class="btn btn-primary" data-name="@item.Name" data-id="@item.Id" value="Delete" id="deleteShowModal" />
+                        <button type="button" class="btn btn-warning" data-id="@item.Id" data-name="@item.Name" data-ctime="@item.CreatedTime" value="Details" id="detailShowModal">
+                             <i class="far fa-edit"></i>
+                        </button>
+                        | <button type="button" class="btn btn-danger" data-name="@item.Name" data-id="@item.Id" value="Delete" id="deleteShowModal">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
+
+
 
 
 <div>
@@ -139,6 +159,10 @@
 <script src="bootstrap/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
+
+
+
+
     function swalload() {
         swal.fire({
             title: 'Loading....',

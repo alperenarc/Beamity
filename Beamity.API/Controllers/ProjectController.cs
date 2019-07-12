@@ -21,7 +21,7 @@ namespace Beamity.API.Controllers
             _projectService = projectService;
         }
 
-        
+
         [HttpPost]
         public IActionResult CreateProject(CreateProjectDTO input)
         {
@@ -62,12 +62,12 @@ namespace Beamity.API.Controllers
                 return BadRequest("An error occurred during the deleting process. Please try again !");
             }
         }
-        //[HttpGet]
-        //public List<ReadProjectDTO> GetAllProject()
-        //{
-        //    //var list = _projectService.GetAllProject();
-        //    //return list;
-        //}
+        [HttpGet]
+        public List<ReadProjectDTO> GetAllProject()
+        {
+            var list = _projectService.GetAllProject();
+            return list;
+        }
         [HttpGet("{id}")]
         public ReadProjectDTO GetProject(EntityDTO input)
         {
