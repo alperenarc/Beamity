@@ -60,7 +60,7 @@ namespace Beamity.API.Controllers
                 return BadRequest("An error occurred during the deleting process. Please try again !");
             }
         }
-        [HttpGet]
+        [HttpPost]
         public async Task<List<ReadLocationDTO>> GetAllLocation(EntityDTO dto)
         {
             //App sends Project id

@@ -211,6 +211,30 @@
     <script src="~/js/dataTables.bootstrap4.min.js"></script>
     <script src="~/js/chart-area-demo.js"></script>
     <script type="text/javascript">
+        var locationId;
+
+        $(document).ready(function () {
+            debugger
+            $.ajax({
+
+                url: "/Session/GetVariable",
+                data: {
+                    key: "LocationId"
+                },
+                cache: false,
+                type: "POST",
+                success: function (response) {
+                    locationId = response.d;
+                    if (locationId == null) {
+                        window.location.href = "/Location/ChooseLocation";
+                    }
+                },
+                error: function () {
+                    alert("couldnt get Session! ");
+                }
+            });
+
+        });
         function swalload() {
             swal.fire({
                 title: 'Loading....',
@@ -239,6 +263,7 @@
             $.ajax(options);
         });
 
+        
     </script>
 
 </body>

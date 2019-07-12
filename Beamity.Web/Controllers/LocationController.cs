@@ -19,7 +19,7 @@ namespace Beamity.Web.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            //get user with Session
+            
             EntityDTO dto = new EntityDTO()
             {
                 Id = Guid.Parse(HttpContext.Session.GetString("UserId"))
