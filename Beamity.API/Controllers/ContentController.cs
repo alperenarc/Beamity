@@ -41,7 +41,7 @@ namespace Beamity.API.Controllers
             try
             {
                 //it wrong it must be deleted from API 
-                //Or App send ProjectID
+                //Or App send LocationID
                 EntityDTO dto = new EntityDTO();
                 var contents = await _contentService.GetAllContents( dto );
                 return contents;

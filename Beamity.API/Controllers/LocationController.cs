@@ -21,11 +21,11 @@ namespace Beamity.API.Controllers
             _locationService = locationService;
         }
         [HttpPost]
-        public IActionResult CreateLocation(CreateLocationDTO input)
+        public async Task<IActionResult> CreateLocation(CreateLocationDTO input)
         {
             try
             {
-                _locationService.CreateLocation(input);
+                await _locationService.CreateLocation(input);
 
                 return Ok("The process is success");
             }
@@ -35,11 +35,11 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpPut]
-        public IActionResult UpdateLocation(UpdateLocationDTO input)
+        public async Task<IActionResult> UpdateLocation(UpdateLocationDTO input)
         {
             try
             {
-                _locationService.UpdateLocation(input);
+                await _locationService.UpdateLocation(input);
                 return Ok("The process is success");
             }
             catch (Exception)
@@ -48,11 +48,11 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpDelete]
-        public IActionResult DeleteLocation(DeleteLocationDTO input)
+        public async Task<IActionResult> DeleteLocation(DeleteLocationDTO input)
         {
             try
             {
-                _locationService.DeleteLocation(input);
+                await _locationService.DeleteLocation(input);
                 return Ok("The process is success");
             }
             catch (Exception)
@@ -61,16 +61,17 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpGet]
-        public List<ReadLocationDTO> GetAllLocation()
+        public async Task<List<ReadLocationDTO>> GetAllLocation(EntityDTO dto)
         {
-            var list =_locationService.GetAllLocation();
+            //App sends Project id
+            var list = await _locationService.GetAllLocation( dto );
             return list;
         }
         [HttpGet("{id}")]
         [AllowAnonymous]
-        public ReadLocationDTO GetLocation(EntityDTO input)
+        public async Task<ReadLocationDTO> GetLocation(EntityDTO input)
         {
-            var location = _locationService.GetLocation(input);
+            var location = await  _locationService.GetLocation(input);
             return location;
         }
     }
