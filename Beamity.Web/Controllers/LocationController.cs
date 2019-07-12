@@ -38,6 +38,5 @@ namespace Beamity.Web.Controllers
             return View(locations);
         }
 
-       
     }
 }
