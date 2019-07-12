@@ -57,7 +57,8 @@ namespace Beamity.Web.Controllers
                     VideoURL = videoUrl,
                     AudioURL = audioUrl,
                     IsHomePage = input.IsHomePage,
-                    Text = input.Text
+                    Text = input.Text,
+                    LocationId = input.LocationId
                 };
                 await _contentService.CrateContent(data);
             }
@@ -105,7 +106,8 @@ namespace Beamity.Web.Controllers
                     AudioURL = audioUrl,
                     IsHomePage = input.IsHomePage,
                     Text = input.Text,
-                    CreatedTime = DateTime.Now
+                    CreatedTime = DateTime.Now,
+                    LocationId =input.LocationId
                 };
                 await _contentService.UpdateContent(data);
                 return RedirectToAction(nameof(Index));

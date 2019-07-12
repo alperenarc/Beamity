@@ -84,23 +84,8 @@
 <script src="bootstrap/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
-    function swalload() {
-        swal.fire({
-            title: 'Loading....',
-            html: 'Please wait during the processing time',
-            timer: 10000,
-            onBeforeOpen: () => {
-                Swal.showLoading()
-                timerInterval = setInterval(() => {
-                    Swal.getContent().querySelector('strong')
-                        .textContent = Swal.getTimerLeft()
-                }, 100)
-            },
-            onClose: () => {
 
-            }
-        });
-    }
+    
     $("#update").click(function () {
         var a;
         if ($('#isHome').is(":checked")) {
@@ -111,11 +96,11 @@
             debugger
         }
 
-        debugger
         swalload();
         var options = {};
         options.url = '/Content/Update';
         options.type = "PUT";
+        debugger
         var obj = new FormData();
         obj.append('Id', $("#id").val());
         obj.append('Name', $("#inputName").val());
@@ -127,6 +112,8 @@
         obj.append('Audio', $("#audio")[0].files[0]);
         obj.append('Text', $("#inputText").val());
         obj.append('IsHomePage', a);
+        obj.append('LocationId', locationId);
+
         options.data = obj;
         options.contentType = false;
         options.processData = false;
@@ -147,4 +134,21 @@
         };
         $.ajax(options);
     });
+    function swalload() {
+        swal.fire({
+            title: 'Loading....',
+            html: 'Please wait during the processing time',
+            timer: 10000,
+            onBeforeOpen: () => {
+                Swal.showLoading()
+                timerInterval = setInterval(() => {
+                    Swal.getContent().querySelector('strong')
+                        .textContent = Swal.getTimerLeft()
+                }, 100)
+            },
+            onClose: () => {
+
+            }
+        });
+    }
 </script>
