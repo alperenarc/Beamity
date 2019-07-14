@@ -78,7 +78,7 @@ namespace Beamity.Web
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=User}/{action=Login}/{id?}");
+                    template: "{controller=Main}/{action=Index}/{id?}");
             });
         }
     }
