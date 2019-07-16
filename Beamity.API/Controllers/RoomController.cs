@@ -21,11 +21,11 @@ namespace Beamity.API.Controllers
             _roomService = roomService;
         }
         [HttpPost]
-        public IActionResult CreateRoom(CreateRoomDTO room)
+        public async Task<IActionResult> CreateRoom(CreateRoomDTO room)
         {
             try
             {
-                _roomService.CreateRoom(room);
+              await  _roomService.CreateRoom(room);
             }
             catch (Exception)
             {
@@ -34,11 +34,11 @@ namespace Beamity.API.Controllers
             return Ok("The process is success");
         }
         [HttpPut]
-        public IActionResult UpdateRoom(UpdateRoomDTO room)
+        public async Task<IActionResult> UpdateRoom(UpdateRoomDTO room)
         {
             try
             {
-                _roomService.UpdateRoom(room);
+                await _roomService.UpdateRoom(room);
             }
             catch (Exception)
             {
@@ -47,11 +47,11 @@ namespace Beamity.API.Controllers
             return Ok("The process is success");
         }
         [HttpDelete]
-        public IActionResult DeleteRoom(DeleteRoomDTO room)
+        public async Task<IActionResult> DeleteRoom(DeleteRoomDTO room)
         {
             try
             {
-                _roomService.DeleteRoom(room);
+                await _roomService.DeleteRoom(room);
             }
             catch (Exception)
             {
