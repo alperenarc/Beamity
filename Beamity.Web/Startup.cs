@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Beamity.Web.Middlewares;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -63,6 +65,7 @@ namespace Beamity.Web
                 app.UseHsts();
             }
 
+            //app.UseLocationMiddleware();
             app.UseSession();
             app.UseAuthentication();
             app.UseHttpsRedirection();
@@ -75,7 +78,7 @@ namespace Beamity.Web
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=User}/{action=Login}/{id?}");
+                    template: "{controller=Main}/{action=Index}/{id?}");
             });
         }
     }
