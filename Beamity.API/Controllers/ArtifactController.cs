@@ -49,7 +49,7 @@ namespace Beamity.API.Controllers
                 throw e;
             }
         }
-        [HttpGet]
+        [HttpPost]
         [AllowAnonymous]
         public async Task<List<ReadArtifactDTO>> GetArtifactsInRoom(EntityDTO input)
         {

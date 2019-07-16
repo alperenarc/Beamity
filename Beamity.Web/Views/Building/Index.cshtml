@@ -133,7 +133,7 @@
                     <input type="button" class="btn btn-primary" data-id="@item.Id" data-name="@item.Name"
                            data-ctime="@item.CreatedTime" value="Details" id="detailShowModal" /> |
                     <input type="button" class="btn btn-primary" id="deleteShowModal" data-name="@item.Name" data-id="@item.Id" value="Delete" /> |
-                    <input type="button" class="btn btn-primary" id="floorsShowModal" data-id="@item.Id" value="Floors" />
+                    <input type="button" class="btn btn-primary" id="floorsShowModal" data-id="@item.Id" data-name="@item.Name" value="Floors" />
                 </td>
             </tr>
         }
@@ -145,7 +145,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title align-content-lg-start">Building Details</h4>
+                <h4 class="modal-title align-content-lg-start" id="Title"></h4>
                 <button type="button" class="close text-lg-right" data-dismiss="modal">
                     ×
                 </button>
@@ -177,7 +177,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title align-content-lg-start">Building Details</h4>
+                <h4 class="modal-title align-content-lg-start" id="TitleRoom"></h4>
                 <button type="button" class="close text-lg-right" data-dismiss="modal">
                     ×
                 </button>
@@ -202,7 +202,36 @@
         </div>
     </div>
 </div>
-
+<!--List Artifact Modal-->
+<div class="modal fade" tabindex="-1" id="artifactModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title align-content-lg-start" id="TitleArtifact"></h4>
+                <button type="button" class="close text-lg-right" data-dismiss="modal">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Operations</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tdappendartifact"></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="artifactHideModal" class="btn btn-primary button button4">
+                    Hide
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
@@ -228,25 +257,28 @@
         });
     }
     /*List Floor Modal*/
+    var name;
     $('[id="floorsShowModal"]').click(function () {
-        
+
         var options = {};
         options.url = "https://localhost:5001/api/Floor/GetFloorsAtBuilding";
         var obj = {};
         obj.Id = $(this).data("id");
+        name = $(this).data("name");
         debugger
         options.type = "POST";
         options.dataType = "json";
         options.contentType = "application/json";
         options.data = JSON.stringify(obj);
         options.success = function (data) {
+            $('#Title').text(name);
             $("#floorList").empty();
             //data.forEach(function (v) {
             //    $("#floorList").append('<p>' + '<button class="btn btn-primary clicked" style="width:400px;" value="' + v.id + '">' + v.name + '</button>' + '</p>');
             //});
             $("#tdappend").empty();
             data.forEach(function (v) {
-                $("#tdappend").append("<tr><td>" + v.name + "</td><td><button type='button' id='selectFloor' data-id='" + v.id + "' class='btn btn-primary'>Select</button></td></tr> ");
+                $("#tdappend").append("<tr><td>" + v.name + "</td><td><button type='button' id='selectFloor' data-name='" + v.name + "' data-id='" + v.id + "' class='btn btn-primary'>Select</button></td></tr> ");
 
             });
 
@@ -258,22 +290,23 @@
 
     });
     /*List Room Modal*/
-    $('[id="selectFloor"]').click(function () {
-        debugger
+    $(document).on('click', '[id="selectFloor"]', function () {
         var options = {};
         options.url = "https://localhost:5001/api/Room/GetRoomsOnFloor";
         var obj = {};
         obj.Id = $(this).data("id");
-        debugger
+        name = name + "> " + $(this).data("name");
         options.type = "POST";
         options.dataType = "json";
         options.contentType = "application/json";
         options.data = JSON.stringify(obj);
+        debugger
         options.success = function (data) {
-
+            $('#TitleRoom').text("");
+            $('#TitleRoom').text(name);
             $("#tdappendroom").empty();
             data.forEach(function (v) {
-                $("#tdappendroom").append("<tr><td>" + v.name + "</td><td><button type='button' data-id='" + v.id + "' class='btn btn-primary'>Select</button></td></tr> ");
+                $("#tdappendroom").append("<tr><td>" + v.name + "</td><td><button type='button' id='selectRoom' data-name='" + v.name + "' data-id='" + v.id + "' class='btn btn-primary'>Select</button></td></tr> ");
 
             });
 
@@ -284,8 +317,34 @@
         $.ajax(options);
 
     });
+    /*List Artifact Modal*/
+    $(document).on('click', '[id="selectRoom"]', function () {
+        var options = {};
+        options.url = "https://localhost:5001/api/Artifact/GetArtifactsInRoom";
+        var obj = {};
+        obj.Id = $(this).data("id");
+        name = name + "> " + $(this).data("name");
+        options.type = "POST";
+        options.dataType = "json";
+        options.contentType = "application/json";
+        options.data = JSON.stringify(obj);
+        debugger
+        options.success = function (data) {
+            $('#TitleArtifact').text("");
+            $('#TitleArtifact').text(name);
+            $("#tdappendartifact").empty();
+            data.forEach(function (v) {
+                $("#tdappendartifact").append("<tr><td>" + v.name + "</td><td><button type='button' data-id='" + v.id + "' class='btn btn-primary'>Select</button></td></tr> ");
 
+            });
 
+        };
+        options.error = function () {
+            alert("error");
+        };
+        $.ajax(options);
+
+    });
     /*Show and Hide Modals*/
     $(document).ready(function () {
         $("#btnShowModal").click(function () {
@@ -303,13 +362,28 @@
         });
         /*Show and hide Room modals*/
         $(document).on('click', '[id="selectFloor"]', function () {
+            $('#TitleRoom').text("");
             $("#roomModal").modal('show');
             $("#floorModal").modal('hide');
         });
         $(document).on('click', '[id="roomHideModal"]', function () {
+            $('#TitleRoom').text("");
+            $("#tdappendroom").empty();
             $("#roomModal").modal('hide');
             $("#floorModal").modal('show');
         });
+        /*Show and hide Artifacts modals*/
+        $(document).on('click', '[id="selectRoom"]', function () {
+            $('#TitleArtifact').text("");
+            $("#artifactModal").modal('show');
+            $("#roomModal").modal('hide');
+        });
+        $(document).on('click', '[id="artifactHideModal"]', function () {
+            $('#TitleArtifact').text("");
+            $("#artifactModal").modal('hide');
+            $("#roomModal").modal('show');
+        });
+
     });
     /*Create Building*/
     $("#create").click(function () {
