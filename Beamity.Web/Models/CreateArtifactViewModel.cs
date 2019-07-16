@@ -11,5 +11,6 @@ namespace Beamity.Web.Models
         public IFormFile File{ get; set; }
         public string Name { get; set; }
         public Guid RoomId { get; set; }
+        public Guid LocationId { get; set; }
     }
 }

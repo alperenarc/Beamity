@@ -51,7 +51,8 @@ namespace Beamity.Web.Controllers
                 {
                     Name = input.Name,
                     MainImageURL = url,
-                    RoomId = input.RoomId
+                    RoomId = input.RoomId,
+                    LocationId = input.LocationId
                 };
                 await _artifactService.CreateArtifact(data);
 

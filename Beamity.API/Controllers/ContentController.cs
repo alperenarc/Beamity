@@ -34,7 +34,7 @@ namespace Beamity.API.Controllers
                 throw;
             }
         }
-        [HttpGet]
+        [HttpPost]
         [AllowAnonymous]
         public async Task<List<ReadContentDTO>> GetAllContents()
         {
