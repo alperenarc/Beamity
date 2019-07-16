@@ -20,7 +20,7 @@ namespace Beamity.API.Controllers
         {
             _buildingService = buildingService;
         }
-        [HttpGet("{id}")]
+        [HttpGet]
         public async Task<ReadBuildingDTO> GetBuilding(EntityDTO input)
         {
             try

@@ -71,7 +71,11 @@ namespace Beamity.Application.Service.Services
         //FloorID
         public async Task<ReadFloorDTO> GetFloor(EntityDTO input)
         {
-            var floor = await _repository.GetById(input.Id);
+            //var floor = await _repository.GetById(input.Id);
+            var floor = await _repository
+                .GetAll()
+                .Include(x => x.Building)
+                .FirstOrDefaultAsync(x => x.IsActive && x.Id == input.Id);
             var result = _mapper.Map<ReadFloorDTO>(floor);
             result.BuildingName = floor.Building.Name;
             return result;

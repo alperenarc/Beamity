@@ -20,7 +20,7 @@ namespace Beamity.API.Controllers
         {
             _floorService = floorService;
         }
-        [HttpGet("{id}")]
+        [HttpGet]
         public async Task<ReadFloorDTO> GetFloor(EntityDTO input)
         {
             try
@@ -35,14 +35,12 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpGet]
-        public async Task<List<ReadFloorDTO>> GetAllFloors()
+        public async Task<List<ReadFloorDTO>> GetAllFloors(EntityDTO input)
         {
             try
             {
-                //it wrong it must be deleted from API 
-                //Or App send ProjectID
-                EntityDTO dto = new EntityDTO();
-                var floors = await _floorService.GetAllFloor(dto);
+               
+                var floors = await _floorService.GetAllFloor(input);
                 return floors;
             }
             catch (Exception)
@@ -51,7 +49,7 @@ namespace Beamity.API.Controllers
                 throw;
             }
         }
-        [HttpGet("{id}")]
+        [HttpPost]
         public async Task<List<ReadFloorDTO>> GetFloorsAtBuilding(EntityDTO input)
         {
             try

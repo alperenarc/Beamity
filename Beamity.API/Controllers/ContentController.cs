@@ -20,7 +20,7 @@ namespace Beamity.API.Controllers
         {
             _contentService = contentService;
         }
-        [HttpGet("{id}")]
+        [HttpGet]
         public async Task<ReadContentDTO> GetContent(EntityDTO input)
         {
             try

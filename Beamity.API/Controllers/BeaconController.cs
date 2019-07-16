@@ -20,7 +20,7 @@ namespace Beamity.API.Controllers
         {
             _beaconService = beaconService;
         }
-        [HttpGet("{id}")]
+        [HttpGet]
         public async Task<ReadBeaconDTO> GetBeacon(EntityDTO input)
         {
             try

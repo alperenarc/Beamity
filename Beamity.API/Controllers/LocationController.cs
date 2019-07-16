@@ -67,14 +67,14 @@ namespace Beamity.API.Controllers
             var list = await _locationService.GetAllLocation( dto );
             return list;
         }
-        [HttpGet]
+        [HttpPost]
         public async Task<List<ReadLocationDTO>> GetAllLocationWithUser(EntityDTO dto)
         {
             //App sends User id
             var list = await _locationService.GetAllLocationWithUser(dto);
             return list;
         }
-        [HttpGet("{id}")]
+        [HttpGet]
         [AllowAnonymous]
         public async Task<ReadLocationDTO> GetLocation(EntityDTO input)
         {

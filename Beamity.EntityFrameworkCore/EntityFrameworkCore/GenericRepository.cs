@@ -42,7 +42,6 @@ namespace Beamity.EntityFrameworkCore.EntityFrameworkCore
         public async Task<TEntity> GetById(Guid id)
         {
             return await _dbContext.Set<TEntity>()
-                        
                         .FirstOrDefaultAsync(e => e.IsActive && e.Id == id);
         }
 
