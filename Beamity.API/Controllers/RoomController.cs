@@ -77,7 +77,7 @@ namespace Beamity.API.Controllers
             };
             return await _roomService.GetAllRooms(dto);
         }
-        [HttpGet("{id}")]
+        [HttpGet]
         public async Task<List<ReadRoomDTO>> GetRoomsOnFloor(EntityDTO room)
         {
             return await _roomService.GetRoomsOnFloor(room);

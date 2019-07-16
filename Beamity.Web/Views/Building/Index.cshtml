@@ -5,13 +5,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
+<!--Create New Button-->
 <div class="row justify-content-start m-1">
     <button id="btnShowModal" type="button" class="btn btn-outline-success">
         Create New
     </button>
     <div class="col-md-1"></div>
 </div>
+<!--Create New Building-->
 <div class="modal fade" tabindex="-1" id="loginModal"
      data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog modal-lg">
@@ -30,7 +31,7 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label">Locations</label>
-                        <select id="locations" class="form-control"></select>
+                        @*<select id="locations" class="form-control"></select>*@
                     </div>
                 </form>
             </div>
@@ -43,7 +44,7 @@
         </div>
     </div>
 </div>
-
+<!--Delete Building-->
 <div class="modal fade" tabindex="-1" id="deleteModal"
      data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog modal-lg">
@@ -67,6 +68,7 @@
         </div>
     </div>
 </div>
+<!--Edit Buildings-->
 <div class="modal fade" tabindex="-1" id="detailModal"
      data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog modal-lg">
@@ -85,7 +87,7 @@
                                placeholder="Name" id="editName" />
                     </div>
 
-                    <select class="form-control" id="Editlocations"></select>
+
                 </form>
             </div>
             <div class="modal-footer">
@@ -97,7 +99,7 @@
         </div>
     </div>
 </div>
-
+<!--List Buildings-->
 <table class="table">
     <thead>
         <tr>
@@ -130,18 +132,84 @@
                 <td>
                     <input type="button" class="btn btn-primary" data-id="@item.Id" data-name="@item.Name"
                            data-ctime="@item.CreatedTime" value="Details" id="detailShowModal" /> |
-                    <input type="button" class="btn btn-primary" id="deleteShowModal" data-name="@item.Name" data-id="@item.Id" value="Delete" />
+                    <input type="button" class="btn btn-primary" id="deleteShowModal" data-name="@item.Name" data-id="@item.Id" value="Delete" /> |
+                    <input type="button" class="btn btn-primary" id="floorsShowModal" data-id="@item.Id" value="Floors" />
                 </td>
             </tr>
         }
     </tbody>
 </table>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
+<!--List Floors Modal-->
+<div class="modal fade" tabindex="-1" id="floorModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title align-content-lg-start">Building Details</h4>
+                <button type="button" class="close text-lg-right" data-dismiss="modal">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul id="floorList"></ul>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Operations</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tdappend"></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="update" class="btn btn-primary button button4">Update</button>
+                <button type="button" id="floorsHideModal" class="btn btn-primary button button4">
+                    Hide
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--List Rooms Modal-->
+<div class="modal fade" tabindex="-1" id="roomModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title align-content-lg-start">Building Details</h4>
+                <button type="button" class="close text-lg-right" data-dismiss="modal">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Operations</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tdappendroom"></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="update" class="btn btn-primary button button4">Update</button>
+                <button type="button" id="roomHideModal" class="btn btn-primary button button4">
+                    Hide
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
-</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
+
+    /*Loading swal modal*/
     function swalload() {
         swal.fire({
             title: 'Loading....',
@@ -159,30 +227,103 @@
             }
         });
     }
+    /*List Floor Modal*/
+    $('[id="floorsShowModal"]').click(function () {
+        
+        var options = {};
+        options.url = "https://localhost:5001/api/Floor/GetFloorsAtBuilding";
+        var obj = {};
+        obj.Id = $(this).data("id");
+        debugger
+        options.type = "POST";
+        options.dataType = "json";
+        options.contentType = "application/json";
+        options.data = JSON.stringify(obj);
+        options.success = function (data) {
+            $("#floorList").empty();
+            //data.forEach(function (v) {
+            //    $("#floorList").append('<p>' + '<button class="btn btn-primary clicked" style="width:400px;" value="' + v.id + '">' + v.name + '</button>' + '</p>');
+            //});
+            $("#tdappend").empty();
+            data.forEach(function (v) {
+                $("#tdappend").append("<tr><td>" + v.name + "</td><td><button type='button' id='selectFloor' data-id='" + v.id + "' class='btn btn-primary'>Select</button></td></tr> ");
+
+            });
+
+        };
+        options.error = function () {
+            alert("error");
+        };
+        $.ajax(options);
+
+    });
+    /*List Room Modal*/
+    $('[id="selectFloor"]').click(function () {
+        debugger
+        var options = {};
+        options.url = "https://localhost:5001/api/Room/GetRoomsOnFloor";
+        var obj = {};
+        obj.Id = $(this).data("id");
+        debugger
+        options.type = "POST";
+        options.dataType = "json";
+        options.contentType = "application/json";
+        options.data = JSON.stringify(obj);
+        options.success = function (data) {
+
+            $("#tdappendroom").empty();
+            data.forEach(function (v) {
+                $("#tdappendroom").append("<tr><td>" + v.name + "</td><td><button type='button' data-id='" + v.id + "' class='btn btn-primary'>Select</button></td></tr> ");
+
+            });
+
+        };
+        options.error = function () {
+            alert("error");
+        };
+        $.ajax(options);
+
+    });
+
+
+    /*Show and Hide Modals*/
     $(document).ready(function () {
         $("#btnShowModal").click(function () {
             $("#loginModal").modal('show');
-
         });
-
         $("#btnHideModal").click(function () {
             $("#loginModal").modal('hide');
         });
+        /*SHow and hide floor modals*/
+        $('[id="floorsShowModal"]').click(function () {
+            $("#floorModal").modal('show');
+        });
+        $("#floorsHideModal").click(function () {
+            $("#floorModal").modal('hide');
+        });
+        /*Show and hide Room modals*/
+        $(document).on('click', '[id="selectFloor"]', function () {
+            $("#roomModal").modal('show');
+            $("#floorModal").modal('hide');
+        });
+        $(document).on('click', '[id="roomHideModal"]', function () {
+            $("#roomModal").modal('hide');
+            $("#floorModal").modal('show');
+        });
     });
+    /*Create Building*/
     $("#create").click(function () {
         swalload();
         var options = {};
         options.url = "https://localhost:5001/api/Building/CreateBuilding/";
         options.type = "POST";
-        debugger
         var obj = {};
         obj.Name = $("#inputName").val();
-        obj.LocationId = $("#locations").val();
-
+        obj.LocationId = locationId;
         options.data = JSON.stringify(obj);
         options.contentType = "application/json";
         options.dataType = "html";
-        debugger
+
         options.success = function (msg) {
             $("#msg").html(msg);
             Swal({
@@ -201,23 +342,6 @@
         $("#loginModal").modal('hide');
     });
     $(document).ready(function () {
-        var options = {};
-        options.url = "https://localhost:5001/api/Location/GetAllLocation";
-        options.type = "GET";
-        options.dataType = "json";
-        options.success = function (data) {
-            debugger
-            data.forEach(function (v) {
-                $("#locations").append('<option value="' + v.id + '">' + v.name + '</option>');
-                $("#Editlocations").append('<option value="' + v.id + '">' + v.name + '</option>');
-            });
-        };
-        options.error = function () {
-            alert("error");
-        };
-        $.ajax(options);
-    });
-    $(document).ready(function () {
         $('[id="deleteShowModal"]').click(function () {
             $("#deleteModal").modal('show');
             var id = $(this).data('id');
@@ -231,6 +355,7 @@
             $("#deleteModal").modal('hide');
         });
     });
+    /*Delete Building*/
     $("#delete").click(function () {
         swalload();
         var options = {};
@@ -265,7 +390,7 @@
         $("#deleteModal").modal('hide');
         $.ajax(options);
     });
-   
+    /*Update Building*/
     $("#update").click(function () {
         swalload();
         var options = {};
@@ -274,7 +399,7 @@
         var obj = {};
         obj.Id = $("#detailModalId").val();
         obj.Name = $("#editName").val();
-        obj.LocationId = $("#Editlocations").val();
+        obj.LocationId = locationId;
         obj.CreatedTime = $.now();
 
         debugger
@@ -323,4 +448,6 @@
             $("#detailModal").modal('hide');
         });
     });
+
+
 </script>

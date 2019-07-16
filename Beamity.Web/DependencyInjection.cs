@@ -36,19 +36,19 @@ namespace Beamity.Web
             services.AddTransient<IRelationService, RelationService>();
             services.AddTransient<IUserService, UserService>();
 
-            services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-            services.AddScoped<RoomRepository, RoomRepository>();
-            services.AddScoped<ArtifactRepository, ArtifactRepository>();
-            services.AddScoped<ContentRepository, ContentRepository>();
-            services.AddScoped<BeaconRepository, BeaconRepository>();
-            services.AddScoped<IBaseGenericRepostiory, IBaseGenericRepostiory>();
-            services.AddScoped<RelationRepository, RelationRepository>();
-            services.AddScoped<LocationRepository, LocationRepository>();
-            services.AddScoped<BuildingRepository, BuildingRepository>();
-            services.AddScoped<FloorRepository, FloorRepository>();
-            services.AddScoped<UserRepository, UserRepository>();
+            //services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+            //services.AddScoped<RoomRepository, RoomRepository>();
+            //services.AddScoped<ArtifactRepository, ArtifactRepository>();
+            //services.AddScoped<ContentRepository, ContentRepository>();
+            //services.AddScoped<BeaconRepository, BeaconRepository>();
+            //services.AddScoped<RelationRepository, RelationRepository>();
+            //services.AddScoped<LocationRepository, LocationRepository>();
+            //services.AddScoped<BuildingRepository, BuildingRepository>();
+            //services.AddScoped<FloorRepository, FloorRepository>();
+            //services.AddScoped<UserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddTransient<IBlobManager, BlobManager>();
+            services.AddScoped<IBaseGenericRepostiory, IBaseGenericRepostiory>();
 
             services.AddDbContext<BeamityDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

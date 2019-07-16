@@ -48,7 +48,7 @@ namespace Beamity.API.Controllers
                 throw e;
             }
         }
-        [HttpGet("{id}")]
+        [HttpGet]
         public async Task<ReadRelationDTO> GetRelation(EntityDTO Relation)
         {
 
