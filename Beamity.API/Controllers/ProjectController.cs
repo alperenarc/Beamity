@@ -23,11 +23,11 @@ namespace Beamity.API.Controllers
 
 
         [HttpPost]
-        public IActionResult CreateProject(CreateProjectDTO input)
+        public async Task<IActionResult> CreateProject(CreateProjectDTO input)
         {
             try
             {
-                _projectService.CreateProject(input);
+                await _projectService.CreateProject(input);
                 return Ok("The process is success");
             }
             catch (Exception)
@@ -36,11 +36,11 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpPut]
-        public IActionResult UpdateProject(UpdateProjectDTO input)
+        public async Task<IActionResult> UpdateProject(UpdateProjectDTO input)
         {
             try
             {
-                _projectService.UpdateProject(input);
+                await _projectService.UpdateProject(input);
                 return Ok("The process is success");
             }
             catch (Exception)
@@ -50,11 +50,11 @@ namespace Beamity.API.Controllers
 
         }
         [HttpDelete]
-        public IActionResult DeleteProject(DeleteProjectDTO input)
+        public async Task<IActionResult> DeleteProject(DeleteProjectDTO input)
         {
             try
             {
-                _projectService.DeleteProject(input);
+                await _projectService.DeleteProject(input);
                 return Ok("The process is success");
             }
             catch (Exception)

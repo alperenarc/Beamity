@@ -43,11 +43,11 @@ namespace Beamity.API.Controllers
 
         //}
         [HttpPut]
-        public IActionResult UpdateProfile(UpdateUserDTO user)
+        public async Task<IActionResult> UpdateProfile(UpdateUserDTO user)
         {
             try
             {
-                _userService.UpdateProfile(user);
+                await _userService.UpdateProfile(user);
             }
             catch (Exception)
             {
@@ -57,12 +57,12 @@ namespace Beamity.API.Controllers
         }
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult ConfirmEmail(ConfirmationDTO input)
+        public async Task<IActionResult> ConfirmEmail(ConfirmationDTO input)
         {
             //confirmCode = HttpContext.Request.Query["guidcode"].ToString();
             try
             {
-                _userService.ConfirmEmail(input.ConfirmCode);
+                await _userService.ConfirmEmail(input.ConfirmCode);
                 return Ok("Success");
             }
             catch (Exception)
