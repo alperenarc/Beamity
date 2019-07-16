@@ -50,6 +50,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.IsHomePage)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsCampaign)
+            </th>
             <th>Operations</th>
         </tr>
     </thead>
@@ -69,9 +72,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.IsHomePage)
             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsCampaign)
+            </td>
 
             <td>
-                <a asp-controller="Content"class="btn btn-primary" asp-action="Update" asp-route-id="@item.Id">Edit  </a> |
+                <a asp-controller="Content" class="btn btn-primary" asp-action="Update" asp-route-id="@item.Id">Edit  </a> |
                 <input type="button" class="btn btn-primary" id="deleteShowModal" data-name="@item.Name" data-id="@item.Id" value="Delete" />
             </td>
         </tr>

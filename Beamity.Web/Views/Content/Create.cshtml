@@ -59,13 +59,27 @@
                 </div>
             </div>
 
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" id="isHome" asp-for="IsHomePage" /> @Html.DisplayNameFor(model => model.IsHomePage)
+                        </label>
 
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" id="isHome" asp-for="IsHomePage" /> @Html.DisplayNameFor(model => model.IsHomePage)
-                </label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" id="isCampaign" asp-for="IsHomePage" /> @Html.DisplayNameFor(model => model.IsCampaign)
+                    </label>
+
+                </div>
+                </div>
             </div>
-
+            
+            
+            
         </form>
         <div class="form-group">
             <input type="button" id="create" value="Create" class="btn btn-primary" />
@@ -108,6 +122,14 @@
         } else {
             a = false;
         }
+        var b;
+        if ($('#isCampaign').is(":checked")) {
+            b = true;
+            debugger
+        } else {
+            b = false;
+            debugger
+        }
         var a =$("input[type='checkbox']").val();
         debugger
         swalload();
@@ -125,6 +147,7 @@
         obj.append('Audio', $("#audio")[0].files[0]);
         obj.append('Text', $("#inputText").val());
         obj.append('IsHomePage', a);
+        obj.append('IsCampaign', b);
         options.data = obj;
         options.contentType = false;
         options.processData = false;

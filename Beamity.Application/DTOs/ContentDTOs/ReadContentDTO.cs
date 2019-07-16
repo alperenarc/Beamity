@@ -16,7 +16,9 @@ namespace Beamity.Application.DTOs.ContentDTOs
         public string AudioURL { get; set; }
         public string Text { get; set; }
         public bool IsHomePage { get; set; }
+        public bool IsCampaign { get; set; }
 
-        
+
+
     }
 }

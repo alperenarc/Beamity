@@ -57,6 +57,7 @@ namespace Beamity.Web.Controllers
                     VideoURL = videoUrl,
                     AudioURL = audioUrl,
                     IsHomePage = input.IsHomePage,
+                    IsCampaign = input.IsCampaign,
                     Text = input.Text,
                     LocationId = input.LocationId
                 };
@@ -79,6 +80,7 @@ namespace Beamity.Web.Controllers
                 Title = content.Title,
                 
                 IsHomePage = content.IsHomePage,
+                IsCampaign = content.IsCampaign,
                 Text = content.Text,
                 
             };
@@ -105,6 +107,7 @@ namespace Beamity.Web.Controllers
                     VideoURL = videoUrl,
                     AudioURL = audioUrl,
                     IsHomePage = input.IsHomePage,
+                    IsCampaign = input.IsCampaign,
                     Text = input.Text,
                     CreatedTime = DateTime.Now,
                     LocationId =input.LocationId
