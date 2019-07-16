@@ -64,6 +64,9 @@
                 <label class="form-check-label">
                     <input class="form-check-input" id="isHome" asp-for="IsHomePage" /> @Html.DisplayNameFor(model => model.IsHomePage)
                 </label>
+                <label class="form-check-label">
+                    <input class="form-check-input" id="isCampaign" asp-for="IsHomePage" /> @Html.DisplayNameFor(model => model.IsCampaign)
+                </label>
             </div>
 
         </form>
@@ -108,6 +111,14 @@
         } else {
             a = false;
         }
+        var b;
+        if ($('#isCampaign').is(":checked")) {
+            b = true;
+            debugger
+        } else {
+            b = false;
+            debugger
+        }
         var a =$("input[type='checkbox']").val();
         debugger
         swalload();
@@ -125,6 +136,7 @@
         obj.append('Audio', $("#audio")[0].files[0]);
         obj.append('Text', $("#inputText").val());
         obj.append('IsHomePage', a);
+        obj.append('IsCampaign', b);
         options.data = obj;
         options.contentType = false;
         options.processData = false;

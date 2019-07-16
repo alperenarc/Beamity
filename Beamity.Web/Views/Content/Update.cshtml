@@ -65,6 +65,9 @@
                 <label class="form-check-label">
                     <input class="form-check-input" data-id="@Model.Id" id="isHome" asp-for="IsHomePage" /> @Html.DisplayNameFor(model => model.IsHomePage)
                 </label>
+                <label class="form-check-label">
+                    <input class="form-check-input" data-id="@Model.Id" id="isCampaign" asp-for="IsHomePage" /> @Html.DisplayNameFor(model => model.IsCampaign)
+                </label>
             </div>
             
         </form>
@@ -95,6 +98,14 @@
             a = false;
             debugger
         }
+        var b;
+        if ($('#isCampaign').is(":checked")) {
+            b = true;
+            debugger
+        } else {
+            b = false;
+            debugger
+        }
 
         swalload();
         var options = {};
@@ -112,6 +123,7 @@
         obj.append('Audio', $("#audio")[0].files[0]);
         obj.append('Text', $("#inputText").val());
         obj.append('IsHomePage', a);
+        obj.append('IsCampaign', b);
         obj.append('LocationId', locationId);
 
         options.data = obj;

@@ -83,6 +83,7 @@ namespace Beamity.Application.Service.Services
             var c = await _repository.GetById(input.Id);
 
             c.IsHomePage = input.IsHomePage;
+            c.IsCampaign = input.IsCampaign;
             if( !string.IsNullOrEmpty(input.MainImageURL)  )
                 c.MainImageURL = input.MainImageURL;
             if ( !string.IsNullOrEmpty(input.SlideImageURL))
