@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Beamity.Application.DTOs;
+using Beamity.Application.DTOs.AnalyticDTO;
 using Beamity.Application.DTOs.ArtifactDTOs;
 using Beamity.Application.DTOs.BeaconDTOs;
 using Beamity.Application.DTOs.ContentDTOs;
@@ -23,18 +24,21 @@ namespace Beamity.Application.Service.Services
         private readonly IBaseGenericRepository<Beacon> _beaconRepository;
         private readonly IBaseGenericRepository<Artifact> _artifactRepository;
         private readonly IBaseGenericRepository<Content> _contentRepository;
+        private readonly IAnalyticService _analyticService;
 
         private readonly IMapper _mapper;
 
         public RelationService(IBaseGenericRepository<Relation> relationRepository,
                                 IBaseGenericRepository<Beacon> beaconRepository,
                                 IBaseGenericRepository<Artifact> artifactRepository,
-                                IBaseGenericRepository<Content> contentRepository, IMapper mapper)
+                                IBaseGenericRepository<Content> contentRepository,
+                                IAnalyticService analyticService, IMapper mapper)
         {
             _relationRepository = relationRepository;
             _beaconRepository = beaconRepository;
             _artifactRepository = artifactRepository;
             _contentRepository = contentRepository;
+            _analyticService = analyticService;
             _mapper = mapper;
         }
 
@@ -102,6 +106,9 @@ namespace Beamity.Application.Service.Services
             //Get Beacon for Major Minor and UUID.
             var beacon = await _beaconRepository.GetAll()
                 .FirstOrDefaultAsync(x => x.UUID == input.UUID && x.Major == input.Major && x.Minor == input.Minor);
+            
+            //create analytics
+            await _analyticService.CreateAnalytic (new CreateAnalyticDTO(beacon.Id));
 
             //Get Relation for beacon ID
             var relation = await _relationRepository.GetAll()
