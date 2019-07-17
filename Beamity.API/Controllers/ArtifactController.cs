@@ -33,7 +33,7 @@ namespace Beamity.API.Controllers
             }
 
         }
-        [HttpGet]
+        [HttpPost]
         [AllowAnonymous]/*LocationId*/
         public async Task<List<ReadArtifactDTO>> GetAllArtifacts( EntityDTO input)
         {

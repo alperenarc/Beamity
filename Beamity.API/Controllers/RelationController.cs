@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Beamity.Application.DTOs;
+using Beamity.Application.DTOs.ArtifactDTOs;
 using Beamity.Application.DTOs.BeaconDTOs;
 using Beamity.Application.DTOs.ContentDTOs;
 using Beamity.Application.DTOs.RelationDTO;
@@ -67,6 +68,18 @@ namespace Beamity.API.Controllers
                 return null;
             }
             return content;
+        }
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<List<ReadRelationDTO>> GetRelationsWithArtifact(EntityDTO input)
+        {
+
+            var relations = await _relationService.GetRelationsWithArtifact(input);
+            if (relations == null)
+            {
+                return null;
+            }
+            return relations;
         }
         [HttpPost]
         public async Task CreateRelation(CreateRelationDTO input)

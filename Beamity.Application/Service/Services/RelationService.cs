@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Beamity.Application.DTOs;
+using Beamity.Application.DTOs.ArtifactDTOs;
 using Beamity.Application.DTOs.BeaconDTOs;
 using Beamity.Application.DTOs.ContentDTOs;
 using Beamity.Application.DTOs.RelationDTO;
@@ -73,27 +74,7 @@ namespace Beamity.Application.Service.Services
                     BeaconName = item.Beacon.Name,
                     ContentName = item.Content.Name
                 };
-                switch (item.Proximity)
-                {
-                    case Proximity.Unknown:
-                        dto.Proximity = "Unknown";
-                        break;
-                    case Proximity.Far:
-                        dto.Proximity = "Far";
-                        break;
-                    case Proximity.Near:
-                        dto.Proximity = "Near";
-                        break;
-                    case Proximity.Immediate:
-                        dto.Proximity = "Immediate";
-                        break;
-                    case Proximity.All:
-                        dto.Proximity = "All";
-                        break;
-                    default:
-                        dto.Proximity = "Unknown";
-                        break;
-                }
+                dto.Proximity = GetEnumString(item.Proximity);
 
                 result.Add(dto);
             }
@@ -112,27 +93,7 @@ namespace Beamity.Application.Service.Services
                 BeaconName = relation.Beacon.Name,
                 ContentName = relation.Content.Name
             };
-            switch (relation.Proximity)
-            {
-                case Proximity.Unknown:
-                    result.Proximity = "Unknown";
-                    break;
-                case Proximity.Far:
-                    result.Proximity = "Far";
-                    break;
-                case Proximity.Near:
-                    result.Proximity = "Near";
-                    break;
-                case Proximity.Immediate:
-                    result.Proximity = "Immediate";
-                    break;
-                case Proximity.All:
-                    result.Proximity = "All";
-                    break;
-                default:
-                    result.Proximity = "Unknown";
-                    break;
-            }
+            result.Proximity = GetEnumString(relation.Proximity);
             return result;
         }
 
@@ -180,6 +141,56 @@ namespace Beamity.Application.Service.Services
             result.Location = artifact.Location;
 
             await _relationRepository.Update(input.Id, result);
+        }
+
+        public async Task<List<ReadRelationDTO>> GetRelationsWithArtifact(EntityDTO input)
+        {
+            var relations = await  _relationRepository
+                .GetAll()
+                .Include(x => x.Artifact)
+                .Include( x=> x.Content)
+                .Include(x => x.Beacon)
+                .Where(x => x.IsActive && x.Artifact.Id == input.Id)
+                .ToListAsync();
+            List<ReadRelationDTO> result = new List<ReadRelationDTO>();
+            foreach (var item in relations)
+            {
+                ReadRelationDTO dto = new ReadRelationDTO();
+                dto.Id = item.Id;
+                dto.IsActive = item.IsActive;
+                dto.Proximity = GetEnumString(item.Proximity);
+                dto.ArtifacName = item.Artifact.Name;
+                dto.ContentName = item.Content.Name;
+                dto.BeaconName = item.Beacon.Name;
+                result.Add(dto);
+            }
+            return result;
+        }
+        string GetEnumString(Proximity prox)
+        {
+            string result = "";
+            switch (prox)
+            {
+                case Proximity.Unknown:
+                    result = "Unknown";
+                    break;
+                case Proximity.Far:
+                    result = "Far";
+                    break;
+                case Proximity.Near:
+                    result = "Near";
+                    break;
+                case Proximity.Immediate:
+                    result = "Immediate";
+                    break;
+                case Proximity.All:
+                    result = "All";
+                    break;
+                default:
+                    result = "Unknown";
+                    break;
+            }
+            return result;
         }
     }
 }
