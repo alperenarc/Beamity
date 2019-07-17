@@ -592,11 +592,11 @@
         options.data = JSON.stringify(obj);
         options.success = function (data) {
             data.forEach(function (v) {
-                $('#relationsBody").append("<tr>'
-                    + '<td>" + v.contentName + "</td>'
+                $('#relationsBody').append("<tr>"
+                    + "<td>" + v.contentName + "</td>"
                     + "<td>" + v.beaconName + "</td>"
                     + "<td>" + v.proximity + "</td>"
-                    + '<td> <input type="button" data-id="' + v.id + '" class="btn btn-primary showDeleteRelationModal" value="Delete"/></td></tr>');
+                    + "<td> <input type='button' data-id='" + v.id + "' class='btn btn-primary showDeleteRelationModal' value='Delete'/></td></tr>");
             });
         };
         options.error = function () {
@@ -617,7 +617,7 @@
 
     $(document).ready(function () {
         
-        $(".body").on("click",".showDeleteRelationModal",function () {
+        $("body").on("click",".showDeleteRelationModal",function () {
             $("#deleteRelationModal").modal('show');
             $("#relationModal").modal('hide');
             var id = $(this).data('id');
