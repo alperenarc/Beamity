@@ -5,10 +5,19 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="row justify-content-start m-1">
-    <button id="btnShowModal" type="button" class="btn btn-outline-success">
-        Create New
-    </button>
+<div class="col-md-12 mt-2">
+    <div class="row">
+        <div class="col-md-6">
+            <h3>
+                <i class="far fa-list-alt"></i> Artifact List Page
+            </h3>
+        </div>
+        <div class="col-md-6 text-right">
+            <button id="btnShowModal" type="button" class="btn btn-success m-1">
+                Create <i class="far fa-plus-square"></i>
+            </button>
+        </div>
+    </div>
 </div>
 <div class="modal fade" tabindex="-1" id="loginModal"
      data-keyboard="false" data-backdrop="static">
@@ -209,8 +218,8 @@
         </div>
     </div>
 </div>
-<table class="table">
-    <thead>
+<table class="table table-bordered table-hover text-center">
+    <thead class="thead-light">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
@@ -252,10 +261,12 @@
                     @Html.DisplayFor(modelItem => item.CreatedTime)
                 </td>
                 <td>
-                    <input type="button" class="btn btn-primary detailShowModal" data-id="@item.Id" data-name="@item.Name"
-                           data-ctime="@item.CreatedTime" value="Details" /> |
-                    <input type="button" class="btn btn-primary deleteShowModal" data-name="@item.Name" data-id="@item.Id" value="Delete" />
-                    <input type="button" class="btn btn-primary relations" data-name="@item.Name" data-id="@item.Id" value="Connections" />
+                    <button type="button" class="btn btn-warning detailShowModal" data-id="@item.Id" data-name="@item.Name"
+                            data-ctime="@item.CreatedTime" value="Details">
+                        <i class="fas fa-info-circle"></i> Details
+                    </button>
+                    <button type="button" class="btn btn-danger deleteShowModal" data-name="@item.Name" data-id="@item.Id" value="Delete"><i class="far fa-trash-alt"></i> Delete</button>
+                    <button type="button" class="btn btn-primary relations" data-name="@item.Name" data-id="@item.Id" value="Connections"><i class="fas fa-wifi"></i> Connections</button>
                 </td>
             </tr>
         }
@@ -519,7 +530,7 @@
 
         });
         $('.relations').on('click', SetRelations);
-        $("#relationHideModal").on("click",function () {
+        $("#relationHideModal").on("click", function () {
             $("#relationModal").modal('hide');
         });
     });
@@ -616,8 +627,8 @@
     ////Delete Reletaion////
 
     $(document).ready(function () {
-        
-        $("body").on("click",".showDeleteRelationModal",function () {
+
+        $("body").on("click", ".showDeleteRelationModal", function () {
             $("#deleteRelationModal").modal('show');
             $("#relationModal").modal('hide');
             var id = $(this).data('id');
