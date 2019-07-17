@@ -85,6 +85,7 @@ namespace Beamity.Web
             services.AddScoped(typeof(IBaseGenericRepository<Location>), typeof(GenericRepository<Location>));
             services.AddScoped(typeof(IBaseGenericRepository<User>), typeof(GenericRepository<User>));
             services.AddScoped(typeof(IBaseGenericRepository<Relation>), typeof(GenericRepository<Relation>));
+            services.AddScoped(typeof(IBaseGenericRepository<Statistics>), typeof(GenericRepository<Statistics>));
 
         }
     }
