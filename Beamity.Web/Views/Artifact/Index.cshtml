@@ -44,7 +44,30 @@
         </div>
     </div>
 </div>
-<div class="modal fade" tabindex="-1" id="deleteModal"
+<div class="modal fade" tabindex="-1" id="deleteRelationModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title align-content-lg-start">Delete Relation</h4>
+                <button type="button" class="close text-lg-right" data-dismiss="modal">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body">
+                <h4>Are you sure you want to delete this?</h4>
+                <p id="deleteRelationModalText"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="deleteRelation" class="btn btn-primary button button4">Delete</button>
+                <button type="button" id="deleteRelationModalHideModal" class="btn btn-primary button button4">
+                    Hide
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" id="deleteArtifactModal"
      data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -56,18 +79,17 @@
             </div>
             <div class="modal-body">
                 <h4>Are you sure you want to delete this?</h4>
-                <p id="deleteModalText"></p>
+                <p id="deleteArtifactModalText"></p>
             </div>
             <div class="modal-footer">
-                <button type="button" id="delete" class="btn btn-primary button button4">Delete</button>
-                <button type="button" id="deleteHideModal" class="btn btn-primary button button4">
+                <button type="button" id="deleteArtifact" class="btn btn-primary button button4">Delete</button>
+                <button type="button" id="deleteArtifactHideModal" class="btn btn-primary button button4">
                     Hide
                 </button>
             </div>
         </div>
     </div>
 </div>
-
 <div class="modal fade" tabindex="-1" id="detailModal"
      data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog modal-lg">
@@ -113,8 +135,8 @@
                 <form>
                     <div class="form-group">
                         <label class="control-label">Artifact</label>
-                        <input type="hidden" id="artifactId" />
-                        <input id="artifact" disabled class="form-control"/>
+                        <input type="hidden" class="artifactId" />
+                        <input disabled class="form-control artifact" />
                     </div>
                     <div class="form-group">
                         <label class="control-label">Contents</label>
@@ -153,13 +175,12 @@
                 </button>
             </div>
             <div class="modal-body">
+                <input disabled class="artifact" />
+                <input type="button" class="btn btn-primary" id="addRelation" value="Add Connection" />
 
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>
-                                Artifact
-                            </th>
                             <th>
                                 ContentName
                             </th>
@@ -174,8 +195,8 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody>
-                           @* list relationss *@ 
+                    <tbody id="relationsBody">
+                        @* list relationss *@
 
                     </tbody>
                 </table>
@@ -231,10 +252,10 @@
                     @Html.DisplayFor(modelItem => item.CreatedTime)
                 </td>
                 <td>
-                    <input type="button" class="btn btn-primary" data-id="@item.Id" data-name="@item.Name"
-                           data-ctime="@item.CreatedTime" value="Details" id="detailShowModal" /> |
-                    <input type="button" class="btn btn-primary" id="deleteShowModal" data-name="@item.Name" data-id="@item.Id" value="Delete" />
-                    <input type="button" class="btn btn-primary" id="addRelation" data-name="@item.Name" data-id="@item.Id" value="Add Connection" />
+                    <input type="button" class="btn btn-primary detailShowModal" data-id="@item.Id" data-name="@item.Name"
+                           data-ctime="@item.CreatedTime" value="Details" /> |
+                    <input type="button" class="btn btn-primary deleteShowModal" data-name="@item.Name" data-id="@item.Id" value="Delete" />
+                    <input type="button" class="btn btn-primary relations" data-name="@item.Name" data-id="@item.Id" value="Connections" />
                 </td>
             </tr>
         }
@@ -255,7 +276,7 @@
     $(document).ready(function () {
         debugger
         $.ajax({
-            
+
             url: "/Session/GetVariable",
             data: {
                 key: "LocationId"
@@ -269,10 +290,10 @@
                 alert("couldnt get Session! ");
             }
         });
-        
+
     });
 
-   
+
     $(document).ready(function () {
         $("#btnShowModal").click(function () {
             var options = {};
@@ -334,29 +355,29 @@
         $.ajax(options);
         $("#loginModal").modal('hide');
     });
-   
-        
+
+
     $(document).ready(function () {
-        $('[id="deleteShowModal"]').click(function () {
-            $("#deleteModal").modal('show');
+        $(".deleteShowModal").click(function () {
+            $("#deleteArtifactModal").modal('show');
             var id = $(this).data('id');
             var name = $(this).data('name');
-            $("#deleteModalText").empty();
-            $("#deleteModalText").append(name).append('<input type="hidden" id="deleteModalId"/>');
-            $('#deleteModalId').val(id);
+            $("#deleteArtifactModalText").empty();
+            $("#deleteArtifactModalText").append(name).append('<input type="hidden" id="deleteArtifactModalId"/>');
+            $('#deleteArtifactModalId').val(id);
         });
 
-        $("#deleteHideModal").click(function () {
-            $("#deleteModal").modal('hide');
+        $("#deleteArtifactHideModal").click(function () {
+            $("#deleteArtifactModal").modal('hide');
         });
     });
-    $("#delete").click(function () {
+    $("#deleteArtifact").click(function () {
         swalload();
         var options = {};
         options.url = "https://localhost:5001/api/Artifact/DeleteArtifact";
         options.type = "DELETE";
         var obj = {};
-        obj.Id = $("#deleteModalId").val();
+        obj.Id = $("#deleteArtifactModalId").val();
         options.data = JSON.stringify(obj);
         options.contentType = "application/json";
         options.dataType = "html";
@@ -423,7 +444,7 @@
         $.ajax(options);
     });
     $(document).ready(function () {
-        $('[id="detailShowModal"]').click(function () {
+        $('.detailShowModal').click(function () {
             $("#detailModal").modal('show');
 
             var id = $(this).data('id');
@@ -440,49 +461,48 @@
         $("#detailHideModal").click(function () {
             $("#detailModal").modal('hide');
         });
-        $('[id="addRelation"]').click(function () {
+        $('#addRelation').click(function () {
             ////Get All Contents
-                var options = {};
-                options.url = "https://localhost:5001/api/Content/GetAllContents";
-                var obj = {};
-                obj.Id = locationId;
+            $("#relationModal").modal('hide');
+            var options = {};
+            options.url = "https://localhost:5001/api/Content/GetAllContents";
+            var obj = {};
+            obj.Id = locationId;
+            debugger
+            options.type = "POST";
+            options.dataType = "json";
+            options.contentType = "application/json";
+            options.data = JSON.stringify(obj);
+            options.success = function (data) {
                 debugger
-                options.type = "POST";
-                options.dataType = "json";
-                options.contentType = "application/json";
-                options.data = JSON.stringify(obj);
-                options.success = function (data) {
-                    debugger
-                    data.forEach(function (v) {
-                        $('[id = "contents"]').append('<option value="' + v.id + '">' + v.name + '</option>');
-                    });
-                };
-                options.error = function () {
-                    alert("error");
-                };
+                data.forEach(function (v) {
+                    $('[id = "contents"]').append('<option value="' + v.id + '">' + v.name + '</option>');
+                });
+            };
+            options.error = function () {
+                alert("error");
+            };
             $.ajax(options);
             ////GetAllBeacons
-            $(document).ready(function () {
-                var options = {};
-                options.url = "https://localhost:5001/api/Beacon/GetAllBeacons";
-                var obj = {};
-                obj.Id = locationId;
+            var options = {};
+            options.url = "https://localhost:5001/api/Beacon/GetAllBeacons";
+            var obj = {};
+            obj.Id = locationId;
+            debugger
+            options.type = "POST";
+            options.dataType = "json";
+            options.contentType = "application/json";
+            options.data = JSON.stringify(obj);
+            options.success = function (data) {
                 debugger
-                options.type = "POST";
-                options.dataType = "json";
-                options.contentType = "application/json";
-                options.data = JSON.stringify(obj);
-                options.success = function (data) {
-                    debugger
-                    data.forEach(function (v) {
-                        $('[id = "beacons"]').append('<option value="' + v.id + '">' + v.name + '</option>');
-                    });
-                };
-                options.error = function () {
-                    alert("error");
-                };
-                $.ajax(options);
-            });
+                data.forEach(function (v) {
+                    $('[id = "beacons"]').append('<option value="' + v.id + '">' + v.name + '</option>');
+                });
+            };
+            options.error = function () {
+                alert("error");
+            };
+            $.ajax(options);
             //// get artifact
             var id = $(this).data("id");
             $("#artifactId").val(id);
@@ -495,8 +515,13 @@
 
         $("#createRelationHideModal").click(function () {
             $("#createRelationModal").modal('hide');
-        });
+            $("#relationModal").modal('show');
 
+        });
+        $('.relations').on('click', SetRelations);
+        $("relationHideModal").click(function () {
+            $("#relationModal").modal('hide');
+        });
     });
 
 
@@ -508,7 +533,7 @@
         options.type = "POST";
         debugger
         var obj = {};
-        obj.ArtifactId = $('#artifactId').val();
+        obj.ArtifactId = $('.artifactId').val();
         obj.ConTentId = $('#contents').val();
         obj.BeaconId = $('#beacons').val();
         obj.LocationId = locationId;
@@ -537,7 +562,7 @@
         $("#loginModal").modal('hide');
     });
 
-    
+
     ////Proximity
     $(document).ready(function () {
         var myobject = {
@@ -552,5 +577,85 @@
         for (index in myobject) {
             select.options[select.options.length] = new Option(myobject[index], myobject[index]);
         }
+    });
+    function SetRelations() {
+        console.log(this, 'setRelatıons')
+        $("#relationsBody").empty();
+        var options = {};
+        options.url = "https://localhost:5001/api/Relation/GetRelationsWithArtifact";
+        var obj = {};
+        obj.Id = $(this).data("id");
+        debugger
+        options.type = "POST";
+        options.dataType = "json";
+        options.contentType = "application/json";
+        options.data = JSON.stringify(obj);
+        options.success = function (data) {
+            data.forEach(function (v) {
+                $('#relationsBody").append("<tr>'
+                    + '<td>" + v.contentName + "</td>'
+                    + "<td>" + v.beaconName + "</td>"
+                    + "<td>" + v.proximity + "</td>"
+                    + '<td> <input type="button" data-id="' + v.id + '" class="btn btn-primary showDeleteRelationModal" value="Delete"/></td></tr>');
+            });
+        };
+        options.error = function () {
+            alert("error");
+        };
+        $.ajax(options);
+        debugger;
+        var id = $(this).data("id");
+        $(".artifactId").val(id);
+
+        var name = $(this).data("name");
+        $('.artifact').val(name);
+
+        $("#relationModal").modal('show');
+    }
+
+    ////Delete Reletaion////
+
+    $(document).ready(function () {
+        
+        $(".body").on("click",".showDeleteRelationModal",function () {
+            $("#deleteRelationModal").modal('show');
+            $("#relationModal").modal('hide');
+            var id = $(this).data('id');
+            $("#deleteRelationModalText").empty();
+            $("#deleteRelationModalText").append('<input type="hidden" id="deleteRelationModalId"/>');
+            $('#deleteRelationModalId').val(id);
+        });
+    });
+    $("#deleteRelationModalHideModal").click(function () {
+        $("#deleteRelationModal").modal('hide');
+    });
+
+    $("#deleteRelation").click(function () {
+        swalload();
+        var options = {};
+        options.url = "https://localhost:5001/api/Relation/DeleteRelation";
+        options.type = "DELETE";
+        var obj = {};
+        obj.Id = $("#deleteRelationModalId").val();
+        options.data = JSON.stringify(obj);
+        options.contentType = "application/json";
+        options.dataType = "html";
+        options.dataType = "html";
+        debugger
+        options.success = function () {
+            Swal({
+                type: 'success',
+                title: 'Thanks',
+                text: 'Operation is success',
+            }).then(function () {
+
+                window.location.href = "/Artifact/Index";
+            })
+        };
+        options.error = function () {
+            alert("error");
+        };
+        $("#deleteRelationModal").modal('hide');
+        $.ajax(options);
     });
 </script>

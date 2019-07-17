@@ -1,4 +1,5 @@
 ﻿using Beamity.Application.DTOs;
+using Beamity.Application.DTOs.ArtifactDTOs;
 using Beamity.Application.DTOs.BeaconDTOs;
 using Beamity.Application.DTOs.ContentDTOs;
 using Beamity.Application.DTOs.RelationDTO;
@@ -18,5 +19,6 @@ namespace Beamity.Application.Service.IServices
         Task CreateRelation(CreateRelationDTO input);
         Task DeleteRelationDTO(DeleteRelationDTO input);
         Task UpdateRelation(UpdateRelationDTO input);
+        Task<List<ReadRelationDTO>> GetRelationsWithArtifact(EntityDTO input);
     }
 }
