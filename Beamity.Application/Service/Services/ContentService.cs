@@ -47,6 +47,18 @@ namespace Beamity.Application.Service.Services
             await _repository.Delete(input.Id);
         }
 
+        public async Task<List<ReadContentDTO>> GetAllCampaignContents(EntityDTO input)
+        {
+            var contents = await _repository
+               .GetAll()
+               .Include(x => x.Location)
+               .Where(x => x.IsActive && x.IsCampaign  && x.Location.Id == input.Id)
+               .ToListAsync();
+
+            var result = _mapper.Map<List<ReadContentDTO>>(contents);
+            return result;
+        }
+
         //LocationID
         public async Task<List<ReadContentDTO>> GetAllContents(EntityDTO input)
         {

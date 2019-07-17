@@ -15,6 +15,6 @@ namespace Beamity.Application.Service.IServices
         Task CrateContent(CreateContentDTO input);
         Task UpdateContent(UpdateContentDTO input);
         Task DeleteContent(DeleteContentDTO input);
-
+        Task<List<ReadContentDTO>> GetAllCampaignContents(EntityDTO input);
     }
 }
