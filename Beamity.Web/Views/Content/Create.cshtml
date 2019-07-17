@@ -172,10 +172,10 @@
         debugger;
         if ($(this).is(":checked"))
         {
-            $("input.homePage").val(false);
-            $("#video").empty();
-            $("#audio").empty();
-            $("#inputDescription").empty();
+            $("input.homePage").prop('checked', false);
+            $("#video").val("");
+            $("#audio").val("");
+            $("#inputDescription").val("");
             
             $("input.homePage").attr('disabled', true);
             $("#video").prop('disabled', true);
@@ -183,7 +183,7 @@
             $("#inputDescription").prop('disabled', true);
 
         } else {
-            $("inpu.homePage").removeAttr('disabled');
+            $("input.homePage").removeAttr('disabled');
             $("#video").prop('disabled', false);
             $("#audio").prop('disabled', false);
             $("#inputDescription").prop('disabled', false);
