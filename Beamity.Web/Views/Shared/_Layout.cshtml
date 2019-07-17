@@ -277,7 +277,7 @@
             options.data = JSON.stringify(obj);
             options.success = function (data) {
                 $(".locationName").empty();
-                $(".locationName").text("Project: " data.name);
+                $(".locationName").text("Project: "+ data.name);
             };
             options.error = function () {
                 alert("error");
