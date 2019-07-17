@@ -92,7 +92,7 @@ namespace Beamity.Application.Service.Services
             var location = await _repository
                 .GetAll()
                 .Include(x => x.Project)
-                .FirstOrDefaultAsync(a => a.IsActive && a.Project.Id == input.Id);
+                .FirstOrDefaultAsync(a => a.IsActive && a.Id == input.Id);
             var result = _mapper.Map<ReadLocationDTO>(location);
             result.ProjectName = location.Project.Name;
             return result;
