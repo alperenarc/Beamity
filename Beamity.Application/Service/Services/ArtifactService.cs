@@ -42,20 +42,10 @@ namespace Beamity.Application.Service.Services
         public async Task CreateArtifact(CreateArtifactDTO input)
         {
             var artifact = _mapper.Map<Artifact>(input);
-            if (Guid.Empty != input.RoomId)
-            {
-                artifact.Room =await _roomRepository
-                    .GetAll()
-                    .Include(x => x.Floor)
-                    .ThenInclude(x => x.Building)
-                    .ThenInclude(x => x.Location)
-                    .FirstOrDefaultAsync(x => x.Id == input.RoomId);
-                artifact.Location = artifact.Room.Floor.Building.Location;
-            }
-            else
-            {
-                artifact.Location = await _locationRepository.GetById(input.LocationId);
-            }
+           
+            artifact.RoomId = input.RoomId;
+            
+            artifact.LocationId = input.LocationId;
             await _artifactRepository.Create(artifact);
         }
 

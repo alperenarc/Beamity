@@ -34,16 +34,13 @@ namespace Beamity.API.Controllers
                 throw;
             }
         }
-        [HttpGet]
+        [HttpPost]
         [AllowAnonymous]
-        public async Task<List<ReadContentDTO>> GetAllContents()
+        public async Task<List<ReadContentDTO>> GetAllContents(EntityDTO input)
         {
             try
             {
-                //it wrong it must be deleted from API 
-                //Or App send LocationID
-                EntityDTO dto = new EntityDTO();
-                var contents = await _contentService.GetAllContents( dto );
+                var contents = await _contentService.GetAllContents(input);
                 return contents;
             }
             catch (Exception)
@@ -52,17 +49,13 @@ namespace Beamity.API.Controllers
                 throw;
             }
         }
-        [HttpGet]
+        [HttpPost]
         [AllowAnonymous]
-        public async Task<List<ReadContentDTO>> GetHomeContents()
+        public async Task<List<ReadContentDTO>> GetHomeContents(EntityDTO input)
         {
             try
             {
-
-                //it wrong it must be deleted from API 
-                //Or App send ProjectID ++
-                EntityDTO dto = new EntityDTO();
-                var contents = await _contentService.GetHomePageContents( dto );
+                var contents = await _contentService.GetHomePageContents( input );
                 return contents;
             }
             catch (Exception)

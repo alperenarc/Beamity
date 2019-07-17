@@ -4,14 +4,16 @@ using Beamity.EntityFrameworkCore.EntityFrameworkCore.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Beamity.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(BeamityDbContext))]
-    partial class BeamityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190716143951_fixMigrate")]
+    partial class fixMigrate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -217,17 +219,17 @@ namespace Beamity.EntityFrameworkCore.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("ArtifactId");
+                    b.Property<Guid?>("ArtifactId");
 
-                    b.Property<Guid>("BeaconId");
+                    b.Property<Guid?>("BeaconId");
 
-                    b.Property<Guid>("ContentId");
+                    b.Property<Guid?>("ContentId");
 
                     b.Property<DateTime>("CreatedTime");
 
                     b.Property<bool>("IsActive");
 
-                    b.Property<Guid>("LocationId");
+                    b.Property<Guid?>("LocationId");
 
                     b.Property<int>("Proximity");
 
@@ -393,23 +395,19 @@ namespace Beamity.EntityFrameworkCore.Migrations
                 {
                     b.HasOne("Beamity.Core.Models.Artifact", "Artifact")
                         .WithMany()
-                        .HasForeignKey("ArtifactId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ArtifactId");
 
                     b.HasOne("Beamity.Core.Models.Beacon", "Beacon")
                         .WithMany()
-                        .HasForeignKey("BeaconId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("BeaconId");
 
                     b.HasOne("Beamity.Core.Models.Content", "Content")
                         .WithMany()
-                        .HasForeignKey("ContentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ContentId");
 
                     b.HasOne("Beamity.Core.Models.Location", "Location")
                         .WithMany()
-                        .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("LocationId");
                 });
 
             modelBuilder.Entity("Beamity.Core.Models.Room", b =>

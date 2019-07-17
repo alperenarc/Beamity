@@ -34,15 +34,13 @@ namespace Beamity.API.Controllers
                 throw;
             }
         }
-        [HttpGet]
+        [HttpPost]
         [AllowAnonymous]
-        public async Task<List<ReadBeaconDTO>> GetAllBeacons()
+        public async Task<List<ReadBeaconDTO>> GetAllBeacons(EntityDTO input)
         {
             try
             {
-                //ProjectID
-                EntityDTO dto = new EntityDTO();
-                var beacons = await _beaconService.GetAllBeacons(dto);
+                var beacons = await _beaconService.GetAllBeacons(input);
                 return beacons;
             }
             catch (Exception)

@@ -41,14 +41,13 @@ namespace Beamity.Application.Service.Services
         {
             Relation relation = new Relation()
             {
-                Artifact = await _artifactRepository.GetAll()
-                .Include(x => x.Location).FirstOrDefaultAsync(x => x.Id == input.ArtifactId),
-                Content = await _contentRepository.GetById(input.ContentId),
-                Beacon = await _beaconRepository.GetById(input.BeaconId),
+                ArtifactId = input.ArtifactId,
+                ContentId = input.ContentId,
+                BeaconId = input.BeaconId,
                 Proximity = (Proximity)Enum.Parse(typeof(Proximity), input.Proximity, true),
 
             };
-            relation.Location = relation.Artifact.Location;
+            relation.LocationId = input.LocationId;
             await _relationRepository.Create(relation);
         }
 
