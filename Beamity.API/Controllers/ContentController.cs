@@ -65,6 +65,21 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpPost]
+        [AllowAnonymous]/*locationId*/
+        public async Task<List<ReadContentDTO>> GetCamapignContents(EntityDTO input)
+        {
+            try
+            {
+                var contents = await _contentService.GetHomePageContents(input);
+                return contents;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        [HttpPost]
         public async Task<IActionResult> CreateContent(CreateContentDTO input)
         {
             try

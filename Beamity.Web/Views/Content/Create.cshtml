@@ -172,6 +172,11 @@
         debugger;
         if ($(this).is(":checked"))
         {
+            $("input.homePage").val(false);
+            $("#video").empty();
+            $("#audio").empty();
+            $("#inputDescription").empty();
+            
             $("input.homePage").attr('disabled', true);
             $("#video").prop('disabled', true);
             $("#audio").prop('disabled', true);
