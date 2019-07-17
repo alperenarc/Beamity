@@ -66,11 +66,11 @@ namespace Beamity.API.Controllers
         }
         [HttpPost]
         [AllowAnonymous]/*locationId*/
-        public async Task<List<ReadContentDTO>> GetCamapignContents(EntityDTO input)
+        public async Task<List<ReadContentDTO>> GetCampaignContents(EntityDTO input)
         {
             try
             {
-                var contents = await _contentService.GetHomePageContents(input);
+                var contents = await _contentService.GetAllCampaignContents(input);
                 return contents;
             }
             catch (Exception)
