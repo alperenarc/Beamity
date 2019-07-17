@@ -7,12 +7,23 @@
 
 
 
-<!--Create A New Item-->
-<div class="row justify-content-start m-1">
-    <button id="btnShowModal" type="button" class="btn btn-outline-success">
-        Create New
-    </button>
+
+<!--Create New Button-->
+<div class="col-md-12 mt-2">
+    <div class="row">
+        <div class="col-md-6">
+            <h3>
+                <i class="far fa-list-alt"></i> Locations List Page
+            </h3>
+        </div>
+        <div class="col-md-6 text-right">
+            <button id="btnShowModal" type="button" class="btn btn-success m-1">
+                Create <i class="far fa-plus-square"></i>
+            </button>
+        </div>
+    </div>
 </div>
+<hr />
 <!--Create page for A New Item-->
 <div class="modal fade" tabindex="-1" id="loginModal"
      data-keyboard="false" data-backdrop="static">
@@ -56,6 +67,7 @@
                             <input type="text" class="form-control" id="longitude" placeholder="Longitude">
                         </div>
                     </div>
+                    <input type="file" id="createFile" name="files" />
                     <select class="form-control" id="projects"></select>
                 </form>
             </div>
@@ -143,56 +155,42 @@
 
 
 
-<div class="w-100">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Longitude)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Latitude)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ProjectName)
-                </th>
-                <th>Operations</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Longitude)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Latitude)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ProjectName)
-                    </td>
-                    <td>
-                        <input type="button" class="btn btn-primary" data-id="@item.Id" data-name="@item.Name"
-                               data-ctime="@item.CreatedTime" data-lat="@item.Latitude" data-long="@item.Longitude" value="Details" id="detailShowModal" />
-                        | <input type="button" class="btn btn-primary" id="deleteShowModal" data-name="@item.Name" data-id="@item.Id" value="Delete" />
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-sm-6 mb-2">
+            <div class="card">
+                <div class="card-body">
+                    <p class="text-center"><img src='https://testblobkayten.blob.core.windows.net/blobcontainer/@item.PhotoURL.ToString()' style="height:280px; width:580px" alt="Alternate Text" /></p>
+                    
+                    <hr />
+                    <h4 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h4>
+                    <p class="card-text"><b>Project Type :</b> @Html.DisplayFor(modelItem => item.ProjectName)</p>
+                    <p><span><b>Longitude : </b>@item.Longitude</span> <span><b>Latitude : </b>@item.Latitude</span></p>
+                    <button type="button" class="btn btn-warning" data-id="@item.Id" data-name="@item.Name"
+                            data-ctime="@item.CreatedTime" data-lat="@item.Latitude"
+                            data-long="@item.Longitude" value="Details" id="detailShowModal">
+                        <i class="fas fa-info-circle"></i>
+                        Details
+                    </button>
+                    <button type="button" class="btn btn-danger" id="deleteShowModal"
+                            data-name="@item.Name" data-id="@item.Id" value="Delete">
+                        <i class="far fa-trash-alt"></i>
+                        Delete
+                    </button>
+                    <button type="button" class="btn btn-primary"
+                            id="Choose" name="name" data-id="@item.Id" value="Choose">
+                        <i class="far fa-check-circle"></i>
+                        Select
+
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
 </div>
-
-
-
-
-
 
 
 
@@ -205,7 +203,27 @@
 
 <script type="text/javascript">
 
+    var userId;
 
+    $(document).ready(function () {
+        debugger
+        $.ajax({
+
+            url: "/Session/GetVariable",
+            data: {
+                key: "UserId"
+            },
+            cache: false,
+            type: "POST",
+            success: function (response) {
+                userId = response.d;
+            },
+            error: function () {
+                alert("couldnt get Session! ");
+            }
+        });
+
+    });
     var Lat;
     var Lng;
 
@@ -219,7 +237,6 @@
     map.on('load', function () {
         map.resize();
     });
-
     var marker = new mapboxgl.Marker();
     map.on('click', function (e) {
 
@@ -233,17 +250,12 @@
         marker.setLngLat([Lng, Lat])
         marker.addTo(map);
     });
-
-
-
     var layerList = document.getElementById('menu');
     var inputs = layerList.getElementsByTagName('input');
-
     function switchLayer(layer) {
         var layerId = layer.target.id;
         map.setStyle('mapbox://styles/mapbox/' + layerId);
     }
-
     for (var i = 0; i < inputs.length; i++) {
         inputs[i].onclick = switchLayer;
     }
@@ -265,6 +277,9 @@
             }
         });
     }
+    ////////////////////////////////
+
+    ////////////////////////////////////
     $(document).ready(function () {
         $("#btnShowModal").click(function () {
             $("#loginModal").modal('show');
@@ -276,19 +291,23 @@
             $("#loginModal").modal('hide');
         });
     });
+
     $("#create").click(function () {
         swalload();
         var options = {};
-        options.url = "https://localhost:5001/api/Location/CreateLocation";
+        options.url = "/Location/Create";
         options.type = "POST";
-        var obj = {};
-        obj.Name = $("#inputName").val();
-        obj.Latitude = Lat.toString();
-        obj.Longitude = Lng.toString();
-        obj.ProjectId = $("#projects").val();
-        options.data = JSON.stringify(obj);
-        options.contentType = "application/json";
-        options.dataType = "html";
+        debugger
+        var obj = new FormData();
+        obj.append('Name', $("#inputName").val());
+        obj.append('Latitude', Lat.toString());
+        obj.append('Longitude', Lng.toString());
+        obj.append('UserId', userId);
+        obj.append('Photo', $("#createFile")[0].files[0]);
+        obj.append('ProjectId', $("#projects").val());
+        options.data = obj;
+        options.contentType = false;
+        options.processData = false;
         options.success = function (msg) {
             $("#msg").html(msg);
             Swal({
@@ -450,6 +469,28 @@
             alert("error");
         };
         $.ajax(options);
+    });
+    $('[id = "Choose"]').click(function () {
+        swalload()
+        var Id = $(this).data("id");
+        debugger
+        $.post('/Session/SetVariable',
+            {
+                key: "LocationId",
+                value: Id
+            }, function (data) {
+                Swal({
+                    type: 'success',
+                    title: 'Thanks',
+                    text: 'Operation is success',
+                }).then(function () {
+
+                    window.location.href = "/Location/Index";
+                })
+            }).success(function () {
+
+
+            });
     });
 </script>
 

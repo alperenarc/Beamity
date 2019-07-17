@@ -50,7 +50,7 @@ namespace Beamity.Web.Blob
                 string extension = Path.GetExtension(file.FileName);
                 _blockBlob = _container.GetBlockBlobReference(FileNameHelper.CreateFileName(extension));
                 await _blockBlob.UploadFromStreamAsync(_stream);
-                return "/" + _blockBlob.Name;
+                return _blockBlob.Name;
             }
             return null;
         }
