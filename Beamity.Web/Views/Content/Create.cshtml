@@ -63,7 +63,7 @@
                 <div class="col-md-6">
                     <div class="form-group form-check">
                         <label class="form-check-label">
-                            <input class="form-check-input" id="isHome" asp-for="IsHomePage" /> @Html.DisplayNameFor(model => model.IsHomePage)
+                            <input class="form-check-input homePage" id="isHome" asp-for="IsHomePage" /> @Html.DisplayNameFor(model => model.IsHomePage)
                         </label>
 
                     </div>
@@ -71,7 +71,7 @@
                 <div class="col-md-6">
                     <div class="form-group form-check">
                     <label class="form-check-label">
-                        <input class="form-check-input" id="isCampaign" asp-for="IsHomePage" /> @Html.DisplayNameFor(model => model.IsCampaign)
+                        <input class="form-check-input campaign" id="isCampaign" asp-for="IsCampaign" /> @Html.DisplayNameFor(model => model.IsCampaign)
                     </label>
 
                 </div>
@@ -167,5 +167,21 @@
             alert(error.msg);
         };
         $.ajax(options);
+    });
+    $("#isCampaign").change(function () {
+        debugger;
+        if ($(this).is(":checked"))
+        {
+            $("input.homePage").attr('disabled', true);
+            $("#video").prop('disabled', true);
+            $("#audio").prop('disabled', true);
+            $("#inputDescription").prop('disabled', true);
+
+        } else {
+            $("inpu.homePage").removeAttr('disabled');
+            $("#video").prop('disabled', false);
+            $("#audio").prop('disabled', false);
+            $("#inputDescription").prop('disabled', false);
+        }
     });
 </script>
