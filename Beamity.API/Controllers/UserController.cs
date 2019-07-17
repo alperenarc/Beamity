@@ -57,12 +57,12 @@ namespace Beamity.API.Controllers
         }
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> ConfirmEmail(ConfirmationDTO input)
+        public IActionResult ConfirmEmail(ConfirmationDTO input)
         {
             //confirmCode = HttpContext.Request.Query["guidcode"].ToString();
             try
             {
-                await _userService.ConfirmEmail(input.ConfirmCode);
+                 _userService.ConfirmEmail(input.ConfirmCode);
                 return Ok("Success");
             }
             catch (Exception)
