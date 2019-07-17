@@ -7,6 +7,7 @@ namespace Beamity.Application.DTOs.RelationDTO
         public Guid ArtifactId { get; set; }
         public Guid ContentId { get; set; }
         public Guid BeaconId { get; set; }
+        public Guid LocationId { get; set; }
         public string Proximity { get; set; }
 
     }

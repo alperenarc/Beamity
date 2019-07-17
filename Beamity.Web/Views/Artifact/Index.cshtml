@@ -99,7 +99,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" tabindex="-1" id="relationModal"
+<div class="modal fade" tabindex="-1" id="createRelationModal"
      data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -111,16 +111,15 @@
             </div>
             <div class="modal-body">
                 <form>
-
+                    <div class="form-group">
+                        <label class="control-label">Artifact</label>
+                        <input type="hidden" id="artifactId" />
+                        <input id="artifact" disabled class="form-control"/>
+                    </div>
                     <div class="form-group">
                         <label class="control-label">Contents</label>
 
                         <select id="contents" class="form-control"></select>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label">Artifacts</label>
-                        <select id="artifacts" class="form-control"></select>
                     </div>
 
                     <div class="form-group">
@@ -135,15 +134,60 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" id="create" class="btn btn-primary button button4">Create</button>
-                <button type="button" id="btnHideModal" class="btn btn-primary button button4">
+                <button type="button" id="connect" class="btn btn-primary button button4">Create</button>
+                <button type="button" id="createRelationHideModal" class="btn btn-primary button button4">
                     Hide
                 </button>
             </div>
         </div>
     </div>
 </div>
+<div class="modal fade" tabindex="-1" id="relationModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title align-content-lg-start">Create Artifact</h4>
+                <button type="button" class="close text-lg-right" data-dismiss="modal">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body">
 
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Artifact
+                            </th>
+                            <th>
+                                ContentName
+                            </th>
+                            <th>
+                                Beacon
+                            </th>
+                            <th>
+                                Proximity
+                            </th>
+                            <th>
+                                Operations
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                           @* list relationss *@ 
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="relationHideModal" class="btn btn-primary button button4">
+                    Hide
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -397,13 +441,60 @@
             $("#detailModal").modal('hide');
         });
         $('[id="addRelation"]').click(function () {
-            $("#relationModal").modal('show');
+            ////Get All Contents
+                var options = {};
+                options.url = "https://localhost:5001/api/Content/GetAllContents";
+                var obj = {};
+                obj.Id = locationId;
+                debugger
+                options.type = "POST";
+                options.dataType = "json";
+                options.contentType = "application/json";
+                options.data = JSON.stringify(obj);
+                options.success = function (data) {
+                    debugger
+                    data.forEach(function (v) {
+                        $('[id = "contents"]').append('<option value="' + v.id + '">' + v.name + '</option>');
+                    });
+                };
+                options.error = function () {
+                    alert("error");
+                };
+            $.ajax(options);
+            ////GetAllBeacons
+            $(document).ready(function () {
+                var options = {};
+                options.url = "https://localhost:5001/api/Beacon/GetAllBeacons";
+                var obj = {};
+                obj.Id = locationId;
+                debugger
+                options.type = "POST";
+                options.dataType = "json";
+                options.contentType = "application/json";
+                options.data = JSON.stringify(obj);
+                options.success = function (data) {
+                    debugger
+                    data.forEach(function (v) {
+                        $('[id = "beacons"]').append('<option value="' + v.id + '">' + v.name + '</option>');
+                    });
+                };
+                options.error = function () {
+                    alert("error");
+                };
+                $.ajax(options);
+            });
+            //// get artifact
+            var id = $(this).data("id");
+            $("#artifactId").val(id);
 
-            
+            var name = $(this).data("name");
+            $("#artifact").val(name);
+
+            $("#createRelationModal").modal('show');
         });
 
-        $("#relationHideModal").click(function () {
-            $("#relationModal").modal('hide');
+        $("#createRelationHideModal").click(function () {
+            $("#createRelationModal").modal('hide');
         });
 
     });
@@ -417,9 +508,10 @@
         options.type = "POST";
         debugger
         var obj = {};
-        obj.ArtifactId = $('#artifacts').val();
+        obj.ArtifactId = $('#artifactId').val();
         obj.ConTentId = $('#contents').val();
         obj.BeaconId = $('#beacons').val();
+        obj.LocationId = locationId;
         obj.Proximity = $('#proximity').val();
         ////Add Data/////
 
@@ -435,7 +527,7 @@
                 text: 'Operation is success',
             }).then(function () {
 
-                window.location.href = "/Relation/Index";
+                window.location.href = "/Artifact/Index";
             })
         };
         options.error = function () {
@@ -444,50 +536,8 @@
         $.ajax(options);
         $("#loginModal").modal('hide');
     });
-    ////Get All Contents
-    $(document).ready(function () {
-        var options = {};
-        options.url = "https://localhost:5001/api/Content/GetAllContents";
-        var obj = {};
-        obj.Id = locationId;
-        debugger
-        options.type = "POST";
-        options.dataType = "json";
-        options.contentType = "application/json";
-        options.data = JSON.stringify(obj);
-        options.success = function (data) {
-            debugger
-            data.forEach(function (v) {
-                $('[id = "contents"]').append('<option value="' + v.id + '">' + v.name + '</option>');
-            });
-        };
-        options.error = function () {
-            alert("error");
-        };
-        $.ajax(options);
-    });
-    ////GetAllBeacons
-    $(document).ready(function () {
-        var options = {};
-        options.url = "https://localhost:5001/api/Beacon/GetAllBeacons";
-        var obj = {};
-        obj.Id = locationId;
-        debugger
-        options.type = "POST";
-        options.dataType = "json";
-        options.contentType = "application/json";
-        options.data = JSON.stringify(obj);
-        options.success = function (data) {
-            debugger
-            data.forEach(function (v) {
-                $('[id = "beacons"]').append('<option value="' + v.id + '">' + v.name + '</option>');
-            });
-        };
-        options.error = function () {
-            alert("error");
-        };
-        $.ajax(options);
-    });
+
+    
     ////Proximity
     $(document).ready(function () {
         var myobject = {

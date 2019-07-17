@@ -69,11 +69,11 @@ namespace Beamity.API.Controllers
             return content;
         }
         [HttpPost]
-        public void CreateRelation(CreateRelationDTO input)
+        public async Task CreateRelation(CreateRelationDTO input)
         {
             try
             {
-                _relationService.CreateRelation(input);
+                await _relationService.CreateRelation(input);
             }
             catch (Exception)
             {
@@ -81,11 +81,11 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpDelete]
-        public void DeleteRelation(DeleteRelationDTO input)
+        public async Task DeleteRelation(DeleteRelationDTO input)
         {
             try
             {
-                _relationService.DeleteRelationDTO(input);
+                await _relationService.DeleteRelationDTO(input);
             }
             catch (Exception)
             {
@@ -93,11 +93,11 @@ namespace Beamity.API.Controllers
             }
         }
         [HttpPut]
-        public void UpdateRelation(UpdateRelationDTO input)
+        public async Task UpdateRelation(UpdateRelationDTO input)
         {
             try
             {
-                _relationService.UpdateRelation(input);
+                await _relationService.UpdateRelation(input);
             }
             catch (Exception)
             {
