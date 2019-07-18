@@ -28,6 +28,10 @@ namespace Beamity.API
             services.AddTransient<IRoomService, RoomService>();
             services.AddTransient<IRelationService, RelationService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IAnalyticService, AnalyticService>();
+
 
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddScoped(typeof(IBaseGenericRepository<>), typeof(GenericRepository<>));
@@ -45,8 +49,7 @@ namespace Beamity.API
 
             services.AddSingleton<ITokenHandler,Beamity.Application.Tokens.TokenHandler>();
 
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IAuthenticationService, AuthenticationService>();
+            
 
             services.Configure<TokenOptions>(Configuration.GetSection("TokenOptions"));
             var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
