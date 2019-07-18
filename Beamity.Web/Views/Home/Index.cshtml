@@ -100,7 +100,7 @@
         var xAxis = chart.xAxes.push(new am4charts.CategoryAxis());
         var yAxis = chart.yAxes.push(new am4charts.CategoryAxis());
 
-        xAxis.dataFields.category = "beacon";
+        xAxis.dataFields.category = "name";
         yAxis.dataFields.category = "hour";
 
         xAxis.renderer.grid.template.disabled = true;
