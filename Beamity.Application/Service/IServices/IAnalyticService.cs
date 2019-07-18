@@ -13,7 +13,7 @@ namespace Beamity.Application.Service.IServices
         //Task GetArtifactVisitorCount(EntityDTO input);
         //ContentId
         //Task GetContentOpenedCount(EntityDTO input);
-        Task<List<ReadAnalyticDTO>> GetAllBeaconsWithHours();
+        Task<List<ReadAnalyticDTO>> GetAllBeaconsWithHours(EntityDTO input);
         Task CreateAnalytic(CreateAnalyticDTO input);
     }
 }
