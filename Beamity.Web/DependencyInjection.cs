@@ -35,6 +35,7 @@ namespace Beamity.Web
             services.AddTransient<IRoomService, RoomService>();
             services.AddTransient<IRelationService, RelationService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddScoped<IAnalyticService, AnalyticService>();
 
             //services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             //services.AddScoped<RoomRepository, RoomRepository>();
