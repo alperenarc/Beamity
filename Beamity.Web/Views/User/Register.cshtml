@@ -88,7 +88,7 @@
                         </div>
                     </div>
                     <div id="msg"></div>
-                    <input class="btn btn-primary btn-block" type="submit" id="register" value="Register" />
+                    <input class="btn btn-primary btn-block" type="submit" disabled id="register" value="Register" />
 
                 </form>
                 <div class="text-center">
@@ -110,8 +110,10 @@
                 debugger
                 if ($("#inputPassword").val() != $("#confirmPassword").val()) {
                     $("#msg").html("Password do not match").css("color", "red");
+                    $("#register").prop("disabled", true);
                 } else {
                     $("#msg").html("Password matched").css("color", "green");
+                    $("#register").prop("disabled", false);
                 }
             });
         });

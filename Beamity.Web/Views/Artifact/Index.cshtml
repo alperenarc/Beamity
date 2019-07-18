@@ -590,7 +590,6 @@
         }
     });
     function SetRelations() {
-        console.log(this, 'setRelatıons')
         $("#relationsBody").empty();
         var options = {};
         options.url = "https://localhost:5001/api/Relation/GetRelationsWithArtifact";
@@ -609,7 +608,7 @@
                     + "<td>" + v.proximity + "</td>"
                     + "<td> <input type='button' data-id='" + v.id + "' class='btn btn-primary showDeleteRelationModal' value='Delete'/></td></tr>");
             });
-        };
+        }
         options.error = function () {
             alert("error");
         };
