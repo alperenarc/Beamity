@@ -16,86 +16,115 @@
     <link href="~/css/Hover.min.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/9e517a54b5.js"></script>
     <title>Welcome to Beamity</title>
+    <style>
+        .Content::after {
+            content: "";
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            position: absolute;
+            z-index: -1;
+            height: auto;
+            background: linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5) ), url(https://www.innvonix.com/wp-content/uploads/2018/03/iBeacon-Shopping-Deal.png) no-repeat center center fixed;
+        }
+        .maintext {
+            margin-top:100px;
+            background-color: gray;
+            background-color: rgba(0,0,0,.5);
+            padding-bottom:10px;
+            padding-top:10px;
+            color:#fff;
+        }
+        .icons, .buttons {
+            opacity: 0.8;
+        }
+    </style>
 </head>
 <body>
-    <div class="Header pb-2" style="background-color: #212529; width: auto; ">
+    @*<div class="Header pb-2" style="background-color: #212529; width: auto; ">
+
+        </div>*@
+
+    <div class="Content pt-3 pb-3">
         <div class="text-center">
             <img src="~/image/logo.png" style="width:300px;" />
             <h4 class="text-white">Beacon Proximity Technology</h4>
         </div>
-    </div>
-    <div class="Content pt-3 pb-3">
-        <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="head">
-                        <h2 class="text-center">What is beacon ?</h2>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="row">
 
-                            <div class="col-md-8">
-                                It’s kind of like a lighthouse: it repeatedly transmits a single signal that other devices can see. Instead of emitting visible light, though, it broadcasts a radio signal that is made up of a combination of letters and numbers transmitted on a regular interval of approximately 1/10th of a second. A Bluetooth-equipped device like a smartphone can “see” a beacon once it’s in range, much like sailors looking for a lighthouse to know where they are.
-                            </div>
-                            <div class="col-md-4">
-                                <img src="~/image/beaconn.png" style="width: 200px;" />
+        <div class="maintext">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="head">
+                            <h2 class="text-center">What is beacon ?</h2>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+
+                                <div class="col-md-8">
+                                    It’s kind of like a lighthouse: it repeatedly transmits a single signal that other devices can see. Instead of emitting visible light, though, it broadcasts a radio signal that is made up of a combination of letters and numbers transmitted on a regular interval of approximately 1/10th of a second. A Bluetooth-equipped device like a smartphone can “see” a beacon once it’s in range, much like sailors looking for a lighthouse to know where they are.
+                                </div>
+                                <div class="col-md-4">
+                                    <img src="~/image/beaconn.png" style="width: 200px;" class="icons hvr-grow" />
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="head">
-                        <h2 class="text-center">What is CMS ?</h2>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-4">
-                                @*<img src="~/image/CMS.png" style="width: 240px;" />*@
-                                <img src="~/image/fm-resc-lo-central-management-system.png" style="width: 210px;" />
-                            </div>
-                            <div class="col-md-8">
-                                A content management system (CMS) is a software application or set of related programs that are used to create and manage digital content. CMSes are typically used for enterprise content management (ECM) and web content management (WCM). An ECM facilitates collaboration in the workplace by integrating document management, digital asset management and records retention functionalities, and providing end users with role-based access to the organization's digital assets.
+                    <div class="col-md-6">
+                        <div class="head">
+                            <h2 class="text-center">What is CMS ?</h2>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    @*<img src="~/image/CMS.png" style="width: 240px;" />*@
+                                    <img src="~/image/fm-resc-lo-central-management-system.png" class="icons hvr-grow" style="width: 210px;" />
+                                </div>
+                                <div class="col-md-8">
+                                    A content management system (CMS) is a software application or set of related programs that are used to create and manage digital content. CMSes are typically used for enterprise content management (ECM) and web content management (WCM). An ECM facilitates collaboration in the workplace by integrating document management, digital asset management and records retention functionalities, and providing end users with role-based access to the organization's digital assets.
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-12">
-            <div class="text-center">
-                <h3>Join us for free</h3>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <p>
-                        <a href="/User/Register" class="text-white" style="text-decoration: none; ">
-                            <div class="card hvr-grow" style="width: 18rem; float: right; background-color: #FFC107; border-radius: 10px; border: none;">
-                                <div class="card-body text-center">
-                                    <h5 class="card-title">SIGN UP <i class="fas fa-sign-in-alt"></i></h5>
-                                </div>
-                            </div>
-                        </a>
-                    </p>
+            <div class="col-md-12">
+                <div class="text-center">
+                    <h3>Join us for free</h3>
                 </div>
-                <div class="col-md-6">
-                    <p>
-                        <a href="/User/Login" class="text-white" style="text-decoration: none;">
-                            <div class="card hvr-grow" style="width: 18rem; float: left; background-color: #DC3545; border-radius: 10px; border: none;">
-                                <div class="card-body text-center">
-                                    <h5 class="card-title">SIGN IN <i class="fas fa-sign-in-alt"></i></h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>
+                            <a href="/User/Register" class="text-white" style="text-decoration: none; ">
+                                <div class="card hvr-grow buttons" style="width: 18rem; float: right; background-color: #FFC107; border-radius: 10px; border: none;">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">SIGN UP <i class="fas fa-sign-in-alt"></i></h5>
+                                    </div>
                                 </div>
-                            </div>
-                        </a>
-                    </p>
+                            </a>
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <p>
+                            <a href="/User/Login" class="text-white" style="text-decoration: none;">
+                                <div class="card hvr-grow buttons" style="width: 18rem; float: left; background-color: #DC3545; border-radius: 10px; border: none;">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">SIGN IN <i class="fas fa-sign-in-alt"></i></h5>
+                                    </div>
+                                </div>
+                            </a>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    
-    <div class="Footer fixed-bottom p-2" style="background-color:#212529;">
-        
+
+    @*<div class="Footer fixed-bottom p-2" style="background-color:#212529;">
+
         <p class="text-center text-white pt-2 pb-2">Copyright © Beamity <b>2019</b> </p>
-    </div>
+    </div>*@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
