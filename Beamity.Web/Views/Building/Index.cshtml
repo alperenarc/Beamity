@@ -32,19 +32,20 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form name="CreateBuildingForm" onsubmit="return false">
                     <div class="form-group">
                         <input class="form-control" type="text"
-                               placeholder="Building Name" id="inputName" />
+                               placeholder="Building Name" id="inputName" required />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" id="create" class="btn btn-primary">Create</button>
+                        <button type="button" id="btnHideModal" class="btn btn-primary">
+                            Hide
+                        </button>
                     </div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" id="create" class="btn btn-primary button button4">Create</button>
-                <button type="button" id="btnHideModal" class="btn btn-primary button button4">
-                    Hide
-                </button>
-            </div>
+            
         </div>
     </div>
 </div>
@@ -254,19 +255,20 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form name="CreateFloorForm" onsubmit="return false">
                     <div class="form-group">
                         <input class="form-control" type="text"
-                               placeholder="Floor Name" id="floorname" />
+                               placeholder="Floor Name" id="floorname" required/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" id="CreateFloorButton" class="btn btn-primary">Create</button>
+                        <button type="button" id="HideCreateFloorModal" class="btn btn-primary">
+                            Hide
+                        </button>
                     </div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" id="CreateFloorButton" class="btn btn-primary">Create</button>
-                <button type="button" id="HideCreateFloorModal" class="btn btn-primary">
-                    Hide
-                </button>
-            </div>
+            
         </div>
     </div>
 </div>
@@ -307,20 +309,20 @@
             </div>
             <div class="modal-body">
                 <p>You adding room on <b id="floorName"></b> </p>
-                <form>
+                <form name="CreateRoomForm" onsubmit="return false">
                     <div class="form-group">
                         <input class="form-control" type="text"
-                               placeholder="Room Name" id="RoomName" />
+                               placeholder="Room Name" id="RoomName" required />
                     </div>
-
+                    <div class="modal-footer">
+                        <button type="submit" id="CreateRoomButton" class="btn btn-primary">Create</button>
+                        <button type="button" id="btnHideModal" class="btn btn-primary">
+                            Hide
+                        </button>
+                    </div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" id="CreateRoomButton" class="btn btn-primary button button4">Create</button>
-                <button type="button" id="btnHideModal" class="btn btn-primary button button4">
-                    Hide
-                </button>
-            </div>
+            
         </div>
     </div>
 </div>
@@ -517,7 +519,7 @@
 
     });
     /*Create Building*/
-    $("#create").click(function () {
+    $('form[name=CreateBuildingForm]').submit(function () {
         swalload();
         var options = {};
         options.url = "https://localhost:5001/api/Building/CreateBuilding/";
@@ -653,7 +655,7 @@
         });
     });
     /*Create Floor*/
-    $("#CreateFloorButton").click(function () {
+    $('form[name=CreateFloorForm]').submit(function () {
         swalload();
         var options = {};
         options.url = "https://localhost:5001/api/Floor/CreateFloor";
@@ -751,7 +753,7 @@
             $("#floorName").append(selectedFloorName);
         });
     });
-    $("#CreateRoomButton").click(function () {
+    $('form[name=CreateRoomForm]').submit(function () {
         swalload();
         var options = {};
         options.url = "https://localhost:5001/api/Room/CreateRoom/";
@@ -771,7 +773,7 @@
                 text: 'Operation is success',
             }).then(function () {
 
-                
+                window.location.reload();
             })
         };
         options.error = function () {
@@ -818,7 +820,7 @@
                 title: 'Thanks',
                 text: 'Operation is success',
             }).then(function () {
-                //$("#floorModal").modal('show');
+                window.location.reload();
             })
         };
         options.error = function () {
@@ -827,7 +829,7 @@
                 title: 'Oppsss...',
                 text: 'Operation is not success. The item you want to delete have a relation.',
             }).then(function () {
-                //$("#floorModal").modal('show');
+                window.location.reload();
             })
         };
         //$("#deleteFloorModal").modal('hide');
