@@ -16,12 +16,13 @@ namespace Beamity.Application.Helpers
             message.Subject = "Confirm Your Email"; // This are for the subject
             message.Body = new TextPart("html")
             {
+                
                 // This are for the content
                 Text = "Beamity CMS Application<br/>Please click the link for confirm your account ! <br/>" +
                 "<a href='https://localhost:4001/confirmation/verification/?guidcode=" + guidkey + "'>Confirm Link<a/>"
                 //Confirmation / Verification /
+
             };
-            
 
             using (var client = new MailKit.Net.Smtp.SmtpClient())
             {

@@ -88,17 +88,17 @@ namespace Beamity.Application.Service.Services
             await _userRepository.Update(input.Id,user);
         }
 
-        public async Task<User> ConfirmEmail(string ConfirmCode)
+        public User ConfirmEmail(string ConfirmCode)
         {
-            var user = await _userRepository
+            var user =  _userRepository
                 .GetAll()
-                .Where(x => x.Token == Convert.ToString(ConfirmCode))
-                .FirstOrDefaultAsync();
+                .Where(x => x.Token == ConfirmCode).FirstOrDefault();
             
             user.IsActive = true;
             
+            
             var confirmuser = _mapper.Map<User>(user);
-            await _userRepository.Update(user.Id, user);
+             _userRepository.Update(user.Id, user);
 
             return user;
         }
