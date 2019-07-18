@@ -5,6 +5,7 @@ using Beamity.Application.DTOs.ArtifactDTOs;
 using Beamity.Application.DTOs.BeaconDTOs;
 using Beamity.Application.DTOs.ContentDTOs;
 using Beamity.Application.DTOs.RelationDTO;
+using Beamity.Application.DTOs.RelationDTOs;
 using Beamity.Application.Service.IServices;
 using Beamity.Core.Models;
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Interfaces;
@@ -113,7 +114,7 @@ namespace Beamity.Application.Service.Services
             //Get Relation for beacon ID
             var relation = await _relationRepository.GetAll()
                 .Include(x => x.Beacon)
-                .Where(x => x.Beacon.Id == beacon.Id).FirstOrDefaultAsync();
+                .Where(x => x.Beacon.Id == beacon.Id && GetEnumString(x.Proximity) == input.Proximity).FirstOrDefaultAsync();
 
             ReadContentDTO da = new ReadContentDTO();
             if (relation != null)
@@ -198,6 +199,47 @@ namespace Beamity.Application.Service.Services
                     break;
             }
             return result;
+        }
+
+        public async Task<ReadArtifactAndContentDTO> GetRelationWithBeacon(GetContentWithBeaconDTO input)
+        {
+            //Get Beacon for Major Minor and UUID.
+            var beacon = await _beaconRepository.GetAll()
+                .FirstOrDefaultAsync(x => x.UUID == input.UUID && x.Major == input.Major && x.Minor == input.Minor);
+
+            //create analytics
+            await _analyticService.CreateAnalytic(new CreateAnalyticDTO(beacon.Id));
+
+            //Get Relation for beacon ID
+            var relation = await _relationRepository.GetAll()
+                .Include(x => x.Beacon)
+                .Include(x => x.Artifact)
+                .Include( x => x.Content)
+                .Where(x => x.Beacon.Id == beacon.Id && GetEnumString(x.Proximity) == input.Proximity).FirstOrDefaultAsync();
+            if (relation == null)
+            {
+                return new ReadArtifactAndContentDTO();
+            }
+            ReadArtifactAndContentDTO dto = new ReadArtifactAndContentDTO()
+            {
+                ArtifactName = relation.Artifact.Name,
+                ContentName = relation.Content.Name,
+                Title = relation.Content.Title,
+                Description = relation.Content.Description,
+                MainImageURL = relation.Content.MainImageURL,
+                VideoURL = relation.Content.VideoURL,
+                SlideImageURL = relation.Content.SlideImageURL,
+                AudioURL = relation.Content.AudioURL,
+                Text = relation.Content.Text,
+                IsHomePage = relation.Content.IsHomePage,
+                IsCampaign = relation.Content.IsCampaign,
+
+            };
+            
+           
+
+           
+            return dto;
         }
     }
 }

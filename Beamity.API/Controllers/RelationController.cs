@@ -7,6 +7,7 @@ using Beamity.Application.DTOs.ArtifactDTOs;
 using Beamity.Application.DTOs.BeaconDTOs;
 using Beamity.Application.DTOs.ContentDTOs;
 using Beamity.Application.DTOs.RelationDTO;
+using Beamity.Application.DTOs.RelationDTOs;
 using Beamity.Application.Service.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -80,6 +81,18 @@ namespace Beamity.API.Controllers
                 return null;
             }
             return relations;
+        }
+        [HttpPost]
+        public async Task<ReadArtifactAndContentDTO> GetRelationWithBeacon(GetContentWithBeaconDTO input)
+        {
+            try
+            {
+                return await _relationService.GetRelationWithBeacon(input); 
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
         [HttpPost]
         public async Task CreateRelation(CreateRelationDTO input)
