@@ -12,6 +12,6 @@ namespace Beamity.Application.Service.IServices
         Task Register(CreateUserDTO input);
         Task<User> Login(LoginUserDTO input);
         Task UpdateProfile(UpdateUserDTO input);
-        Task<User> ConfirmEmail(string confirmCode);
+        User ConfirmEmail(string confirmCode);
     }
 }
