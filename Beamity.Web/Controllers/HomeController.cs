@@ -26,7 +26,8 @@ namespace Beamity.Web.Controllers
                 {
                     Beacon = row.BeaconName,
                     row.CreatedTime.Hour
-                }).Select(grp => new AnalyticViewModel
+                }).OrderByDescending(x => x.Key.Hour)
+                .Select(grp => new AnalyticViewModel
                 {
                     Name = grp.Key.Beacon,
                     Hour = grp.Key.Hour,
