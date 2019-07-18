@@ -9,13 +9,13 @@
 <hr />
 <div class="row">
     <div class="col-md-12">
-        <form asp-action="Create" enctype="multipart/form-data">
+        <form asp-action="Create" name="createForm" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-row">
                 <div class="form-group col">
                     <label asp-for="Name" class="control-label"></label>
-                    <input asp-for="Name" id="inputName" class="form-control" required />
+                    <input asp-for="Name" id="inputName" name="name" class="form-control" required />
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <div class="form-group col">
@@ -28,7 +28,7 @@
             <div class="form-row">
                 <div class="form-group col">
                     <label asp-for="Description" class="control-label"></label>
-                    <textarea asp-for="Description" id="inputDescription" style="height:240px;" maxlength="100" class="form-control" required></textarea>
+                    <textarea asp-for="Description" id="inputDescription" style="height:240px;" maxlength="100" class="form-control" required aria-required="true"></textarea>
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
                 <div class="form-group col">
@@ -115,7 +115,15 @@
             }
         });
     }
+    function validateForm() {
+        var x = document.forms["createForm"]["name"].value;
+        if (x = "") {
+            alert("Name must be filled out");
+            return false;
+        }
+    }
     $("#create").click(function () {
+        validateForm();
         var a;
         if ($('#isHome').is(":checked")) {
             a = true;
