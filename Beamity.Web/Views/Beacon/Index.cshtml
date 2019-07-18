@@ -31,37 +31,35 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form name="formcreate" onsubmit="return false">
                     <div class="form-group">
-                        <input class="form-control" type="text"
-                               placeholder="Beacon Name" id="inputName" />
+                        <input class="form-control input" type="text"
+                               placeholder="Beacon Name" id="inputName" required @*oninvalid="this.setCustomValidity('Pasdad')"*@ />
                     </div>
                     <div class="form-group">
-                        <input class="form-control" placeholder="Login UUID"
-                               id="inputUUID" />
+                        <input class="form-control input" placeholder="Login UUID"
+                               id="inputUUID" required />
                     </div>
                     <div class="form-group">
-                        <input class="form-control" type="number"
-                               placeholder="Major Id" id="inputMajor" />
+                        <input class="form-control input" type="number"
+                               placeholder="Major Id" id="inputMajor" required/>
                     </div>
                     <div class="form-group">
-                        <input class="form-control" type="number"
-                               placeholder="Minor Id" id="inputMinor" />
+                        <input class="form-control input" type="number"
+                               placeholder="Minor Id" id="inputMinor" required/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" id="create" class="btn btn-primary button button4">Create</button>
+                        <button type="button" id="btnHideModal" class="btn btn-primary button button4">
+                            Hide
+                        </button>
                     </div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" id="create" class="btn btn-primary button button4">Create</button>
-                <button type="button" id="btnHideModal" class="btn btn-primary button button4">
-                    Hide
-                </button>
-            </div>
+            
         </div>
     </div>
 </div>
-
-
-
 <div class="modal fade" tabindex="-1" id="deleteModal"
      data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog modal-lg">
@@ -74,7 +72,7 @@
             </div>
             <div class="modal-body">
                 <h4>Are you sure you want to delete this?</h4>
-               <p id="deleteModalText"></p>
+                <p id="deleteModalText"></p>
             </div>
             <div class="modal-footer">
                 <button type="button" id="delete" class="btn btn-primary button button4">Delete</button>
@@ -85,9 +83,6 @@
         </div>
     </div>
 </div>
-
-
-
 <div class="modal fade" tabindex="-1" id="detailModal"
      data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog modal-lg">
@@ -117,7 +112,7 @@
                         <input class="form-control" type="number"
                                placeholder="Minor Id" id="editMinor" />
                     </div>
-                    <input id="editCTime" type="datetime" disabled/>
+                    <input id="editCTime" type="datetime" disabled />
                 </form>
             </div>
             <div class="modal-footer">
@@ -129,9 +124,6 @@
         </div>
     </div>
 </div>
-
-
-
 <table class="table table-bordered table-hover text-center">
     <thead class="thead-light">
         <tr>
@@ -150,7 +142,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.CreatedTime)
             </th>
-           
+
             <th>Operations</th>
         </tr>
     </thead>
@@ -173,13 +165,13 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.CreatedTime)
                 </td>
-               
+
                 <td>
                     <button type="button" class="btn btn-warning" data-id="@item.Id" data-name="@item.Name"
                             data-uuid="@item.UUID" data-major="@item.Major"
                             data-minor="@item.Minor" data-ctime="@item.CreatedTime" value="Details" id="detailShowModal">
                         <i class="fas fa-info-circle"></i> Details
-                    </button>   
+                    </button>
                     <button type="button" class="btn btn-danger" id="deleteShowModal" data-name="@item.Name" data-id="@item.Id" value="Delete"><i class="far fa-trash-alt"></i> Delete</button>
                 </td>
             </tr>
@@ -217,24 +209,8 @@
 
     });
 
+    
 
-    function swalload() {
-        swal.fire({
-            title: 'Loading....',
-            html: 'Please wait during the processing time',
-            timer: 10000,
-            onBeforeOpen: () => {
-                Swal.showLoading()
-                timerInterval = setInterval(() => {
-                    Swal.getContent().querySelector('strong')
-                        .textContent = Swal.getTimerLeft()
-                }, 100)
-            },
-            onClose: () => {
-
-            }
-        });
-    }
     $(document).ready(function () {
         $("#btnShowModal").click(function () {
             $("#loginModal").modal('show');
@@ -244,23 +220,20 @@
             $("#loginModal").modal('hide');
         });
     });
-    $("#create").click(function () {
+    $('form[name=formcreate]').submit(function () {
         swalload();
         var options = {};
         options.url = "https://localhost:5001/api/Beacon/CreateBeacon";
         options.type = "POST";
-        debugger
         var obj = {};
         obj.Name = $("#inputName").val();
         obj.UUID = $("#inputUUID").val();
         obj.LocationId = locationId;
         obj.Major = $("#inputMajor").val();
         obj.Minor = $("#inputMinor").val();
-
         options.data = JSON.stringify(obj);
         options.contentType = "application/json";
         options.dataType = "html";
-        debugger
         options.success = function (msg) {
             $("#msg").html(msg);
             Swal({
@@ -273,9 +246,11 @@
             })
         };
         options.error = function () {
+
             $("#msg").html("Error while calling the Web API!");
         };
         $.ajax(options);
+        
     });
     $(document).ready(function () {
         $('[id="deleteShowModal"]').click(function () {

@@ -491,7 +491,14 @@
                 });
             };
             options.error = function () {
-                alert("error");
+                Swal({
+                    type: 'error',
+                    title: 'Oppsss...',
+                    text: 'Please add content.',
+                }).then(function () {
+
+                    window.location.href = "/";
+                })
             };
             $.ajax(options);
             ////GetAllBeacons
@@ -511,7 +518,14 @@
                 });
             };
             options.error = function () {
-                alert("error");
+                Swal({
+                    type: 'error',
+                    title: 'Oppsss...',
+                    text: 'Please add beacon.',
+                }).then(function () {
+
+                    window.location.href = "/";
+                })
             };
             $.ajax(options);
             //// get artifact
@@ -610,7 +624,8 @@
             });
         }
         options.error = function () {
-            alert("error");
+
+
         };
         $.ajax(options);
         debugger;

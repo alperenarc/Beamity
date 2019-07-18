@@ -22,26 +22,30 @@
     @{
         var data = ViewBag.Message;
     }
-    @*<h3 id="ConfirmCode">@data</h3>*@
-    <div class="container text-center">
-        <div class="card card-login mx-auto mt-5">
-            <div class="row">
 
-                <h3>Please click the button for confirmation</h3>
-                <br />
-                <p></p>
-
-                <div class="container text-center">
-
-                    <input type="button" id="update" name="name" value="Confirm" class="btn btn-primary" />
-
+    <div class="modal fade" tabindex="-1" id="loginModal"
+         data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Thanks for confirmation</h3>
+                </div>
+                <div class="modal-body">
+                    <h5>You can go login page</h5>
+                    <br />
+                    <a href="/User/Login" class="btn btn-primary">Login</a>
+                    <p></p>
 
                 </div>
             </div>
+            <div class="modal-footer">
+                <p></p>
+                
+                <p></p>
+            </div>
         </div>
     </div>
-    
-   
+
     <input type="text" id="ConfirmCode" name="name" hidden value="@data" />
     <!--Ajax Libraries-->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -57,49 +61,13 @@
     <link href="~/package/dist/sweetalert2.css" rel="stylesheet" />
     <script src="~/js/bootstrap.bundle.min.js"></script>
     <script src="~/package/dist/sweetalert2.js"></script>
-
     <script>
-        function swalload() {
-            swal.fire({
-                title: 'Loading....',
-                html: 'Please wait during the processing time',
-                timer: 10000,
-                onBeforeOpen: () => {
-                    Swal.showLoading()
-                    timerInterval = setInterval(() => {
-                        Swal.getContent().querySelector('strong')
-                            .textContent = Swal.getTimerLeft()
-                    }, 100)
-                },
-                onClose: () => {
+        $(document).ready(function () {
+            $("#loginModal").modal('show');
 
-                }
-            });
-        }
-        $("#update").click(function () {
-            swalload();
-            var options = {};
-            options.url = "https://localhost:5001/api/User/ConfirmEmail";
-            options.type = "POST";
-            var data = {};
-            data.ConfirmCode = $("#ConfirmCode").val();
-            options.data = JSON.stringify(data);
-            options.contentType = "application/json";
-            options.dataType = "html";
-            debugger
-            options.success = function () {
-                Swal({
-                    type: 'success',
-                    title: 'Thanks',
-                    text: 'Operation is success',
-                }).then(function () {
-
-                    window.location.href = "/";
-                })
-            };
-            $.ajax(options);
         });
     </script>
+
 </body>
 </html>
 

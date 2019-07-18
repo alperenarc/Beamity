@@ -5,23 +5,50 @@
 }
 <link href="~/css/Hover.min.css" rel="stylesheet" />
 
-<div class="container-fluid">
+<div id="wrapper">
+    <div id="content-wrapper">
 
-    <!-- Breadcrumbs-->
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a href="#">Dashboard</a>
-        </li>
-    </ol>
+        <div class="container-fluid">
 
-    <!-- Icon Cards-->
-    <div class="row">
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="#">Dashboard</a>
+                </li>
+            </ol>
 
-        <div class="col-xl-4 col-sm-6 mb-4 Link hvr-grow">
-            <div class="card text-white bg-warning o-hidden h-100">
-                <div class="card-body">
-                    <div class="card-body-icon">
-                        <i class="fas fa-fw fa-dot-circle"></i>
+            <!-- Icon Cards-->
+            <div class="row">
+                <div class="col-xl-3 col-sm-6 mb-3 Link hvr-grow">
+                    <div class="card text-white bg-primary o-hidden h-100">
+                        <div class="card-body">
+                            <div class="card-body-icon">
+                                <i class="fas fa-fw fa-wifi"></i>
+                            </div>
+                            <div class="mr-5">Building</div>
+                        </div>
+                        <a class="card-footer text-white clearfix small z-1" href="/Building/Index">
+                            <span class="float-left">View Details</span>
+                            <span class="float-right">
+                                <i class="fas fa-angle-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 mb-3 Link hvr-grow">
+                    <div class="card text-white bg-warning o-hidden h-100">
+                        <div class="card-body">
+                            <div class="card-body-icon">
+                                <i class="fas fa-fw fa-dot-circle"></i>
+                            </div>
+                            <div class="mr-5">Beacon</div>
+                        </div>
+                        <a class="card-footer text-white clearfix small z-1" href="/Beacon/Index">
+                            <span class="float-left">View Details</span>
+                            <span class="float-right">
+                                <i class="fas fa-angle-right"></i>
+                            </span>
+                        </a>
                     </div>
                     <div class="mr-5">Beacon</div>
                 </div>
