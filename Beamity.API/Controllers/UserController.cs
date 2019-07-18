@@ -62,7 +62,7 @@ namespace Beamity.API.Controllers
             //confirmCode = HttpContext.Request.Query["guidcode"].ToString();
             try
             {
-                 _userService.ConfirmEmail(input.ConfirmCode);
+                  _userService.ConfirmEmail(input.ConfirmCode);
                 return Ok("Success");
             }
             catch (Exception)
