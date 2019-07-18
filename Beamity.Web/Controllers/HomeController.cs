@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Beamity.Application.DTOs;
+using Beamity.Application.DTOs.AnalyticDTO;
 using Beamity.Application.Service.IServices;
 using Beamity.Web.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -20,7 +23,12 @@ namespace Beamity.Web.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var analytics = await _analyticService.GetAllBeaconsWithHours();
+            var location = HttpContext.Session.GetString("LocationId");
+            EntityDTO dto = new EntityDTO
+            {
+                Id = Guid.Parse(location)
+            };
+            List<ReadAnalyticDTO> analytics = await _analyticService.GetAllBeaconsWithHours(dto);
             IEnumerable<AnalyticViewModel> vm= analytics
                 .GroupBy(row => new
                 {

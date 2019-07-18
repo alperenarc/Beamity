@@ -1,4 +1,5 @@
-﻿using Beamity.Application.DTOs.AnalyticDTO;
+﻿using Beamity.Application.DTOs;
+using Beamity.Application.DTOs.AnalyticDTO;
 using Beamity.Application.Service.IServices;
 using Beamity.Core.Models;
 using Beamity.EntityFrameworkCore.EntityFrameworkCore.Interfaces;
@@ -31,12 +32,13 @@ namespace Beamity.Application.Service.Services
         }
 
        
-        public async Task<List<ReadAnalyticDTO>> GetAllBeaconsWithHours()
+        public async Task<List<ReadAnalyticDTO>> GetAllBeaconsWithHours(EntityDTO input)
         {
             var data = await _statisticRepository
                 .GetAll()
                 .Include(x => x.Beacon)
-                .Where(x => x.IsActive && x.CreatedTime.AddDays(30) > DateTime.Now)
+                .ThenInclude(x => x.Location)
+                .Where(x => x.IsActive && x.CreatedTime.AddDays(30) > DateTime.Now && x.Beacon.Location.Id == input.Id)
                 .ToListAsync();
             List<ReadAnalyticDTO> result = new List<ReadAnalyticDTO>();
             foreach (var item in data)

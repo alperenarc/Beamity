@@ -30,22 +30,24 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post" enctype="multipart/form-data">
+                <form method="post" name="createForm" onsubmit="return false" enctype="multipart/form-data">
                     <div class="form-group">
-                        <input class="form-control" type="text"
-                               placeholder="Artifact Name" id="inputName" />
+                        <input class="form-control input" type="text"
+                               placeholder="Artifact Name" id="inputName"
+                               required  minlength="5" maxlength="50"/>
                     </div>
 
-                    <input type="file" id="file" name="files" />
+                    <input type="file" id="file" name="files"
+                           required  />
 
-                    <div class="form-group">
+                    <div class="form-group input">
                         <label class="control-label">Rooms</label>
-                        <select id="rooms" class="form-control"></select>
+                        <select id="rooms" class="form-control input" required></select>
                     </div>
+                    <button type="submit" id="create" class="btn btn-primary button button4">Create</button>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" id="create" class="btn btn-primary button button4">Create</button>
                 <button type="button" id="btnHideModal" class="btn btn-primary button button4">
                     Hide
                 </button>
@@ -110,19 +112,21 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="put" enctype="multipart/form-data">
+                <form method="put" name="editForm" enctype="multipart/form-data">
                     <p id="detailModalText"></p>
                     <div class="form-group">
                         <input class="form-control" type="text"
-                               placeholder="Name" id="editName" />
+                               placeholder="Name" id="editName"
+                               required minlength="5" maxlength="50" />
                     </div>
-                    <input type="file" id="editfiles" name="files" />
+                    <input type="file" id="editfiles" name="files"
+                           required />
 
                     <select class="form-control" id="EditRoom"></select>
+                    <button type="submit" id="update" class="btn btn-primary button button4">Update</button>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" id="update" class="btn btn-primary button button4">Update</button>
                 <button type="button" id="detailHideModal" class="btn btn-primary button button4">
                     Hide
                 </button>
@@ -334,7 +338,7 @@
             $("#loginModal").modal('hide');
         });
     });
-    $("#create").click(function () {
+    $('form[name=createForm]').submit(function () {
         swalload();
         var options = {};
         options.url = '/Artifact/CreateArtifact';
@@ -416,7 +420,7 @@
         $.ajax(options);
     });
 
-    $("#update").click(function () {
+    $('form[name=editForm]').submit(function () {
         swalload();
         var options = {};
         options.url = '/Artifact/UpdateArtifact';
@@ -457,7 +461,24 @@
     $(document).ready(function () {
         $('.detailShowModal').click(function () {
             $("#detailModal").modal('show');
-
+            var options = {};
+            options.url = "https://localhost:5001/api/Room/GetAllRooms";
+            var obj = {};
+            obj.Id = locationId;
+            debugger
+            options.type = "POST";
+            options.dataType = "json";
+            options.contentType = "application/json";
+            options.data = JSON.stringify(obj);
+            options.success = function (data) {
+                data.forEach(function (v) {
+                    $("#EditRoom").append('<option value="' + v.id + '">' + v.name + '</option>');
+                });
+            };
+            options.error = function (e) {
+                alert(e.error);
+            };
+            $.ajax(options);
             var id = $(this).data('id');
             var name = $(this).data('name');
             var room = $(this).data('room');
