@@ -5,7 +5,7 @@ namespace Beamity.Core.Models
 {
     public class Relation : EntityBase
     {
-        public Guid ArtifactId { get; set; }
+        public Guid? ArtifactId { get; set; }
         [ForeignKey("ArtifactId")]
         public Artifact Artifact { get; set; }
         public Guid ContentId { get; set; }

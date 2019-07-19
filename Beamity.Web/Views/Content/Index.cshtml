@@ -252,7 +252,7 @@
         debugger
         var obj = {};
         obj.ArtifactId = null;
-        obj.ConTentId = $('#contents').val();
+        obj.ConTentId = $('.contentId').val();
         obj.BeaconId = $('#beacons').val();
         obj.LocationId = locationId;
         obj.Proximity = $('#proximity').val();
@@ -270,7 +270,7 @@
                 text: 'Operation is success',
             }).then(function () {
 
-                window.location.href = "/Artifact/Index";
+                window.location.href = "/Content/Index";
             })
         };
         options.error = function () {
@@ -336,12 +336,15 @@
         options.data = JSON.stringify(obj);
         options.success = function (data) {
             data.forEach(function (v) {
-                $('#relationsBody').append("<tr>"
-                    + "<td>" +  + "</td>"
+                $('[id = "relationsBody"]').append("<tr>"
+                    + "<td>" + v.contentName + "</td>"
                     + "<td>" + v.beaconName + "</td>"
                     + "<td>" + v.proximity + "</td>"
                     + "<td> <input type='button' data-id='" + v.id + "' class='btn btn-primary showDeleteRelationModal' value='Delete'/></td></tr>");
             });
+            //data.forEach(function (v) {
+            //    $('[id = "beacons"]').append('<option value="' + v.id + '">' + v.name + '</option>');
+            //});
         }
         options.error = function () {
 
