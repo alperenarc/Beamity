@@ -15,20 +15,34 @@ namespace Beamity.Application.Service.Services
     public class AnalyticService : IAnalyticService
     {
         private readonly IBaseGenericRepository<Statistics> _statisticRepository;
+        private readonly IBaseGenericRepository<Beacon> _beaconRepository;
 
         public AnalyticService(IBaseGenericRepository<Statistics> statisticRepository
             , IBaseGenericRepository<Beacon> beaconRepository)
         {
             _statisticRepository = statisticRepository;
+            _beaconRepository = beaconRepository;
         }
 
         public async Task CreateAnalytic(CreateAnalyticDTO input)
         {
-            Statistics result = new Statistics()
+            //Get Beacon for Major Minor and UUID.
+            var beacon = await _beaconRepository.GetAll()
+                .FirstOrDefaultAsync(x => x.Id == input.BeaconId);
+
+            if(beacon != null)
             {
-                BeaconId = input.BeaconId
-            };
-            await _statisticRepository.Create(result);
+                Statistics result = new Statistics()
+                {
+                    BeaconId = beacon.Id
+                };
+                await _statisticRepository.Create(result);
+            }
+            else
+            {
+                return;
+            }
+           
         }
 
        

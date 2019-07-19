@@ -188,7 +188,850 @@
         series.columns.template.events.on("out", function (event) {
             heatLegend.valueAxis.hideTooltip();
         })
-        chart.data = @Html.Raw(Json.Serialize(@Model));});
+        //chart.data = @Html.Raw(Json.Serialize(@Model));
+        chart.data = [
+            {
+                "hour": "12pm",
+                "name": "Beacon A",
+                "count": 2990
+            },
+            {
+                "hour": "1am",
+                "name": "Beacon A",
+                "count": 2520
+            },
+            {
+                "hour": "2am",
+                "name": "Beacon A",
+                "count": 2334
+            },
+            {
+                "hour": "3am",
+                "name": "Beacon A",
+                "count": 2230
+            },
+            {
+                "hour": "4am",
+                "name": "Beacon A",
+                "count": 2325
+            },
+            {
+                "hour": "5am",
+                "name": "Beacon A",
+                "count": 2019
+            },
+            {
+                "hour": "6am",
+                "name": "Beacon A",
+                "count": 2128
+            },
+            {
+                "hour": "7am",
+                "name": "Beacon A",
+                "count": 2246
+            },
+            {
+                "hour": "8am",
+                "name": "Beacon A",
+                "count": 2421
+            },
+            {
+                "hour": "9am",
+                "name": "Beacon A",
+                "count": 2788
+            },
+            {
+                "hour": "10am",
+                "name": "Beacon A",
+                "count": 2959
+            },
+            {
+                "hour": "11am",
+                "name": "Beacon A",
+                "count": 3018
+            },
+            {
+                "hour": "12am",
+                "name": "Beacon A",
+                "count": 3154
+            },
+            {
+                "hour": "1pm",
+                "name": "Beacon A",
+                "count": 3172
+            },
+            {
+                "hour": "2pm",
+                "name": "Beacon A",
+                "count": 3368
+            },
+            {
+                "hour": "3pm",
+                "name": "Beacon A",
+                "count": 3464
+            },
+            {
+                "hour": "4pm",
+                "name": "Beacon A",
+                "count": 3746
+            },
+            {
+                "hour": "5pm",
+                "name": "Beacon A",
+                "count": 3656
+            },
+            {
+                "hour": "6pm",
+                "name": "Beacon A",
+                "count": 3336
+            },
+            {
+                "hour": "7pm",
+                "name": "Beacon A",
+                "count": 3292
+            },
+            {
+                "hour": "8pm",
+                "name": "Beacon A",
+                "count": 3269
+            },
+            {
+                "hour": "9pm",
+                "name": "Beacon A",
+                "count": 3300
+            },
+            {
+                "hour": "10pm",
+                "name": "Beacon A",
+                "count": 3403
+            },
+            {
+                "hour": "11pm",
+                "name": "Beacon A",
+                "count": 3323
+            },
+            {
+                "hour": "12pm",
+                "name": "Beacon B",
+                "count": 3346
+            },
+            {
+                "hour": "1am",
+                "name": "Beacon B",
+                "count": 2725
+            },
+            {
+                "hour": "2am",
+                "name": "Beacon B",
+                "count": 3052
+            },
+            {
+                "hour": "3am",
+                "name": "Beacon B",
+                "count": 3876
+            },
+            {
+                "hour": "4am",
+                "name": "Beacon B",
+                "count": 4453
+            },
+            {
+                "hour": "5am",
+                "name": "Beacon B",
+                "count": 3972
+            },
+            {
+                "hour": "6am",
+                "name": "Beacon B",
+                "count": 4644
+            },
+            {
+                "hour": "7am",
+                "name": "Beacon B",
+                "count": 5715
+            },
+            {
+                "hour": "8am",
+                "name": "Beacon B",
+                "count": 7080
+            },
+            {
+                "hour": "9am",
+                "name": "Beacon B",
+                "count": 8022
+            },
+            {
+                "hour": "10am",
+                "name": "Beacon B",
+                "count": 8446
+            },
+            {
+                "hour": "11am",
+                "name": "Beacon B",
+                "count": 9313
+            },
+            {
+                "hour": "12am",
+                "name": "Beacon B",
+                "count": 9011
+            },
+            {
+                "hour": "1pm",
+                "name": "Beacon B",
+                "count": 8508
+            },
+            {
+                "hour": "2pm",
+                "name": "Beacon B",
+                "count": 8515
+            },
+            {
+                "hour": "3pm",
+                "name": "Beacon B",
+                "count": 8399
+            },
+            {
+                "hour": "4pm",
+                "name": "Beacon B",
+                "count": 8649
+            },
+            {
+                "hour": "5pm",
+                "name": "Beacon B",
+                "count": 7869
+            },
+            {
+                "hour": "6pm",
+                "name": "Beacon B",
+                "count": 6933
+            },
+            {
+                "hour": "7pm",
+                "name": "Beacon B",
+                "count": 5969
+            },
+            {
+                "hour": "8pm",
+                "name": "Beacon B",
+                "count": 5552
+            },
+            {
+                "hour": "9pm",
+                "name": "Beacon B",
+                "count": 5434
+            },
+            {
+                "hour": "10pm",
+                "name": "Beacon B",
+                "count": 5070
+            },
+            {
+                "hour": "11pm",
+                "name": "Beacon B",
+                "count": 4851
+            },
+            {
+                "hour": "12pm",
+                "name": "Beacon C",
+                "count": 4468
+            },
+            {
+                "hour": "1am",
+                "name": "Beacon C",
+                "count": 3306
+            },
+            {
+                "hour": "2am",
+                "name": "Beacon C",
+                "count": 3906
+            },
+            {
+                "hour": "3am",
+                "name": "Beacon C",
+                "count": 4413
+            },
+            {
+                "hour": "4am",
+                "name": "Beacon C",
+                "count": 4726
+            },
+            {
+                "hour": "5am",
+                "name": "Beacon C",
+                "count": 4584
+            },
+            {
+                "hour": "6am",
+                "name": "Beacon C",
+                "count": 5717
+            },
+            {
+                "hour": "7am",
+                "name": "Beacon C",
+                "count": 6504
+            },
+            {
+                "hour": "8am",
+                "name": "Beacon C",
+                "count": 8104
+            },
+            {
+                "hour": "9am",
+                "name": "Beacon C",
+                "count": 8813
+            },
+            {
+                "hour": "10am",
+                "name": "Beacon C",
+                "count": 9278
+            },
+            {
+                "hour": "11am",
+                "name": "Beacon C",
+                "count": 10425
+            },
+            {
+                "hour": "12am",
+                "name": "Beacon C",
+                "count": 10137
+            },
+            {
+                "hour": "1pm",
+                "name": "Beacon C",
+                "count": 9290
+            },
+            {
+                "hour": "2pm",
+                "name": "Beacon C",
+                "count": 9255
+            },
+            {
+                "hour": "3pm",
+                "name": "Beacon C",
+                "count": 9614
+            },
+            {
+                "hour": "4pm",
+                "name": "Beacon C",
+                "count": 9713
+            },
+            {
+                "hour": "5pm",
+                "name": "Beacon C",
+                "count": 9667
+            },
+            {
+                "hour": "6pm",
+                "name": "Beacon C",
+                "count": 8774
+            },
+            {
+                "hour": "7pm",
+                "name": "Beacon C",
+                "count": 8649
+            },
+            {
+                "hour": "8pm",
+                "name": "Beacon C",
+                "count": 9937
+            },
+            {
+                "hour": "9pm",
+                "name": "Beacon C",
+                "count": 10286
+            },
+            {
+                "hour": "10pm",
+                "name": "Beacon C",
+                "count": 9175
+            },
+            {
+                "hour": "11pm",
+                "name": "Beacon C",
+                "count": 8581
+            },
+            {
+                "hour": "12pm",
+                "name": "Beacon D",
+                "count": 8145
+            },
+            {
+                "hour": "1am",
+                "name": "Beacon D",
+                "count": 7177
+            },
+            {
+                "hour": "2am",
+                "name": "Beacon D",
+                "count": 5657
+            },
+            {
+                "hour": "3am",
+                "name": "Beacon D",
+                "count": 6802
+            },
+            {
+                "hour": "4am",
+                "name": "Beacon D",
+                "count": 8159
+            },
+            {
+                "hour": "5am",
+                "name": "Beacon D",
+                "count": 8449
+            },
+            {
+                "hour": "6am",
+                "name": "Beacon D",
+                "count": 9453
+            },
+            {
+                "hour": "7am",
+                "name": "Beacon D",
+                "count": 9947
+            },
+            {
+                "hour": "8am",
+                "name": "Beacon D",
+                "count": 11471
+            },
+            {
+                "hour": "9am",
+                "name": "Beacon D",
+                "count": 12492
+            },
+            {
+                "hour": "10am",
+                "name": "Beacon D",
+                "count": 9388
+            },
+            {
+                "hour": "11am",
+                "name": "Beacon D",
+                "count": 9928
+            },
+            {
+                "hour": "12am",
+                "name": "Beacon D",
+                "count": 9644
+            },
+            {
+                "hour": "1pm",
+                "name": "Beacon D",
+                "count": 9034
+            },
+            {
+                "hour": "2pm",
+                "name": "Beacon D",
+                "count": 8964
+            },
+            {
+                "hour": "3pm",
+                "name": "Beacon D",
+                "count": 9069
+            },
+            {
+                "hour": "4pm",
+                "name": "Beacon D",
+                "count": 8898
+            },
+            {
+                "hour": "5pm",
+                "name": "Beacon D",
+                "count": 8322
+            },
+            {
+                "hour": "6pm",
+                "name": "Beacon D",
+                "count": 6909
+            },
+            {
+                "hour": "7pm",
+                "name": "Beacon D",
+                "count": 5810
+            },
+            {
+                "hour": "8pm",
+                "name": "Beacon D",
+                "count": 5151
+            },
+            {
+                "hour": "9pm",
+                "name": "Beacon D",
+                "count": 4911
+            },
+            {
+                "hour": "10pm",
+                "name": "Beacon D",
+                "count": 4487
+            },
+            {
+                "hour": "11pm",
+                "name": "Beacon D",
+                "count": 4118
+            },
+            {
+                "hour": "12pm",
+                "name": "Beacon E",
+                "count": 3689
+            },
+            {
+                "hour": "1am",
+                "name": "Beacon E",
+                "count": 3081
+            },
+            {
+                "hour": "2am",
+                "name": "Beacon E",
+                "count": 6525
+            },
+            {
+                "hour": "3am",
+                "name": "Beacon E",
+                "count": 6228
+            },
+            {
+                "hour": "4am",
+                "name": "Beacon E",
+                "count": 6917
+            },
+            {
+                "hour": "5am",
+                "name": "Beacon E",
+                "count": 6568
+            },
+            {
+                "hour": "6am",
+                "name": "Beacon E",
+                "count": 6405
+            },
+            {
+                "hour": "7am",
+                "name": "Beacon E",
+                "count": 8106
+            },
+            {
+                "hour": "8am",
+                "name": "Beacon E",
+                "count": 8542
+            },
+            {
+                "hour": "9am",
+                "name": "Beacon E",
+                "count": 8501
+            },
+            {
+                "hour": "10am",
+                "name": "Beacon E",
+                "count": 8802
+            },
+            {
+                "hour": "11am",
+                "name": "Beacon E",
+                "count": 9420
+            },
+            {
+                "hour": "12am",
+                "name": "Beacon E",
+                "count": 8966
+            },
+            {
+                "hour": "1pm",
+                "name": "Beacon E",
+                "count": 8135
+            },
+            {
+                "hour": "2pm",
+                "name": "Beacon E",
+                "count": 8224
+            },
+            {
+                "hour": "3pm",
+                "name": "Beacon E",
+                "count": 8387
+            },
+            {
+                "hour": "4pm",
+                "name": "Beacon E",
+                "count": 8218
+            },
+            {
+                "hour": "5pm",
+                "name": "Beacon E",
+                "count": 7641
+            },
+            {
+                "hour": "6pm",
+                "name": "Beacon E",
+                "count": 6469
+            },
+            {
+                "hour": "7pm",
+                "name": "Beacon E",
+                "count": 5441
+            },
+            {
+                "hour": "8pm",
+                "name": "Beacon E",
+                "count": 4952
+            },
+            {
+                "hour": "9pm",
+                "name": "Beacon E",
+                "count": 4643
+            },
+            {
+                "hour": "10pm",
+                "name": "Beacon E",
+                "count": 4393
+            },
+            {
+                "hour": "11pm",
+                "name": "Beacon E",
+                "count": 4017
+            },
+            {
+                "hour": "12pm",
+                "name": "Beacon F",
+                "count": 4022
+            },
+            {
+                "hour": "1am",
+                "name": "Beacon F",
+                "count": 3063
+            },
+            {
+                "hour": "2am",
+                "name": "Beacon F",
+                "count": 3638
+            },
+            {
+                "hour": "3am",
+                "name": "Beacon F",
+                "count": 3968
+            },
+            {
+                "hour": "4am",
+                "name": "Beacon F",
+                "count": 4070
+            },
+            {
+                "hour": "5am",
+                "name": "Beacon F",
+                "count": 4019
+            },
+            {
+                "hour": "6am",
+                "name": "Beacon F",
+                "count": 4548
+            },
+            {
+                "hour": "7am",
+                "name": "Beacon F",
+                "count": 5465
+            },
+            {
+                "hour": "8am",
+                "name": "Beacon F",
+                "count": 6909
+            },
+            {
+                "hour": "9am",
+                "name": "Beacon F",
+                "count": 7706
+            },
+            {
+                "hour": "10am",
+                "name": "Beacon F",
+                "count": 7867
+            },
+            {
+                "hour": "11am",
+                "name": "Beacon F",
+                "count": 8615
+            },
+            {
+                "hour": "12am",
+                "name": "Beacon F",
+                "count": 8218
+            },
+            {
+                "hour": "1pm",
+                "name": "Beacon F",
+                "count": 7604
+            },
+            {
+                "hour": "2pm",
+                "name": "Beacon F",
+                "count": 7429
+            },
+            {
+                "hour": "3pm",
+                "name": "Beacon F",
+                "count": 7488
+            },
+            {
+                "hour": "4pm",
+                "name": "Beacon F",
+                "count": 7493
+            },
+            {
+                "hour": "5pm",
+                "name": "Beacon F",
+                "count": 6998
+            },
+            {
+                "hour": "6pm",
+                "name": "Beacon F",
+                "count": 5941
+            },
+            {
+                "hour": "7pm",
+                "name": "Beacon F",
+                "count": 5068
+            },
+            {
+                "hour": "8pm",
+                "name": "Beacon F",
+                "count": 4636
+            },
+            {
+                "hour": "9pm",
+                "name": "Beacon F",
+                "count": 4241
+            },
+            {
+                "hour": "10pm",
+                "name": "Beacon F",
+                "count": 3858
+            },
+            {
+                "hour": "11pm",
+                "name": "Beacon F",
+                "count": 3833
+            },
+            {
+                "hour": "12pm",
+                "name": "Beacon G",
+                "count": 3503
+            },
+            {
+                "hour": "1am",
+                "name": "Beacon G",
+                "count": 2842
+            },
+            {
+                "hour": "2am",
+                "name": "Beacon G",
+                "count": 2808
+            },
+            {
+                "hour": "3am",
+                "name": "Beacon G",
+                "count": 2399
+            },
+            {
+                "hour": "4am",
+                "name": "Beacon G",
+                "count": 2280
+            },
+            {
+                "hour": "5am",
+                "name": "Beacon G",
+                "count": 2139
+            },
+            {
+                "hour": "6am",
+                "name": "Beacon G",
+                "count": 2527
+            },
+            {
+                "hour": "7am",
+                "name": "Beacon G",
+                "count": 2940
+            },
+            {
+                "hour": "8am",
+                "name": "Beacon G",
+                "count": 3066
+            },
+            {
+                "hour": "9am",
+                "name": "Beacon G",
+                "count": 3494
+            },
+            {
+                "hour": "10am",
+                "name": "Beacon G",
+                "count": 3287
+            },
+            {
+                "hour": "11am",
+                "name": "Beacon G",
+                "count": 3416
+            },
+            {
+                "hour": "12am",
+                "name": "Beacon G",
+                "count": 3432
+            },
+            {
+                "hour": "1pm",
+                "name": "Beacon G",
+                "count": 3523
+            },
+            {
+                "hour": "2pm",
+                "name": "Beacon G",
+                "count": 3542
+            },
+            {
+                "hour": "3pm",
+                "name": "Beacon G",
+                "count": 3347
+            },
+            {
+                "hour": "4pm",
+                "name": "Beacon G",
+                "count": 3292
+            },
+            {
+                "hour": "5pm",
+                "name": "Beacon G",
+                "count": 3416
+            },
+            {
+                "hour": "6pm",
+                "name": "Beacon G",
+                "count": 3131
+            },
+            {
+                "hour": "7pm",
+                "name": "Beacon G",
+                "count": 3057
+            },
+            {
+                "hour": "8pm",
+                "name": "Beacon G",
+                "count": 3227
+            },
+            {
+                "hour": "9pm",
+                "name": "Beacon G",
+                "count": 3060
+            },
+            {
+                "hour": "10pm",
+                "name": "Beacon G",
+                "count": 2855
+            },
+            {
+                "hour": "11pm",
+                "name": "Beacon G",
+                "count": 2625
+            }
+        ];
+    });
 </script>
 
 
