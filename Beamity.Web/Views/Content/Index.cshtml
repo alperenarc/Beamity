@@ -48,7 +48,6 @@
                 </button>
             </div>
             <div class="modal-body">
-                <input disabled class="artifact" />
                 <input type="button" class="btn btn-primary" id="addRelation" value="Add Connection" />
 
                 <table class="table">
@@ -115,6 +114,31 @@
             <div class="modal-footer">
                 <button type="button" id="connect" class="btn btn-primary button button4">Create</button>
                 <button type="button" id="createRelationHideModal" class="btn btn-primary button button4">
+                    Hide
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" tabindex="-1" id="deleteRelationModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title align-content-lg-start">Delete Relation</h4>
+                <button type="button" class="close text-lg-right" data-dismiss="modal">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body">
+                <h4>Are you sure you want to delete this?</h4>
+                <p id="deleteRelationModalText"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="deleteRelation" class="btn btn-primary button button4">Delete</button>
+                <button type="button" id="deleteRelationModalHideModal" class="btn btn-primary button button4">
                     Hide
                 </button>
             </div>
@@ -263,21 +287,14 @@
         options.dataType = "html";
         debugger
         options.success = function (msg) {
-            $("#msg").html(msg);
-            Swal({
-                type: 'success',
-                title: 'Thanks',
-                text: 'Operation is success',
-            }).then(function () {
-
-                window.location.href = "/Content/Index";
-            })
+            $("#createRelationModal").modal('hide');
+            SetRelations();
         };
         options.error = function () {
             $("#msg").html("Error while calling the Web API!");
         };
         $.ajax(options);
-        $("#loginModal").modal('hide');
+        $("#createRelationModal").modal('hide');
     });
 
 
@@ -338,8 +355,8 @@
         debugger
         options.success = function (data) {
 
-            $('[id = "relationsBody"]').append("<tr><td>" + data.contentName + "</td><td>" + data.beaconName + "</td><td>" + data.proximity + "</td></tr>");
-
+            $('[id = "relationsBody"]').append("<tr><td>" + data.contentName + "</td><td>" + data.beaconName + "</td><td>" + data.proximity + "</td>"
+                + "<td> <input type='button' data-id='" + data.id + "' class='btn btn-danger showDeleteRelationModal' value='Delete'/></td></tr>");
 
         };
         options.error = function () {
@@ -354,41 +371,53 @@
 
         $("#relationModal").modal('show');
 
-        ///////////////////////
-        //$("#relationsBody").empty();
-        //var options = {};
-        //options.url = "https://localhost:5001/api/Relation/GetRelationsWithContent";
-        //var obj = {};
-        //obj.Id = $(this).data("id");
-        //debugger
-        //options.type = "POST";
-        //options.dataType = "json";
-        //options.contentType = "application/json";
-        //options.data = JSON.stringify(obj);
-        //options.success = function (data) {
-        //    //data = JSON.parse(data);
-        //    //data.forEach(function (v) {
-        //    //    $('[id = "relationsBody"]').append("<tr><td>" + v.contentName + "</td><td>" + v.beaconName + "</td><td>" + v.proximity + "</td><td> <input type='button' data-id='" + v.id + "' class='btn btn-primary showDeleteRelationModal' value='Delete'/></td></tr>");
-        //    //});
-        //    alert("Başarılı");
-        //    data.forEach(function (v) {
-        //        $('[id = "relationsBody"]').append('<tr><td>" + v.contentName + "</td><td>" + v.beaconName + "</td></tr>');
-        //    });
-
-        //}
-        //options.error = function () {
-        //    alert("Hata");
-        //};
-        //$.ajax(options);
-        //debugger;
-        //var id = $(this).data("id");
-        //$(".contentId").val(id);
-
-        //var name = $(this).data("name");
-        //$('.content').val(name);
-
-        //$("#relationModal").modal('show');
     }
+
+    ////Delete Reletaion////
+
+    $(document).ready(function () {
+
+        $("body").on("click", ".showDeleteRelationModal", function () {
+            $("#deleteRelationModal").modal('show');
+            $("#relationModal").modal('hide');
+            var id = $(this).data('id');
+            $("#deleteRelationModalText").empty();
+            $("#deleteRelationModalText").append('<input type="hidden" id="deleteRelationModalId"/>');
+            $('#deleteRelationModalId').val(id);
+        });
+    });
+    $("#deleteRelationModalHideModal").click(function () {
+        $("#deleteRelationModal").modal('hide');
+    });
+    ////Delete Relation 
+    $("#deleteRelation").click(function () {
+        swalload();
+        var options = {};
+        options.url = "https://localhost:5001/api/Relation/DeleteRelation";
+        options.type = "DELETE";
+        var obj = {};
+        obj.Id = $("#deleteRelationModalId").val();
+        options.data = JSON.stringify(obj);
+        options.contentType = "application/json";
+        options.dataType = "html";
+        options.dataType = "html";
+        debugger
+        options.success = function () {
+            Swal({
+                type: 'success',
+                title: 'Thanks',
+                text: 'Operation is success',
+            }).then(function () {
+
+                window.location.href = "/Content/Index";
+            })
+        };
+        options.error = function () {
+        };
+        $("#deleteRelationModal").modal('hide');
+        $.ajax(options);
+    });
+
     ////Proximity
     $(document).ready(function () {
         var myobject = {
