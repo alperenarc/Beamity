@@ -5,11 +5,20 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h3 class="m-1">Create a new content</h3>
+
+<div class="col-md-12 mt-2">
+    <div class="row">
+        <div class="col-md-6">
+            <h3>
+                <i class="far fa-edit"></i> Create a new content
+            </h3>
+        </div>
+    </div>
+</div>
 <hr />
 <div class="row">
     <div class="col-md-12">
-        <form asp-action="Create" name="createForm" enctype="multipart/form-data">
+        <form name="CreateContentForm" enctype="multipart/form-data" onsubmit="return false">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-row">
@@ -20,7 +29,7 @@
                 </div>
                 <div class="form-group col">
                     <label asp-for="Title" class="control-label"></label>
-                    <input asp-for="Title" id="inputTitle" class="form-control" />
+                    <input asp-for="Title" id="inputTitle" class="form-control"required />
                     <span asp-validation-for="Title" class="text-danger"></span>
                 </div>
             </div>
@@ -33,7 +42,7 @@
                 </div>
                 <div class="form-group col">
                     <label asp-for="Text" class="control-label"></label>
-                    <textarea asp-for="Text" type="text" id="inputText" style="height:240px;" class="form-control"></textarea>
+                    <textarea asp-for="Text" type="text" id="inputText" style="height:240px;" class="form-control" required></textarea>
                     <span asp-validation-for="Text" class="text-danger"></span>
                 </div>
             </div>
@@ -41,21 +50,21 @@
             <div class="form-row">
                 <div class="form-group col">
                     <label asp-for="MainImage" class="control-label">Main Image</label>
-                    <input asp-for="MainImage" type="file" style="background-color:#0069D9" class="file" id="mainImage" required name="files" />
+                    <input asp-for="MainImage" type="file" class="file" id="mainImage" required name="files" />
                 </div>
                 <div class="form-group col">
                     <label asp-for="SlideImage" class="control-label">Slide Image</label>
-                    <input asp-for="SlideImage" type="file" style="background-color:#0069D9" id="slideImage" name="slide" />
+                    <input asp-for="SlideImage" type="file" id="slideImage" name="slide" />
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col">
                     <label asp-for="Video" class="control-label">Video</label>
-                    <input asp-for="Video" type="file" style="background-color:#0069D9" id="video" name="video" />
+                    <input asp-for="Video" type="file" id="video" name="video" />
                 </div>
                 <div class="form-group col">
                     <label asp-for="Audio" class="control-label">Audio</label>
-                    <input asp-for="Audio" type="file" style="background-color:#0069D9" id="audio" name="audio" />
+                    <input asp-for="Audio" type="file" id="audio" name="audio" />
                 </div>
             </div>
 
@@ -63,32 +72,31 @@
                 <div class="col-md-6">
                     <div class="form-group form-check">
                         <label class="form-check-label">
-                            <input class="form-check-input homePage" id="isHome" asp-for="IsHomePage" /> @Html.DisplayNameFor(model => model.IsHomePage)
+                            <input class="form-check-input homePage" id="isHome" asp-for="IsHomePage" /> Is Homepage ?
                         </label>
 
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input campaign" id="isCampaign" asp-for="IsCampaign" /> @Html.DisplayNameFor(model => model.IsCampaign)
-                    </label>
+                        <label class="form-check-label">
+                            <input class="form-check-input campaign" id="isCampaign" asp-for="IsCampaign" /> Is Campaign ?
+                        </label>
 
                 </div>
                 </div>
             </div>
             
             <div class="form-group">
-                <input type="button" id="create" value="Create" class="btn btn-primary" />
+                <button type="submit" id="create" value="Create" class="btn btn-primary" ><i class="far fa-save"></i> Save</button>
+                <a class="btn btn-warning" asp-action="Index"><i class="fas fa-chevron-left"></i> Back to List</a>
+
             </div>
         </form>
         
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
 
 </script>
@@ -115,7 +123,7 @@
         });
     }
 
-    $("#create").click(function () {
+    $('form[name=CreateContentForm]').submit(function () {
         var a;
         if ($('#isHome').is(":checked")) {
             a = true;

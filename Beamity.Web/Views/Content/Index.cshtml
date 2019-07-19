@@ -5,12 +5,20 @@
 }
 
 
-<div class="row justify-content-start m-1">
-    <button type="button" onclick="window.location.href = '/Content/Create'" class="btn btn-outline-success">
-        Create New
-    </button>
+<div class="col-md-12 mt-2">
+    <div class="row">
+        <div class="col-md-6">
+            <h3>
+                <i class="far fa-list-alt"></i> Content List Page
+            </h3>
+        </div>
+        <div class="col-md-6 text-right">
+            <button type="button" id="btnShowModal" onclick="window.location.href = '/Content/Create'" class="btn btn-success m-1">
+                Create New <i class="far fa-plus-square"></i>
+            </button>
+        </div>
+    </div>
 </div>
-
 
 <div class="modal fade" tabindex="-1" id="deleteModal"
      data-keyboard="false" data-backdrop="static">
@@ -147,8 +155,8 @@
 </div>
 
 
-<table class="table">
-    <thead>
+<table class="table table-bordered table-hover text-center">
+    <thead class="thead-light">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
@@ -187,12 +195,12 @@
                 </td>
 
                 <td>
-                    <a asp-controller="Content" class="btn btn-primary" asp-action="Update" asp-route-id="@item.Id">Edit  </a> |
-                    <input type="button" class="btn btn-primary" id="deleteShowModal" data-name="@item.Name" data-id="@item.Id" value="Delete" />
+                    <a asp-controller="Content" class="btn btn-warning" asp-action="Update" asp-route-id="@item.Id"><i class="far fa-edit"></i> Edit</a> 
+                    <button type="button" class="btn btn-danger" id="deleteShowModal" data-name="@item.Name" data-id="@item.Id" value="Delete" ><i class="far fa-trash-alt"></i> Delete</button>
 
                     @{ if (item.IsCampaign)
                         {
-                            @:<input type="button" class="btn btn-primary relation" data-name="@item.Name" data-id="@item.Id" value="Connection" />
+                            @:<button type="button" class="btn btn-primary relation" data-name="@item.Name" data-id="@item.Id" value="Connection"><i class="fas fa-wifi"></i> Connections</button>
                         }}
                 </td>
             </tr>
