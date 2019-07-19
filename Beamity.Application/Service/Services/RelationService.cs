@@ -259,6 +259,10 @@ namespace Beamity.Application.Service.Services
                 ContentName = relation.Content.Name
             };
             result.Proximity = GetEnumString(relation.Proximity);
+            if(relation == null)
+            {
+                return null;
+            }
             return result;
         }
     }
