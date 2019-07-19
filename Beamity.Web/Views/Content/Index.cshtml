@@ -17,7 +17,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title align-content-lg-start">Create Beacon</h4>
+                <h4 class="modal-title align-content-lg-start">Delete Content</h4>
                 <button type="button" class="close text-lg-right" data-dismiss="modal">
                     ×
                 </button>
@@ -29,6 +29,53 @@
             <div class="modal-footer">
                 <button type="button" id="delete" class="btn btn-primary button button4">Delete</button>
                 <button type="button" id="deleteHideModal" class="btn btn-primary button button4">
+                    Hide
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" tabindex="-1" id="relationModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title align-content-lg-start">Create Artifact</h4>
+                <button type="button" class="close text-lg-right" data-dismiss="modal">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body">
+                <input disabled class="artifact" />
+                <input type="button" class="btn btn-primary" id="addRelation" value="Add Connection" />
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                               Content
+                            </th>
+                            <th>
+                                Beacon
+                            </th>
+                            <th>
+                                Proximity
+                            </th>
+                            <th>
+                                Operations
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="relationsBody">
+                        @* list relationss *@
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="relationHideModal" class="btn btn-primary button button4">
                     Hide
                 </button>
             </div>
@@ -50,10 +97,10 @@
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label class="control-label">Contents</label>
-                        <select id="contents" class="form-control"></select>
+                        <label class="control-label">Content</label>
+                        <input type="hidden" class="contentId" />
+                        <input disabled class="form-control content" />
                     </div>
-
                     <div class="form-group">
                         <label class="control-label">Beacons</label>
                         <select id="beacons" class="form-control"></select>
@@ -194,36 +241,47 @@
         $.ajax(options);
     });
 
+    ////Campaign Relation add////
 
-    $('#addRelation').click(function () {
-        ////Get All Contents
-        $("#relationModal").modal('hide');
+    ////Create Realation
+    $("#connect").click(function () {
+        swalload();
         var options = {};
-        options.url = "https://localhost:5001/api/Content/GetAllContents";
-        var obj = {};
-        obj.Id = locationId;
-        debugger
+        options.url = "https://localhost:5001/api/Relation/CreateRelation/";
         options.type = "POST";
-        options.dataType = "json";
-        options.contentType = "application/json";
+        debugger
+        var obj = {};
+        obj.ArtifactId = null;
+        obj.ConTentId = $('#contents').val();
+        obj.BeaconId = $('#beacons').val();
+        obj.LocationId = locationId;
+        obj.Proximity = $('#proximity').val();
+        ////Add Data/////
+
         options.data = JSON.stringify(obj);
-        options.success = function (data) {
-            debugger
-            data.forEach(function (v) {
-                $('[id = "contents"]').append('<option value="' + v.id + '">' + v.name + '</option>');
-            });
-        };
-        options.error = function () {
+        options.contentType = "application/json";
+        options.dataType = "html";
+        debugger
+        options.success = function (msg) {
+            $("#msg").html(msg);
             Swal({
-                type: 'error',
-                title: 'Oppsss...',
-                text: 'Please add content.',
+                type: 'success',
+                title: 'Thanks',
+                text: 'Operation is success',
             }).then(function () {
 
-                window.location.href = "/";
+                window.location.href = "/Artifact/Index";
             })
         };
+        options.error = function () {
+            $("#msg").html("Error while calling the Web API!");
+        };
         $.ajax(options);
+        $("#loginModal").modal('hide');
+    });
+
+
+    $('#addRelation').click(function () {
         ////GetAllBeacons
         var options = {};
         options.url = "https://localhost:5001/api/Beacon/GetAllBeacons";
@@ -235,7 +293,7 @@
         options.contentType = "application/json";
         options.data = JSON.stringify(obj);
         options.success = function (data) {
-            debugger
+            $('[id = "beacons"]').empty();
             data.forEach(function (v) {
                 $('[id = "beacons"]').append('<option value="' + v.id + '">' + v.name + '</option>');
             });
@@ -251,12 +309,6 @@
             })
         };
         $.ajax(options);
-        //// get artifact
-        var id = $(this).data("id");
-        $("#artifactId").val(id);
-
-        var name = $(this).data("name");
-        $("#artifact").val(name);
 
         $("#createRelationModal").modal('show');
     });
@@ -266,9 +318,57 @@
         $("#relationModal").modal('show');
 
     });
-    $('.relations').on('click', SetRelations);
+    $('.relation').on('click', SetRelations);
     $("#relationHideModal").on("click", function () {
         $("#relationModal").modal('hide');
     });
 
+    function SetRelations() {
+        $("#relationsBody").empty();
+        var options = {};
+        options.url = "https://localhost:5001/api/Relation/GetRelationsWithContent";
+        var obj = {};
+        obj.Id = $(this).data("id");
+        debugger
+        options.type = "POST";
+        options.dataType = "json";
+        options.contentType = "application/json";
+        options.data = JSON.stringify(obj);
+        options.success = function (data) {
+            data.forEach(function (v) {
+                $('#relationsBody').append("<tr>"
+                    + "<td>" +  + "</td>"
+                    + "<td>" + v.beaconName + "</td>"
+                    + "<td>" + v.proximity + "</td>"
+                    + "<td> <input type='button' data-id='" + v.id + "' class='btn btn-primary showDeleteRelationModal' value='Delete'/></td></tr>");
+            });
+        }
+        options.error = function () {
+
+        };
+        $.ajax(options);
+        debugger;
+        var id = $(this).data("id");
+        $(".contentId").val(id);
+
+        var name = $(this).data("name");
+        $('.content').val(name);
+
+        $("#relationModal").modal('show');
+    }
+    ////Proximity
+    $(document).ready(function () {
+        var myobject = {
+            ValueA: 'All',
+            ValueB: 'Immediate',
+            ValueC: 'Near',
+            ValueD: 'Far',
+            ValueE: 'UnKnown'
+        };
+
+        var select = document.getElementById("proximity");
+        for (index in myobject) {
+            select.options[select.options.length] = new Option(myobject[index], myobject[index]);
+        }
+    });
 </script>

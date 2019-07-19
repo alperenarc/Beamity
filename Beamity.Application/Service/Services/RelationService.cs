@@ -109,7 +109,7 @@ namespace Beamity.Application.Service.Services
                 .FirstOrDefaultAsync(x => x.UUID == input.UUID && x.Major == input.Major && x.Minor == input.Minor);
             
             //create analytics
-            await _analyticService.CreateAnalytic (new CreateAnalyticDTO(beacon.Id));
+           // await _analyticService.CreateAnalytic (new CreateAnalyticDTO(beacon.Id));
 
             //Get Relation for beacon ID
             var relation = await _relationRepository.GetAll()
@@ -219,7 +219,7 @@ namespace Beamity.Application.Service.Services
                 return new ReadArtifactAndContentDTO();
             }
             //create analytics
-            await _analyticService.CreateAnalytic(new CreateAnalyticDTO(beacon.Id));
+            //await _analyticService.CreateAnalytic(new CreateAnalyticDTO(beacon.Id));
 
             ReadArtifactAndContentDTO dto = new ReadArtifactAndContentDTO()
             {
@@ -247,13 +247,14 @@ namespace Beamity.Application.Service.Services
         {
             var relation = await _relationRepository.GetAll()
                  .Include(x => x.Content)
+                 .Include(x => x.Beacon)
                  .FirstOrDefaultAsync(x => x.Content.Id == input.Id && x.IsActive && x.Content.IsCampaign);
 
             ReadRelationDTO result = new ReadRelationDTO()
             {
                 Id = relation.Id,
                 CreatedTime = relation.CreatedTime,
-                ArtifacName = relation.Artifact.Name,
+                ArtifacName = "",
                 BeaconName = relation.Beacon.Name,
                 ContentName = relation.Content.Name
             };
