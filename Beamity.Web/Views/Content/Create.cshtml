@@ -79,7 +79,7 @@
             </div>
             
             <div class="form-group">
-                <input type="submit" id="create" value="Create" class="btn btn-primary" />
+                <input type="button" id="create" value="Create" class="btn btn-primary" />
             </div>
         </form>
         
@@ -115,7 +115,7 @@
         });
     }
 
-    $("form[name='createForm']").submit(function () {
+    $("#create").click(function () {
         var a;
         if ($('#isHome').is(":checked")) {
             a = true;

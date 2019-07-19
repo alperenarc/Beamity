@@ -22,7 +22,7 @@ namespace Beamity.Core.Models
             Guid ANewID = new Guid();
             Id = ANewID;
             IsActive = true;
-            CreatedTime = DateTime.Now;
+            CreatedTime = DateTime.UtcNow.AddHours(3);
         }
     }
 }
