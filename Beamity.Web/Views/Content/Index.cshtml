@@ -55,7 +55,7 @@
                     <thead>
                         <tr>
                             <th>
-                               Content
+                                Content
                             </th>
                             <th>
                                 Beacon
@@ -324,6 +324,7 @@
     });
 
     function SetRelations() {
+
         $("#relationsBody").empty();
         var options = {};
         options.url = "https://localhost:5001/api/Relation/GetRelationsWithContent";
@@ -334,23 +335,17 @@
         options.dataType = "json";
         options.contentType = "application/json";
         options.data = JSON.stringify(obj);
+        debugger
         options.success = function (data) {
-            data.forEach(function (v) {
-                $('[id = "relationsBody"]').append("<tr>"
-                    + "<td>" + v.contentName + "</td>"
-                    + "<td>" + v.beaconName + "</td>"
-                    + "<td>" + v.proximity + "</td>"
-                    + "<td> <input type='button' data-id='" + v.id + "' class='btn btn-primary showDeleteRelationModal' value='Delete'/></td></tr>");
-            });
-            //data.forEach(function (v) {
-            //    $('[id = "beacons"]').append('<option value="' + v.id + '">' + v.name + '</option>');
-            //});
-        }
-        options.error = function () {
+
+            $('[id = "relationsBody"]').append("<tr><td>" + data.contentName + "</td><td>" + data.beaconName + "</td><td>" + data.proximity + "</td></tr>");
+
 
         };
+        options.error = function () {
+            alert("error");
+        };
         $.ajax(options);
-        debugger;
         var id = $(this).data("id");
         $(".contentId").val(id);
 
@@ -358,6 +353,41 @@
         $('.content').val(name);
 
         $("#relationModal").modal('show');
+
+        ///////////////////////
+        //$("#relationsBody").empty();
+        //var options = {};
+        //options.url = "https://localhost:5001/api/Relation/GetRelationsWithContent";
+        //var obj = {};
+        //obj.Id = $(this).data("id");
+        //debugger
+        //options.type = "POST";
+        //options.dataType = "json";
+        //options.contentType = "application/json";
+        //options.data = JSON.stringify(obj);
+        //options.success = function (data) {
+        //    //data = JSON.parse(data);
+        //    //data.forEach(function (v) {
+        //    //    $('[id = "relationsBody"]').append("<tr><td>" + v.contentName + "</td><td>" + v.beaconName + "</td><td>" + v.proximity + "</td><td> <input type='button' data-id='" + v.id + "' class='btn btn-primary showDeleteRelationModal' value='Delete'/></td></tr>");
+        //    //});
+        //    alert("Başarılı");
+        //    data.forEach(function (v) {
+        //        $('[id = "relationsBody"]').append('<tr><td>" + v.contentName + "</td><td>" + v.beaconName + "</td></tr>');
+        //    });
+
+        //}
+        //options.error = function () {
+        //    alert("Hata");
+        //};
+        //$.ajax(options);
+        //debugger;
+        //var id = $(this).data("id");
+        //$(".contentId").val(id);
+
+        //var name = $(this).data("name");
+        //$('.content').val(name);
+
+        //$("#relationModal").modal('show');
     }
     ////Proximity
     $(document).ready(function () {
