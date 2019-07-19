@@ -242,5 +242,23 @@ namespace Beamity.Application.Service.Services
            
             return dto;
         }
+
+        public async Task<ReadRelationDTO> GetRelationWithContent(EntityDTO input)
+        {
+            var relation = await _relationRepository.GetAll()
+                 .Include(x => x.Content)
+                 .FirstOrDefaultAsync(x => x.Content.Id == input.Id && x.IsActive && x.Content.IsCampaign);
+
+            ReadRelationDTO result = new ReadRelationDTO()
+            {
+                Id = relation.Id,
+                CreatedTime = relation.CreatedTime,
+                ArtifacName = relation.Artifact.Name,
+                BeaconName = relation.Beacon.Name,
+                ContentName = relation.Content.Name
+            };
+            result.Proximity = GetEnumString(relation.Proximity);
+            return result;
+        }
     }
 }

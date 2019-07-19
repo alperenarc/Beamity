@@ -78,12 +78,11 @@
                 </div>
             </div>
             
-            
-            
+            <div class="form-group">
+                <input type="submit" id="create" value="Create" class="btn btn-primary" />
+            </div>
         </form>
-        <div class="form-group">
-            <input type="button" id="create" value="Create" class="btn btn-primary" />
-        </div>
+        
     </div>
 </div>
 
@@ -115,15 +114,8 @@
             }
         });
     }
-    function validateForm() {
-        var x = document.forms["createForm"]["name"].value;
-        if (x = "") {
-            alert("Name must be filled out");
-            return false;
-        }
-    }
-    $("#create").click(function () {
-        validateForm();
+
+    $("form[name='createForm']").submit(function () {
         var a;
         if ($('#isHome').is(":checked")) {
             a = true;

@@ -83,6 +83,18 @@ namespace Beamity.API.Controllers
             return relations;
         }
         [HttpPost]
+        [AllowAnonymous]
+        public async Task<ReadRelationDTO> GetRelationsWithContent(EntityDTO input)
+        {
+
+            var relation = await _relationService.GetRelationWithContent(input);
+            if (relation == null)
+            {
+                return new ReadRelationDTO();
+            }
+            return relation;
+        }
+        [HttpPost]
         public async Task<ReadArtifactAndContentDTO> GetRelationWithBeacon(GetContentWithBeaconDTO input)
         {
             try
