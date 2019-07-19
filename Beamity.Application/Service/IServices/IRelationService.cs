@@ -22,5 +22,6 @@ namespace Beamity.Application.Service.IServices
         Task UpdateRelation(UpdateRelationDTO input);
         Task<List<ReadRelationDTO>> GetRelationsWithArtifact(EntityDTO input);
         Task<ReadArtifactAndContentDTO> GetRelationWithBeacon(GetContentWithBeaconDTO input);
+        Task<ReadRelationDTO> GetRelationWithContent(EntityDTO input);/*ContentId*/
     }
 }

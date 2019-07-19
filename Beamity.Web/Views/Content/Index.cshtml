@@ -37,6 +37,45 @@
 </div>
 
 
+<div class="modal fade" tabindex="-1" id="createRelationModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title align-content-lg-start">Create Relation</h4>
+                <button type="button" class="close text-lg-right" data-dismiss="modal">
+                    ×
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label class="control-label">Contents</label>
+                        <select id="contents" class="form-control"></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Beacons</label>
+                        <select id="beacons" class="form-control"></select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Proximity</label>
+                        <select id="proximity" class="form-control"></select>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="connect" class="btn btn-primary button button4">Create</button>
+                <button type="button" id="createRelationHideModal" class="btn btn-primary button button4">
+                    Hide
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <table class="table">
     <thead>
         <tr>
@@ -60,27 +99,32 @@
 
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
 
 
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsHomePage)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsCampaign)
-            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsHomePage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsCampaign)
+                </td>
 
-            <td>
-                <a asp-controller="Content" class="btn btn-primary" asp-action="Update" asp-route-id="@item.Id">Edit  </a> |
-                <input type="button" class="btn btn-primary" id="deleteShowModal" data-name="@item.Name" data-id="@item.Id" value="Delete" />
-            </td>
-        </tr>
+                <td>
+                    <a asp-controller="Content" class="btn btn-primary" asp-action="Update" asp-route-id="@item.Id">Edit  </a> |
+                    <input type="button" class="btn btn-primary" id="deleteShowModal" data-name="@item.Name" data-id="@item.Id" value="Delete" />
+
+                    @{ if (item.IsCampaign)
+                        {
+                            @:<input type="button" class="btn btn-primary relation" data-name="@item.Name" data-id="@item.Id" value="Connection" />
+                        }}
+                </td>
+            </tr>
         }
     </tbody>
 </table>
@@ -150,5 +194,81 @@
         $.ajax(options);
     });
 
+
+    $('#addRelation').click(function () {
+        ////Get All Contents
+        $("#relationModal").modal('hide');
+        var options = {};
+        options.url = "https://localhost:5001/api/Content/GetAllContents";
+        var obj = {};
+        obj.Id = locationId;
+        debugger
+        options.type = "POST";
+        options.dataType = "json";
+        options.contentType = "application/json";
+        options.data = JSON.stringify(obj);
+        options.success = function (data) {
+            debugger
+            data.forEach(function (v) {
+                $('[id = "contents"]').append('<option value="' + v.id + '">' + v.name + '</option>');
+            });
+        };
+        options.error = function () {
+            Swal({
+                type: 'error',
+                title: 'Oppsss...',
+                text: 'Please add content.',
+            }).then(function () {
+
+                window.location.href = "/";
+            })
+        };
+        $.ajax(options);
+        ////GetAllBeacons
+        var options = {};
+        options.url = "https://localhost:5001/api/Beacon/GetAllBeacons";
+        var obj = {};
+        obj.Id = locationId;
+        debugger
+        options.type = "POST";
+        options.dataType = "json";
+        options.contentType = "application/json";
+        options.data = JSON.stringify(obj);
+        options.success = function (data) {
+            debugger
+            data.forEach(function (v) {
+                $('[id = "beacons"]').append('<option value="' + v.id + '">' + v.name + '</option>');
+            });
+        };
+        options.error = function () {
+            Swal({
+                type: 'error',
+                title: 'Oppsss...',
+                text: 'Please add beacon.',
+            }).then(function () {
+
+                window.location.href = "/";
+            })
+        };
+        $.ajax(options);
+        //// get artifact
+        var id = $(this).data("id");
+        $("#artifactId").val(id);
+
+        var name = $(this).data("name");
+        $("#artifact").val(name);
+
+        $("#createRelationModal").modal('show');
+    });
+
+    $("#createRelationHideModal").click(function () {
+        $("#createRelationModal").modal('hide');
+        $("#relationModal").modal('show');
+
+    });
+    $('.relations').on('click', SetRelations);
+    $("#relationHideModal").on("click", function () {
+        $("#relationModal").modal('hide');
+    });
 
 </script>
