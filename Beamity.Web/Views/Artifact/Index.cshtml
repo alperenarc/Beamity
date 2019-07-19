@@ -265,12 +265,12 @@
                     @Html.DisplayFor(modelItem => item.CreatedTime)
                 </td>
                 <td>
-                    <button type="button" class="btn btn-warning detailShowModal" data-id="@item.Id" data-name="@item.Name"
+                    <button type="button" class="btn btn-warning detailShowModal m-1" data-id="@item.Id" data-name="@item.Name"
                             data-ctime="@item.CreatedTime" value="Details">
                         <i class="fas fa-info-circle"></i> Details
                     </button>
-                    <button type="button" class="btn btn-danger deleteShowModal" data-name="@item.Name" data-id="@item.Id" value="Delete"><i class="far fa-trash-alt"></i> Delete</button>
-                    <button type="button" class="btn btn-primary relations" data-name="@item.Name" data-id="@item.Id" value="Connections"><i class="fas fa-wifi"></i> Connections</button>
+                    <button type="button" class="btn btn-danger deleteShowModal m-1" data-name="@item.Name" data-id="@item.Id" value="Delete"><i class="far fa-trash-alt"></i> Delete</button>
+                    <button type="button" class="btn btn-primary relations m-1" data-name="@item.Name" data-id="@item.Id" value="Connections"><i class="fas fa-wifi"></i> Connections</button>
                 </td>
             </tr>
         }
