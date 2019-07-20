@@ -291,7 +291,6 @@
             SetRelations();
         };
         options.error = function () {
-            $("#msg").html("Error while calling the Web API!");
         };
         $.ajax(options);
         $("#createRelationModal").modal('hide');
@@ -360,7 +359,6 @@
 
         };
         options.error = function () {
-            alert("error");
         };
         $.ajax(options);
         var id = $(this).data("id");
